@@ -1,58 +1,55 @@
-#include <iostream>
+#include<glad/gl.h>
+#include<GLFW/glfw3.h>
+#include<spdlog/spdlog.h>
 
-#include <glad/gl.h>
-#include <GLFW/glfw3.h>
-
-int main()
-{
-	if (!glfwInit())
-	{
-		std::cout << "GLFW initialization failed.\n";
+int main() {
+	//glfw初期化
+	if (!glfwInit()) {
+		spdlog::critical("faild initialization glfw");
 		return -1;
 	}
-
-	// OpenGL 4.6 Core Profile
+	spdlog::info("glfw initialized");
+	//バージョン指定
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "OpenGL Test", nullptr, nullptr);
-
-	if (!window)
-	{
-		std::cout << "Window creation failed.\n";
+	glfwWindowHint(GLFW_OPENGL_PROFILE,
+		GLFW_OPENGL_CORE_PROFILE);
+	//ウィンドウ作成
+	GLFWwindow* window = glfwCreateWindow(1280, 720, "OpenGL", nullptr, nullptr);
+	if (!window) {
+		spdlog::critical("faild creating window");
 		glfwTerminate();
+		spdlog::info("terminated glfw");
 		return -1;
 	}
-
+	spdlog::info("window created");
+	//コンテキスト作成
 	glfwMakeContextCurrent(window);
-
-	if (!gladLoadGL((GLADloadfunc)glfwGetProcAddress))
-	{
-		std::cout << "GLAD initialization failed.\n";
+	//gladのglロード
+	if (!gladLoadGL(glfwGetProcAddress)) {
+		spdlog::critical("faild loading gl");
+		glfwDestroyWindow(window);
+		spdlog::info("destroied window");
 		glfwTerminate();
+		spdlog::info("terminated glfw");
 		return -1;
 	}
-
-	std::cout << "===== OpenGL Information =====\n";
-	std::cout << "Vendor   : " << glGetString(GL_VENDOR) << '\n';
-	std::cout << "Renderer : " << glGetString(GL_RENDERER) << '\n';
-	std::cout << "Version  : " << glGetString(GL_VERSION) << '\n';
-	std::cout << "GLSL     : " << glGetString(GL_SHADING_LANGUAGE_VERSION) << '\n';
-
-	while (!glfwWindowShouldClose(window))
-	{
+	spdlog::info("gl loded");
+	while (!glfwWindowShouldClose(window)) {
+		//viewPortの設定
 		glViewport(0, 0, 1280, 720);
-
-		glClearColor(0.15f, 0.25f, 0.45f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
+		//画面クリア色設定
+		glClearColor(0.4f, 0.7f, 0.7f, 1.0f);
+		//画面クリア
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//画面スワップ
 		glfwSwapBuffers(window);
+		//イベント処理
 		glfwPollEvents();
 	}
-
 	glfwDestroyWindow(window);
+	spdlog::info("destroied window");
 	glfwTerminate();
-
-	return 0;
+	spdlog::info("terminated glfw");
 }

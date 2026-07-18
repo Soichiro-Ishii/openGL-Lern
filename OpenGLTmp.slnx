@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="OpenGLTmp/OpenGLTmp.vcxproj" />
+  <Project Path="OpenGLTmp/OpenGLTmp.vcxproj" Id="82b0734a-4cbb-419e-9456-91d750d36950" />
 </Solution>
