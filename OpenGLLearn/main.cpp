@@ -222,7 +222,7 @@ int main() {
 
 	//テクスチャ読み込み
 	int w, h, c;
-	std::string texPath = "assets\\data\\texture\\y.jpg";
+	std::string texPath = "assets\\data\\texture\\h.png";
 	unsigned char* data = stbi_load(texPath.c_str(), &w, &h, &c, STBI_rgb_alpha);
 	if (!data) {
 		spdlog::critical(
