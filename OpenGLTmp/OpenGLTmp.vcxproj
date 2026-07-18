@@ -150,12 +150,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c" />
     <ClCompile Include="CHRONO.cpp" />
+    <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="LoadBinaryFile.cpp" />
     <ClCompile Include="LoadStringFile.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CHRONO.h" />
+    <ClInclude Include="GLShader.h" />
     <ClInclude Include="LoadBinaryFile.h" />
     <ClInclude Include="LoadStringFile.h" />
   </ItemGroup>

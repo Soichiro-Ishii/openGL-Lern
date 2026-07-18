@@ -11,9 +11,11 @@ layout(std140, binding = 0) uniform SceneConstants
     float time;
 };
 
+layout(binding = 0) uniform sampler2D mainTexture;
+
 layout(location = 0) out vec4 outColor;
 
 void main()
 {
-    outColor = vec4(vUV.x, vUV.y, -cos(time * 0.25) * vUV.x + -sin(time * 0.25) * vUV.y, 1.0);
+    outColor = texture(mainTexture,vUV);
 }

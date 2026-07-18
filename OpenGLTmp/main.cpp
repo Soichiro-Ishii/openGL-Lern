@@ -7,7 +7,9 @@
 #include <filesystem>
 #include <cstddef>
 #include"CHRONO.h"
+#define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
+#include"GLShader.h"
 
 struct Vertex {
 	glm::vec3 position;
@@ -21,97 +23,6 @@ struct alignas(16) SceneConstants {
 	float time;
 	int32_t pad[3];
 };
-
-static GLuint CompileShader(GLenum shaderType, const char* source) {
-	//シェーダー作成
-	GLuint shader = glCreateShader(shaderType);
-	//シェーダーソースの登録
-	glShaderSource(shader, 1, &source, nullptr);
-	//コンパイル
-	glCompileShader(shader);
-	//結果確認
-	GLint compileStatus = GL_FALSE;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &compileStatus);
-	//失敗してたらログ表示
-	if (compileStatus == GL_FALSE) {
-		//ログの長さ取得
-		GLint logLen = 0;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLen);
-		//ログ取得
-		std::string log(logLen, '\0');
-		glGetShaderInfoLog(shader, logLen, nullptr, log.data());
-
-		spdlog::critical("Shader compilation failed:\n{}", log);
-
-		glDeleteShader(shader);
-		return 0;
-	}
-	return shader;
-}
-
-static GLuint CreateShaderProgram(const char* vsPath, const char* fsPath) {
-	LoadStringFile vss(vsPath);
-	if (!vss.succeeded())
-	{
-		spdlog::critical(
-			"Failed to load shader file\n"
-			"Relative path: {}\n"
-			"Absolute path: {}",
-			vsPath,
-			std::filesystem::absolute(vsPath).string()
-		);
-
-		return 0;
-	}
-	LoadStringFile fss(fsPath);
-	if (!fss.succeeded())
-	{
-		spdlog::critical(
-			"Failed to load shader file\n"
-			"Relative path: {}\n"
-			"Absolute path: {}",
-			fsPath,
-			std::filesystem::absolute(fsPath).string()
-		);
-
-		return 0;
-	}
-	//シェーダーコンパイル
-	GLuint vs = CompileShader(GL_VERTEX_SHADER, vss.data());
-	if (vs == 0) return 0;
-	GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fss.data());
-	if (fs == 0) {
-		glDeleteShader(vs);
-		return 0;
-	}
-	//シェーダープログラム作成
-	GLuint program = glCreateProgram();
-	//vs,fsセット
-	glAttachShader(program, vs);
-	glAttachShader(program, fs);
-	//リンク
-	glLinkProgram(program);
-	//結果確認
-	GLint linkStatus = GL_FALSE;
-	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-	if (linkStatus == GL_FALSE) {
-		//ログの長さ取得
-		GLint logLen = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLen);
-		//ログ取得
-		std::string log(logLen, '\0');
-		glGetProgramInfoLog(program, logLen, nullptr, log.data());
-
-		spdlog::critical("Shader program linking failed:\n{}", log);
-
-		glDeleteProgram(program);
-		program = 0;
-	}
-	//vs,fsを削除
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-	return program;
-}
 
 static void GLAPIENTRY OpenGLDebugCallback(
 	GLenum source,
@@ -203,8 +114,8 @@ int main() {
 		nullptr
 	);
 	//シェーダー読み込み
-	GLuint shaderProgram = CreateShaderProgram("assets\\shaders\\vs.glsl", "assets\\shaders\\fs.glsl");
-	if (shaderProgram == 0)
+	GLShader shaderProgram("assets\\shaders\\vs.glsl", "assets\\shaders\\fs.glsl");
+	if (!shaderProgram.valid())
 	{
 		glfwDestroyWindow(window);
 		glfwTerminate();
@@ -214,10 +125,10 @@ int main() {
 	//頂点座標
 	const Vertex vertices[] =
 	{
-		 {{-1.0f, -1.0f, 0.0f}, {0.0f, 0.0f}},
-		{{ 1.0f, -1.0f, 0.0f}, {1.0f, 0.0f}},
-		{{ 1.0f,  1.0f, 0.0f}, {1.0f, 1.0f}},
-		{{-1.0f,  1.0f, 0.0f}, {0.0f, 1.0f}}
+		 {{-1.0f, -1.0f, 0.0f}, {0.0f, 1.0f}},
+		{{ 1.0f, -1.0f, 0.0f}, {1.0f, 1.0f}},
+		{{ 1.0f,  1.0f, 0.0f}, {1.0f, 0.0f}},
+		{{-1.0f,  1.0f, 0.0f}, {0.0f, 0.0f}}
 	};
 
 	const unsigned int indices[] =
@@ -230,14 +141,19 @@ int main() {
 	GLuint vbo = 0;
 	GLuint ebo = 0;
 	GLuint ubo = 0;
+	GLuint texture = 0;
 	//vao作成
 	glGenVertexArrays(1, &vao);
 	//バッファ生成
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &ubo);
+	//テクスチャ作成
+	glGenTextures(1, &texture);
+
 	//vaoバインド
 	glBindVertexArray(vao);
+
 	//vboをバインド
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	//バッファにデータコピー
@@ -247,6 +163,7 @@ int main() {
 		vertices,
 		GL_STATIC_DRAW
 	);
+
 	//eboバインド
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	//コピー
@@ -256,6 +173,7 @@ int main() {
 		indices,
 		GL_STATIC_DRAW
 	);
+
 	//uboバインド
 	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
 	//コピー
@@ -265,6 +183,7 @@ int main() {
 		nullptr,
 		GL_DYNAMIC_DRAW
 	);
+
 	//レイアウト設定
 	glBindBufferBase(
 		GL_UNIFORM_BUFFER,
@@ -300,6 +219,72 @@ int main() {
 	//バインド解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	//テクスチャ読み込み
+	int w, h, c;
+	std::string texPath = "assets\\data\\texture\\y.jpg";
+	unsigned char* data = stbi_load(texPath.c_str(), &w, &h, &c, STBI_rgb_alpha);
+	if (!data) {
+		spdlog::critical(
+			"Failed to load texture file\n"
+			"Relative path: {}\n"
+			"Absolute path: {}",
+			texPath,
+			std::filesystem::absolute(texPath).string()
+		);
+	}
+	//バインド
+	glBindTexture(GL_TEXTURE_2D, texture);
+	//書き込み
+	glTexImage2D(
+		GL_TEXTURE_2D,	//2D
+		0,				//ミニマップレベル
+		GL_RGBA8,		//形式
+		w,				//幅
+		h,				//高さ
+		0,				//常に0
+		GL_RGBA,		//並び
+		GL_UNSIGNED_BYTE,//型
+		data
+	);
+	stbi_image_free(data);
+	//拡大縮小のときは近いピクセルを使う
+	//glTexParameteri(
+	//	GL_TEXTURE_2D,
+	//	GL_TEXTURE_MIN_FILTER,
+	//	GL_NEAREST
+	//);
+	//glTexParameteri(
+	//	GL_TEXTURE_2D,
+	//	GL_TEXTURE_MAG_FILTER,
+	//	GL_NEAREST
+	//);
+	//拡大縮小では滑らかに補完します
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_MIN_FILTER,
+		GL_LINEAR
+	);
+
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_MAG_FILTER,
+		GL_LINEAR
+	);
+	//uv範囲外のときはリピート
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_S,
+		GL_REPEAT
+	);
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_T,
+		GL_REPEAT
+	);
+	//バインド解除
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -310,7 +295,7 @@ int main() {
 	constants.world = glm::mat4(1.0f);
 	constants.view = glm::mat4(1.0f);
 	constants.proj = glm::mat4(1.0f);
-	constants.eye = glm::vec4(0.0f, 0.0f, -3.0f, 1.0f);
+	constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 1.0f);
 	constants.time = 0.0f;
 	float delta = 0.0f;
 	CHRONO chrono;
@@ -333,8 +318,12 @@ int main() {
 		//一応毎回更新
 		float aspect = static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight);
 		constants.time += delta;
-		constants.eye = glm::vec4(0.0f, 0.0f, -3.0f, 0.0f);
-		constants.world = glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 0.0f);
+		constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(constants.time * 520.0f)), 0.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 150.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 200.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		constants.view = glm::lookAt(
 			glm::vec3(constants.eye.x, constants.eye.y, constants.eye.z),
 			glm::vec3(0, 0, 1),
@@ -358,7 +347,10 @@ int main() {
 		);
 
 		//シェーダーをセット
-		glUseProgram(shaderProgram);
+		shaderProgram.bind();
+		//テクスチャセット
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
 		//頂点をセット
 		glBindVertexArray(vao);
 		//描画
@@ -377,11 +369,11 @@ int main() {
 		glfwPollEvents();
 	}
 	//削除
+	glDeleteTextures(1, &texture);
 	glDeleteBuffers(1, &ubo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);
-	glDeleteProgram(shaderProgram);
 
 	glfwDestroyWindow(window);
 	spdlog::info("destroied window");

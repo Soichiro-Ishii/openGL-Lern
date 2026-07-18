@@ -14,6 +14,7 @@
     <ClCompile Include="CHRONO.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="GLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -36,6 +37,7 @@
     <ClInclude Include="CHRONO.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="GLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">
