@@ -149,11 +149,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c" />
+    <ClCompile Include="CHRONO.cpp" />
+    <ClCompile Include="LoadBinaryFile.cpp" />
+    <ClCompile Include="LoadStringFile.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fs.glsl" />
-    <None Include="vs.glsl" />
+    <ClInclude Include="CHRONO.h" />
+    <ClInclude Include="LoadBinaryFile.h" />
+    <ClInclude Include="LoadStringFile.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\fs.glsl" />
+    <None Include="assets\shaders\vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,15 @@
     <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
       <Filter>glad</Filter>
     </ClCompile>
+    <ClCompile Include="LoadBinaryFile.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadStringFile.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="CHRONO.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -13,12 +22,26 @@
     <Filter Include="shader">
       <UniqueIdentifier>{88e7720e-679c-4435-b4bf-f2edf54ecf8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{89f939c0-ac1e-4914-8304-abecc104f92c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="vs.glsl">
+    <ClInclude Include="LoadBinaryFile.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadStringFile.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="CHRONO.h">
+      <Filter>util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\fs.glsl">
       <Filter>shader</Filter>
     </None>
-    <None Include="fs.glsl">
+    <None Include="assets\shaders\vs.glsl">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
