@@ -22,14 +22,14 @@ class GLTexture2D
 	GLuint m_id = 0;
 	int m_width = 0;
 	int m_height = 0;
-	TEXTURE2DSETTING m_set;
+	TEXTURE2DSETTING m_set{};
 public:
 	GLTexture2D() = default;
 	GLTexture2D(std::string texPath, TEXTURE2DSETTING set);
 	~GLTexture2D();
 
 	GLTexture2D(GLTexture2D&) = delete;
-	GLTexture2D operator=(GLTexture2D&) = delete;
+	GLTexture2D& operator=(GLTexture2D&) = delete;
 
 	GLTexture2D(GLTexture2D&& other) noexcept;
 	GLTexture2D& operator=(GLTexture2D&& other) noexcept;

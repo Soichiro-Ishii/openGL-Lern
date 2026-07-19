@@ -5,12 +5,14 @@ layout(location = 1) in vec2 aUV;
 
 layout(std140, binding = 0) uniform SceneConstants
 {
-    mat4x4 world;
-    mat4x4 view;
-    mat4x4 proj;
+    mat4 world;
+    mat4 view;
+    mat4 proj;
     vec4 eye;
-    float time;
+    vec3 timeRes;
+    float pad;
 };
+
 
 layout(location = 0) out vec2 vUV;
 

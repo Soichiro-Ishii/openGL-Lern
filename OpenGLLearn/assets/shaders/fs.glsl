@@ -8,7 +8,8 @@ layout(std140, binding = 0) uniform SceneConstants
     mat4 view;
     mat4 proj;
     vec4 eye;
-    float time;
+    vec3 timeRes;
+    float pad;
 };
 
 layout(binding = 0) uniform sampler2D mainTexture;

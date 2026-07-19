@@ -7,6 +7,7 @@
 #include"CHRONO.h"
 #include"GLShader.h"
 #include"GLTexture2D.h"
+#include"GLUniformBuffer.h"
 
 struct Vertex {
 	glm::vec3 position;
@@ -18,7 +19,8 @@ struct alignas(16) SceneConstants {
 	glm::mat4 proj;
 	glm::vec4 eye;
 	float time;
-	int32_t pad[3];
+	glm::vec2 res;
+	int32_t pad;
 };
 
 static void GLAPIENTRY OpenGLDebugCallback(
@@ -137,13 +139,13 @@ int main() {
 	GLuint vao = 0;
 	GLuint vbo = 0;
 	GLuint ebo = 0;
-	GLuint ubo = 0;
+	GLUniformBuffer ubo(nullptr, sizeof(SceneConstants), 0);
+
 	//vao作成
 	glGenVertexArrays(1, &vao);
 	//バッファ生成
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
-	glGenBuffers(1, &ubo);
 
 	//vaoバインド
 	glBindVertexArray(vao);
@@ -168,22 +170,6 @@ int main() {
 		GL_STATIC_DRAW
 	);
 
-	//uboバインド
-	glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-	//コピー
-	glBufferData(
-		GL_UNIFORM_BUFFER,
-		sizeof(SceneConstants),
-		nullptr,
-		GL_DYNAMIC_DRAW
-	);
-
-	//レイアウト設定
-	glBindBufferBase(
-		GL_UNIFORM_BUFFER,
-		0,
-		ubo
-	);
 	//頂点属性0登録
 	glVertexAttribPointer(
 		0,							//属性変数の位置
@@ -219,7 +205,6 @@ int main() {
 	std::string texPath = "assets\\data\\texture\\h.png";
 	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINER ,TEXTURE2DWRAP::REPEAT };
 	if (!texture.load(texPath, set)) {
-		glDeleteBuffers(1, &ubo);
 		glDeleteBuffers(1, &ebo);
 		glDeleteBuffers(1, &vbo);
 		glDeleteVertexArrays(1, &vao);
@@ -280,15 +265,7 @@ int main() {
 			1000.0f
 		);
 
-		//uboバインド
-		glBindBuffer(GL_UNIFORM_BUFFER, ubo);
-		//uboにコピー
-		glBufferSubData(
-			GL_UNIFORM_BUFFER,
-			0,
-			sizeof(SceneConstants),
-			&constants
-		);
+		ubo.update(&constants, sizeof(SceneConstants), 0);
 
 		//シェーダーをセット
 		shaderProgram.bind();
@@ -312,7 +289,6 @@ int main() {
 		glfwPollEvents();
 	}
 	//削除
-	glDeleteBuffers(1, &ubo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 	glDeleteVertexArrays(1, &vao);

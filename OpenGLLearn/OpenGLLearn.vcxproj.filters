@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
       <Filter>glad</Filter>
     </ClCompile>
@@ -14,8 +13,17 @@
     <ClCompile Include="CHRONO.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="GLShader.cpp" />
-    <ClCompile Include="GLTexture2D.cpp" />
+    <ClCompile Include="GLTexture2D.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="GLUniformBuffer.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="GLShader.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GLMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -26,6 +34,9 @@
     </Filter>
     <Filter Include="util">
       <UniqueIdentifier>{89f939c0-ac1e-4914-8304-abecc104f92c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLHelper">
+      <UniqueIdentifier>{b33afbf0-2cb7-4721-9394-9d29f8c631e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,8 +49,17 @@
     <ClInclude Include="CHRONO.h">
       <Filter>util</Filter>
     </ClInclude>
-    <ClInclude Include="GLShader.h" />
-    <ClInclude Include="GLTexture2D.h" />
+    <ClInclude Include="GLTexture2D.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLUniformBuffer.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLShader.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMesh.h" />
+    <ClInclude Include="GLMeshData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

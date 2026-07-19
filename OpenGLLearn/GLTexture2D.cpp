@@ -95,7 +95,7 @@ bool GLTexture2D::load(std::string& texPath, TEXTURE2DSETTING set) {
 	else if (set.wrap == TEXTURE2DWRAP::CLAMP_TO_EDGE)
 		wrap = GL_CLAMP_TO_EDGE;
 	else
-		filter = GL_MIRRORED_REPEAT;
+		wrap = GL_MIRRORED_REPEAT;
 	glTexParameteri(
 		GL_TEXTURE_2D,
 		GL_TEXTURE_WRAP_S,
