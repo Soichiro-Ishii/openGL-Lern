@@ -17,11 +17,14 @@ layout(std140, binding = 0) uniform SceneConstants
 
 layout(location = 0) out vec4 vNormal;
 layout(location = 1) out vec2 vUV;
+layout(location = 2) out vec3 vRay;
 
 void main()
 {
-    gl_Position = proj * view * world * vec4(aPosition, 1.0);
+    vec4 worldPos = world * vec4(aPosition, 1.0);
+    gl_Position = proj * view * worldPos;
     vNormal = world * vec4(aNormal,0.0);
     vUV = aUV;
     vUV.y *= -1;
+    vRay = normalize(worldPos.xyz - eye.xyz);
 }

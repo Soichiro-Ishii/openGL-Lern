@@ -78,7 +78,7 @@ int main() {
 	//デバッグ出力有効
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 	//ウィンドウ作成
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "OpenGL", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(1920, 1080, "OpenGL", nullptr, nullptr);
 	if (!window) {
 		spdlog::critical("faild creating window");
 		glfwTerminate();
@@ -167,7 +167,7 @@ int main() {
 		//一応毎回更新
 		float aspect = static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight);
 		constants.time += delta;
-		constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 0.0f);
+		constants.eye = glm::vec4(cos(glm::radians(constants.time * 90.0f)), 0.0f, sin(glm::radians(constants.time * 90.0f)), 0.0f) * 5.0f;
 		constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(constants.time * 520.0f)), 0.0f));
 		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
@@ -175,7 +175,7 @@ int main() {
 		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 200.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		constants.view = glm::lookAt(
 			glm::vec3(constants.eye.x, constants.eye.y, constants.eye.z),
-			glm::vec3(0, 0, 1),
+			glm::vec3(0, 0, 0),
 			glm::vec3(0, 1, 0)
 		);
 		constants.proj = glm::perspective(
