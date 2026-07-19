@@ -194,12 +194,12 @@ namespace ProcMeshGenerator
 				const uint32_t bottomRight = bottomLeft + 1;
 
 				data.indices.push_back(topLeft);
-				data.indices.push_back(bottomLeft);
 				data.indices.push_back(bottomRight);
+				data.indices.push_back(bottomLeft);
 
 				data.indices.push_back(topLeft);
-				data.indices.push_back(bottomRight);
 				data.indices.push_back(topRight);
+				data.indices.push_back(bottomRight);
 			}
 		}
 

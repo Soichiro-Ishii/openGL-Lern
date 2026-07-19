@@ -1,5 +1,10 @@
-#include<glad/gl.h>
-#include<GLFW/glfw3.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <Windows.h>
+
+#define GLFW_INCLUDE_NONE
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
 #include<glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include<spdlog/spdlog.h>
@@ -134,11 +139,14 @@ int main() {
 		spdlog::info("destroied window");
 		glfwTerminate();
 		spdlog::info("terminated glfw");
+		return -1;
 	}
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glClearDepth(1.0f);
+	glEnable(GL_CULL_FACE); // カリングを有効化
+	glCullFace(GL_BACK);
 
 	//UBO用の値
 	SceneConstants constants{};
@@ -152,7 +160,7 @@ int main() {
 	chrono.timeStart();
 	while (!glfwWindowShouldClose(window)) {
 		chrono.timeEnd();
-		delta = chrono.getElapsed();
+		delta = static_cast<float>(chrono.getElapsed());
 		chrono.timeStart();
 
 		int framebufferWidth = 0;

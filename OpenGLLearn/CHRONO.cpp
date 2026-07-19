@@ -13,6 +13,6 @@ time_t CHRONO::timeEnd() {
 	return system_clock::to_time_t(end);
 }
 double CHRONO::getElapsed() {
-	double milliSec = duration_cast<milliseconds>(end - start).count();
+	double milliSec = static_cast<double>(duration_cast<milliseconds>(end - start).count());
 	return milliSec / 1000;
 }

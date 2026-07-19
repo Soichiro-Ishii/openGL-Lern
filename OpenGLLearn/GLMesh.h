@@ -23,19 +23,19 @@ public:
 	void create(GLMeshData* data);
 	void draw();
 
-	[[nodiscord]] GLuint vao() {
+	[[nodiscard]] GLuint vao() {
 		return m_vao;
 	}
-	[[nodiscord]] GLuint vbo() {
+	[[nodiscard]] GLuint vbo() {
 		return m_vbo;
 	}
-	[[nodiscord]] GLuint ebo() {
+	[[nodiscard]] GLuint ebo() {
 		return m_ebo;
 	}
-	[[nodiscord]] GLuint vertexCount() {
+	[[nodiscard]] GLuint vertexCount() {
 		return m_vertexCount;
 	}
-	[[nodiscord]] GLuint indexCount() {
+	[[nodiscard]] GLuint indexCount() {
 		return m_indexCount;
 	}
 private:

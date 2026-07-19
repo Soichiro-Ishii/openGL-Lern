@@ -1,5 +1,6 @@
 #include "GLUniformBuffer.h"
 #include<utility>
+#include<spdlog/spdlog.h>
 
 GLUniformBuffer::GLUniformBuffer(void* data, size_t size, GLuint blockIndex, GLenum usage) {
 	create(data, size, blockIndex, usage);
@@ -51,6 +52,15 @@ void GLUniformBuffer::create(void* data, size_t size, GLuint blockIndex, GLenum 
 }
 void GLUniformBuffer::update(void* data, size_t size, size_t offset) {
 	if (m_id == 0) {
+		return;
+	}
+	if (offset + size > m_size) {
+		spdlog::error(
+			"UniformBuffer update out of range: offset={}, size={}, capacity={}",
+			offset,
+			size,
+			m_size
+		);
 		return;
 	}
 	//uboバインド
