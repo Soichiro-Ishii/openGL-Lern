@@ -25,7 +25,7 @@ void GLShader::load(const char* vsPath, const char* fsPath) {
 			std::filesystem::absolute(vsPath).string()
 		);
 
-		id = 0;
+		m_id = 0;
 		return;
 	}
 	LoadStringFile fss(fsPath);
@@ -39,19 +39,19 @@ void GLShader::load(const char* vsPath, const char* fsPath) {
 			std::filesystem::absolute(fsPath).string()
 		);
 
-		id = 0;
+		m_id = 0;
 		return;
 	}
 	//シェーダーコンパイル
 	GLuint vs = CompileShader(GL_VERTEX_SHADER, vss.data());
 	if (vs == 0) {
-		id = 0;
+		m_id = 0;
 		return;
 	}
 	GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fss.data());
 	if (fs == 0) {
 		glDeleteShader(vs);
-		id = 0;
+		m_id = 0;
 		return;
 	}
 	//シェーダープログラム作成
@@ -80,23 +80,21 @@ void GLShader::load(const char* vsPath, const char* fsPath) {
 	//vs,fsを削除
 	glDeleteShader(vs);
 	glDeleteShader(fs);
-	id = program;
+	m_id = program;
 }
 
 void GLShader::bind() const {
-	glUseProgram(id);
+	glUseProgram(m_id);
 }
 
 GLShader::GLShader(GLShader&& other) noexcept {
 	release();
-	id = other.id;
-	other.id = 0;
+	m_id = std::exchange(other.m_id, 0);
 }
 GLShader& GLShader::operator=(GLShader&& other) noexcept {
 	if (this != &other) {
 		release();
-		id = other.id;
-		other.id = 0;
+		m_id = std::exchange(other.m_id, 0);
 	}
 	return *this;
 }
@@ -129,8 +127,8 @@ GLuint GLShader::CompileShader(GLenum shaderType, const char* source) {
 }
 
 void GLShader::release() {
-	if (id != 0) {
-		glDeleteProgram(id);
-		id = 0;
+	if (m_id != 0) {
+		glDeleteProgram(m_id);
+		m_id = 0;
 	}
 }

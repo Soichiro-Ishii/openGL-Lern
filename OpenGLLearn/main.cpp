@@ -3,13 +3,10 @@
 #include<glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include<spdlog/spdlog.h>
-#include"LoadStringFile.h"
-#include <filesystem>
 #include <cstddef>
 #include"CHRONO.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include<stb_image.h>
 #include"GLShader.h"
+#include"GLTexture2D.h"
 
 struct Vertex {
 	glm::vec3 position;
@@ -141,15 +138,12 @@ int main() {
 	GLuint vbo = 0;
 	GLuint ebo = 0;
 	GLuint ubo = 0;
-	GLuint texture = 0;
 	//vao作成
 	glGenVertexArrays(1, &vao);
 	//バッファ生成
 	glGenBuffers(1, &vbo);
 	glGenBuffers(1, &ebo);
 	glGenBuffers(1, &ubo);
-	//テクスチャ作成
-	glGenTextures(1, &texture);
 
 	//vaoバインド
 	glBindVertexArray(vao);
@@ -220,71 +214,21 @@ int main() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	//テクスチャ読み込み
-	int w, h, c;
+
+	GLTexture2D texture;
 	std::string texPath = "assets\\data\\texture\\h.png";
-	unsigned char* data = stbi_load(texPath.c_str(), &w, &h, &c, STBI_rgb_alpha);
-	if (!data) {
-		spdlog::critical(
-			"Failed to load texture file\n"
-			"Relative path: {}\n"
-			"Absolute path: {}",
-			texPath,
-			std::filesystem::absolute(texPath).string()
-		);
+	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINER ,TEXTURE2DWRAP::REPEAT };
+	if (!texture.load(texPath, set)) {
+		glDeleteBuffers(1, &ubo);
+		glDeleteBuffers(1, &ebo);
+		glDeleteBuffers(1, &vbo);
+		glDeleteVertexArrays(1, &vao);
+
+		glfwDestroyWindow(window);
+		spdlog::info("destroied window");
+		glfwTerminate();
+		spdlog::info("terminated glfw");
 	}
-	//バインド
-	glBindTexture(GL_TEXTURE_2D, texture);
-	//書き込み
-	glTexImage2D(
-		GL_TEXTURE_2D,	//2D
-		0,				//ミニマップレベル
-		GL_RGBA8,		//形式
-		w,				//幅
-		h,				//高さ
-		0,				//常に0
-		GL_RGBA,		//並び
-		GL_UNSIGNED_BYTE,//型
-		data
-	);
-	stbi_image_free(data);
-	//拡大縮小のときは近いピクセルを使う
-	//glTexParameteri(
-	//	GL_TEXTURE_2D,
-	//	GL_TEXTURE_MIN_FILTER,
-	//	GL_NEAREST
-	//);
-	//glTexParameteri(
-	//	GL_TEXTURE_2D,
-	//	GL_TEXTURE_MAG_FILTER,
-	//	GL_NEAREST
-	//);
-	//拡大縮小では滑らかに補完します
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MIN_FILTER,
-		GL_LINEAR
-	);
-
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MAG_FILTER,
-		GL_LINEAR
-	);
-	//uv範囲外のときはリピート
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_S,
-		GL_REPEAT
-	);
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_T,
-		GL_REPEAT
-	);
-	//バインド解除
-	glBindTexture(GL_TEXTURE_2D, 0);
-
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -349,8 +293,7 @@ int main() {
 		//シェーダーをセット
 		shaderProgram.bind();
 		//テクスチャセット
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		texture.bind(0);
 		//頂点をセット
 		glBindVertexArray(vao);
 		//描画
@@ -369,7 +312,6 @@ int main() {
 		glfwPollEvents();
 	}
 	//削除
-	glDeleteTextures(1, &texture);
 	glDeleteBuffers(1, &ubo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);

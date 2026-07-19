@@ -154,12 +154,14 @@
     <ClCompile Include="LoadBinaryFile.cpp" />
     <ClCompile Include="LoadStringFile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GLTexture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CHRONO.h" />
     <ClInclude Include="GLShader.h" />
     <ClInclude Include="LoadBinaryFile.h" />
     <ClInclude Include="LoadStringFile.h" />
+    <ClInclude Include="GLTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl" />

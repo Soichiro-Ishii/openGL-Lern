@@ -4,9 +4,8 @@
 
 class GLShader
 {
-	GLuint id = 0;
+	GLuint m_id = 0;
 	static GLuint CompileShader(GLenum shaderType, const char* source);	//シェーダーコンパイル
-	void release();//解放
 public:
 	GLShader() = default;
 	GLShader(const char* vsPath, const char* fsPath);
@@ -17,14 +16,16 @@ public:
 	GLShader& operator=(GLShader&& other) noexcept;
 	void load(const char* vsPath, const char* fsPath);
 	void bind() const;
-	GLuint getId() const
+	[[nodiscard]] GLuint id() const
 	{
-		return id;
+		return m_id;
 	}
 
-	bool valid() const
+	[[nodiscard]] bool valid() const
 	{
-		return id != 0;
+		return m_id != 0;
 	}
+private:
+	void release();//解放
 };
 

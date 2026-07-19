@@ -15,6 +15,7 @@
       <Filter>util</Filter>
     </ClCompile>
     <ClCompile Include="GLShader.cpp" />
+    <ClCompile Include="GLTexture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -38,6 +39,7 @@
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="GLShader.h" />
+    <ClInclude Include="GLTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">
