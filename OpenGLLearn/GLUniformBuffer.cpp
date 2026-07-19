@@ -5,13 +5,20 @@ GLUniformBuffer::GLUniformBuffer(void* data, size_t size, GLuint blockIndex, GLe
 	create(data, size, blockIndex, usage);
 }
 
+GLUniformBuffer::~GLUniformBuffer() {
+	release();
+}
+
 GLUniformBuffer::GLUniformBuffer(GLUniformBuffer&& other) noexcept {
 	m_id = std::exchange(other.m_id, 0);
 	m_size = std::exchange(other.m_size, 0);
 	m_blockIndex = std::exchange(other.m_blockIndex, 0);
 }
+
+
 GLUniformBuffer& GLUniformBuffer::operator=(GLUniformBuffer&& other) noexcept {
 	if (this != &other) {
+		release();
 		m_id = std::exchange(other.m_id, 0);
 		m_size = std::exchange(other.m_size, 0);
 		m_blockIndex = std::exchange(other.m_blockIndex, 0);

@@ -10,6 +10,7 @@ private:
 public:
 	GLUniformBuffer() = default;
 	GLUniformBuffer(void* data, size_t size, GLuint blockIndex, GLenum usage = GL_DYNAMIC_DRAW);
+	~GLUniformBuffer();
 
 	GLUniformBuffer(GLUniformBuffer&) = delete;
 	GLUniformBuffer& operator=(GLUniformBuffer&) = delete;

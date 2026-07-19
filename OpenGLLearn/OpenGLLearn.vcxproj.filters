@@ -24,6 +24,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GLMesh.cpp" />
+    <ClCompile Include="ProcMeshGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -60,6 +61,7 @@
     </ClInclude>
     <ClInclude Include="GLMesh.h" />
     <ClInclude Include="GLMeshData.h" />
+    <ClInclude Include="ProcMeshGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

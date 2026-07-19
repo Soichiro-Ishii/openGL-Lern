@@ -8,11 +8,9 @@
 #include"GLShader.h"
 #include"GLTexture2D.h"
 #include"GLUniformBuffer.h"
+#include"GLMesh.h"
+#include"ProcMeshGenerator.h"
 
-struct Vertex {
-	glm::vec3 position;
-	glm::vec2 uv;
-};
 struct alignas(16) SceneConstants {
 	glm::mat4 world;
 	glm::mat4 view;
@@ -121,94 +119,17 @@ int main() {
 		return -1;
 	}
 
-	//頂点座標
-	const Vertex vertices[] =
-	{
-		 {{-1.0f, -1.0f, 0.0f}, {0.0f, 1.0f}},
-		{{ 1.0f, -1.0f, 0.0f}, {1.0f, 1.0f}},
-		{{ 1.0f,  1.0f, 0.0f}, {1.0f, 0.0f}},
-		{{-1.0f,  1.0f, 0.0f}, {0.0f, 0.0f}}
-	};
+	//頂点データ
+	GLMeshData meshData = ProcMeshGenerator::createSphere();
+	//メッシュ作成
+	GLMesh mesh(&meshData);
 
-	const unsigned int indices[] =
-	{
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	GLuint vao = 0;
-	GLuint vbo = 0;
-	GLuint ebo = 0;
 	GLUniformBuffer ubo(nullptr, sizeof(SceneConstants), 0);
 
-	//vao作成
-	glGenVertexArrays(1, &vao);
-	//バッファ生成
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
-
-	//vaoバインド
-	glBindVertexArray(vao);
-
-	//vboをバインド
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	//バッファにデータコピー
-	glBufferData(
-		GL_ARRAY_BUFFER,
-		sizeof(vertices),
-		vertices,
-		GL_STATIC_DRAW
-	);
-
-	//eboバインド
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	//コピー
-	glBufferData(
-		GL_ELEMENT_ARRAY_BUFFER,
-		sizeof(indices),
-		indices,
-		GL_STATIC_DRAW
-	);
-
-	//頂点属性0登録
-	glVertexAttribPointer(
-		0,							//属性変数の位置
-		3,							//成分数(float3)
-		GL_FLOAT,					//型
-		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
-		reinterpret_cast<void*>(
-			offsetof(Vertex, position)
-			)						//VBO内のバイトオフセット
-	);
-	//属性0を有効
-	glEnableVertexAttribArray(0);
-	//頂点属性1登録
-	glVertexAttribPointer(
-		1,							//属性変数の位置
-		2,							//成分数(float2)
-		GL_FLOAT,					//型
-		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
-		reinterpret_cast<void*>(
-			offsetof(Vertex, uv)
-			)						//VBO内のバイトオフセット
-	);
-	//属性1を有効
-	glEnableVertexAttribArray(1);
-	//バインド解除
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-
 	GLTexture2D texture;
-	std::string texPath = "assets\\data\\texture\\h.png";
+	std::string texPath = "assets\\data\\texture\\8k_earth_daymap.jpg";
 	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINER ,TEXTURE2DWRAP::REPEAT };
 	if (!texture.load(texPath, set)) {
-		glDeleteBuffers(1, &ebo);
-		glDeleteBuffers(1, &vbo);
-		glDeleteVertexArrays(1, &vao);
-
 		glfwDestroyWindow(window);
 		spdlog::info("destroied window");
 		glfwTerminate();
@@ -271,27 +192,14 @@ int main() {
 		shaderProgram.bind();
 		//テクスチャセット
 		texture.bind(0);
-		//頂点をセット
-		glBindVertexArray(vao);
-		//描画
-		glDrawElements(
-			GL_TRIANGLES,
-			std::size(indices),
-			GL_UNSIGNED_INT,
-			reinterpret_cast<void*>(0)
-		);
-		//バインド解除
-		glBindVertexArray(0);
+		//メッシュ描画
+		mesh.draw();
 
 		//画面スワップ
 		glfwSwapBuffers(window);
 		//イベント処理
 		glfwPollEvents();
 	}
-	//削除
-	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
 
 	glfwDestroyWindow(window);
 	spdlog::info("destroied window");
