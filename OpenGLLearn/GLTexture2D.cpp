@@ -1,8 +1,7 @@
+#include "pch.h"
 #include "GLTexture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
-#include<spdlog/spdlog.h>
-#include <filesystem>
 
 GLTexture2D::GLTexture2D(std::string texPath, TEXTURE2DSETTING set) {
 	load(texPath, set);

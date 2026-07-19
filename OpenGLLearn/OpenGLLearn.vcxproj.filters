@@ -23,8 +23,15 @@
       <Filter>GLHelper</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="GLMesh.cpp" />
-    <ClCompile Include="ProcMeshGenerator.cpp" />
+    <ClCompile Include="pch.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcMeshGenerator.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="GLMesh.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -59,9 +66,18 @@
     <ClInclude Include="GLShader.h">
       <Filter>GLHelper</Filter>
     </ClInclude>
-    <ClInclude Include="GLMesh.h" />
-    <ClInclude Include="GLMeshData.h" />
-    <ClInclude Include="ProcMeshGenerator.h" />
+    <ClInclude Include="pch.h">
+      <Filter>util</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcMeshGenerator.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMeshData.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLMesh.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

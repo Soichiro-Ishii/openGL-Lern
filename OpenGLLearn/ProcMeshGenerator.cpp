@@ -1,8 +1,5 @@
+#include "pch.h"
 #include "ProcMeshGenerator.h"
-
-#include <algorithm>
-#include <cmath>
-#include <numbers>
 
 namespace ProcMeshGenerator
 {

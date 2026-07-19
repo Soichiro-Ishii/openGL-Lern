@@ -114,6 +114,8 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +138,8 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,15 +152,31 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c" />
-    <ClCompile Include="CHRONO.cpp" />
+    <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="CHRONO.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="GLMesh.cpp" />
     <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="GLUniformBuffer.cpp" />
-    <ClCompile Include="LoadBinaryFile.cpp" />
-    <ClCompile Include="LoadStringFile.cpp" />
+    <ClCompile Include="LoadBinaryFile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="LoadStringFile.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GLTexture2D.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ProcMeshGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +188,7 @@
     <ClInclude Include="LoadBinaryFile.h" />
     <ClInclude Include="LoadStringFile.h" />
     <ClInclude Include="GLTexture2D.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="ProcMeshGenerator.h" />
   </ItemGroup>
   <ItemGroup>

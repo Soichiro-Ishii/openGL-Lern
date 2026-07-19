@@ -1,7 +1,6 @@
+#include "pch.h"
 #include "GLShader.h"
-#include<spdlog/spdlog.h>
-#include"LoadStringFIle.h"
-#include <filesystem>
+#include"LoadStringFile.h"
 
 GLShader::GLShader(const char* vsPath, const char* fsPath) {
 	load(vsPath, fsPath);

@@ -1,6 +1,5 @@
+#include "pch.h"
 #include "GLUniformBuffer.h"
-#include<utility>
-#include<spdlog/spdlog.h>
 
 GLUniformBuffer::GLUniformBuffer(void* data, size_t size, GLuint blockIndex, GLenum usage) {
 	create(data, size, blockIndex, usage);
