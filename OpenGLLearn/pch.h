@@ -23,3 +23,7 @@
 #include <vector>
 #include <cmath>
 #include <numbers>
+
+#include"CHRONO.h"
+#include"LoadBinaryFile.h"
+#include"LoadStringFile.h"

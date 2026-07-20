@@ -32,7 +32,18 @@
     <ClCompile Include="GLMesh.cpp">
       <Filter>GLHelper</Filter>
     </ClCompile>
-    <ClCompile Include="GLContext.cpp" />
+    <ClCompile Include="GLContext.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLLearnApp.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSLimiter.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -46,6 +57,9 @@
     </Filter>
     <Filter Include="GLHelper">
       <UniqueIdentifier>{b33afbf0-2cb7-4721-9394-9d29f8c631e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{5b98be0c-be4c-4ccf-b88f-89bd23bb2a97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +93,18 @@
     <ClInclude Include="GLMesh.h">
       <Filter>GLHelper</Filter>
     </ClInclude>
-    <ClInclude Include="GLContext.h" />
+    <ClInclude Include="GLContext.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLLearnApp.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSLimiter.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

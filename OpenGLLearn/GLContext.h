@@ -7,8 +7,8 @@ class GLContext
 {
 private:
 	GLFWwindow* m_window = nullptr;
-	float m_width = 0;
-	float m_height = 0;
+	int m_width = 0;
+	int m_height = 0;
 	bool m_fullScreen = false;
 	int m_VSync = 1;
 public:
@@ -19,15 +19,22 @@ public:
 	GLContext(GLContext&& other) noexcept;
 	GLContext& operator=(GLContext&& other) noexcept;
 	int create(int width, int height, std::string windowName, bool fullScreen = false, int VSync = 1);
+	void update();
 	void release();
-	[[nodiscard]] GLFWwindow* window() {
+	[[nodiscard]] GLFWwindow* window() const {
 		return m_window;
 	}
-	[[nodiscard]] float width() {
+	[[nodiscard]] int width() const {
 		return m_width;
 	}
-	[[nodiscard]] float height() {
+	[[nodiscard]] int height() const {
 		return m_height;
+	}
+	[[nodiscard]] float widthf() const {
+		return static_cast<float>(m_width);
+	}
+	[[nodiscard]] float heightf() const {
+		return static_cast<float>(m_height);
 	}
 };
 

@@ -4,8 +4,23 @@
 GLContext::~GLContext() {
 	release();
 }
-GLContext::GLContext(GLContext&& other) noexcept {}
-GLContext& GLContext::operator=(GLContext&& other) noexcept {}
+GLContext::GLContext(GLContext&& other) noexcept {
+	m_window = std::exchange(other.m_window, nullptr);
+	m_width = std::exchange(other.m_width, 0);
+	m_height = std::exchange(other.m_height, 0);
+	m_fullScreen = std::exchange(other.m_fullScreen, false);
+	m_VSync = std::exchange(other.m_VSync, 1);
+}
+GLContext& GLContext::operator=(GLContext&& other) noexcept {
+	if (this != &other) {
+		m_window = std::exchange(other.m_window, nullptr);
+		m_width = std::exchange(other.m_width, 0);
+		m_height = std::exchange(other.m_height, 0);
+		m_fullScreen = std::exchange(other.m_fullScreen, false);
+		m_VSync = std::exchange(other.m_VSync, 1);
+	}
+	return *this;
+}
 int GLContext::create(int width, int height, std::string windowName, bool fullScreen, int VSync) {
 	m_width = width;
 	m_height = height;
@@ -34,7 +49,9 @@ int GLContext::create(int width, int height, std::string windowName, bool fullSc
 		glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-		m_window = glfwCreateWindow(mode->width, mode->height, windowName.c_str(), monitor, nullptr);
+		m_width = mode->width;
+		m_height = mode->height;
+		m_window = glfwCreateWindow(m_width, m_height, windowName.c_str(), monitor, nullptr);
 	}
 	else {
 		m_window = glfwCreateWindow(m_width, m_height, windowName.c_str(), nullptr, nullptr);
@@ -68,6 +85,10 @@ int GLContext::create(int width, int height, std::string windowName, bool fullSc
 		OpenGLDebugCallback,
 		nullptr
 	);
+	return 0;
+}
+void GLContext::update() {
+	glfwGetFramebufferSize(m_window, &m_width, &m_height);
 }
 void GLContext::release() {
 	if (m_window != nullptr) {

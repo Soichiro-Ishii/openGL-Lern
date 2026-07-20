@@ -156,9 +156,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="CHRONO.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="FPSLimiter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GLContext.cpp" />
     <ClCompile Include="GLMesh.cpp" />
@@ -174,6 +179,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GLTexture2D.cpp" />
+    <ClCompile Include="OpenGLLearnApp.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -181,7 +187,9 @@
     <ClCompile Include="ProcMeshGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="CHRONO.h" />
+    <ClInclude Include="FPSLimiter.h" />
     <ClInclude Include="GLContext.h" />
     <ClInclude Include="GLMesh.h" />
     <ClInclude Include="GLMeshData.h" />
@@ -190,6 +198,7 @@
     <ClInclude Include="LoadBinaryFile.h" />
     <ClInclude Include="LoadStringFile.h" />
     <ClInclude Include="GLTexture2D.h" />
+    <ClInclude Include="OpenGLLearnApp.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ProcMeshGenerator.h" />
   </ItemGroup>
