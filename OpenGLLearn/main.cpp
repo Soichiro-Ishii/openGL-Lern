@@ -6,6 +6,7 @@
 #include"GLUniformBuffer.h"
 #include"GLMesh.h"
 #include"ProcMeshGenerator.h"
+#include"GLContext.h"
 
 struct alignas(16) SceneConstants {
 	glm::mat4 world;
@@ -63,54 +64,16 @@ static void GLAPIENTRY OpenGLDebugCallback(
 }
 
 int main() {
-	//glfw初期化
-	if (!glfwInit()) {
-		spdlog::critical("faild initialization glfw");
+	GLContext context;
+	if (!context.create(1920, 1080, "openGL-Learn", true)) {
+		spdlog::critical("faild creating context");
 		return -1;
 	}
-	spdlog::info("glfw initialized");
-	//バージョン指定
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	//coreにする
-	glfwWindowHint(GLFW_OPENGL_PROFILE,
-		GLFW_OPENGL_CORE_PROFILE);
-	//デバッグ出力有効
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-	//ウィンドウ作成
-	GLFWwindow* window = glfwCreateWindow(1920, 1080, "OpenGL", nullptr, nullptr);
-	if (!window) {
-		spdlog::critical("faild creating window");
-		glfwTerminate();
-		spdlog::info("terminated glfw");
-		return -1;
-	}
-	spdlog::info("window created");
-	//コンテキスト作成
-	glfwMakeContextCurrent(window);
-	//gladのglロード
-	if (!gladLoadGL(glfwGetProcAddress)) {
-		spdlog::critical("faild loading gl");
-		glfwDestroyWindow(window);
-		spdlog::info("destroied window");
-		glfwTerminate();
-		spdlog::info("terminated glfw");
-		return -1;
-	}
-	spdlog::info("gl loded");
-	//デバッグ出力有効
-	glEnable(GL_DEBUG_OUTPUT);
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-
-	glDebugMessageCallback(
-		OpenGLDebugCallback,
-		nullptr
-	);
 	//シェーダー読み込み
 	GLShader shaderProgram("assets\\shaders\\vs.glsl", "assets\\shaders\\fs.glsl");
 	if (!shaderProgram.valid())
 	{
-		glfwDestroyWindow(window);
+		glfwDestroyWindow(context.window());
 		glfwTerminate();
 		return -1;
 	}
@@ -118,15 +81,15 @@ int main() {
 	//頂点データ
 	GLMeshData meshData = ProcMeshGenerator::createSphere();
 	//メッシュ作成
-	GLMesh mesh(&meshData);
-
+	GLMesh mesh(meshData);
+	//ubo
 	GLUniformBuffer ubo(nullptr, sizeof(SceneConstants), 0);
 
 	GLTexture2D texture;
 	std::string texPath = "assets\\data\\texture\\8k_earth_daymap.jpg";
-	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINER ,TEXTURE2DWRAP::REPEAT };
+	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT };
 	if (!texture.load(texPath, set)) {
-		glfwDestroyWindow(window);
+		glfwDestroyWindow(context.window());
 		spdlog::info("destroied window");
 		glfwTerminate();
 		spdlog::info("terminated glfw");
@@ -149,30 +112,30 @@ int main() {
 	float delta = 0.0f;
 	CHRONO chrono;
 	chrono.timeStart();
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(context.window())) {
 		chrono.timeEnd();
 		delta = static_cast<float>(chrono.getElapsed());
 		chrono.timeStart();
 
 		int framebufferWidth = 0;
 		int framebufferHeight = 0;
-		glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
+		glfwGetFramebufferSize(context.window(), &framebufferWidth, &framebufferHeight);
 		//viewPortの設定
 		glViewport(0, 0, framebufferWidth, framebufferHeight);
 		//画面クリア色設定&深度クリアの値設定
-		glClearColor(0.4f, 0.7f, 0.7f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		//画面クリア
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//一応毎回更新
 		float aspect = static_cast<float>(framebufferWidth) / static_cast<float>(framebufferHeight);
 		constants.time += delta;
-		constants.eye = glm::vec4(cos(glm::radians(constants.time * 90.0f)), 0.0f, sin(glm::radians(constants.time * 90.0f)), 0.0f) * 5.0f;
-		constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(constants.time * 520.0f)), 0.0f));
-		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		constants.eye = glm::vec4(cos(glm::radians(constants.time * 45.0f)), 0.0f, sin(glm::radians(constants.time * 45.0f)), 0.0f) * 5.0f;
+		constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(constants.time * 360.0f)), 0.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
-		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 150.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 200.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 75.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(constants.time * 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		constants.view = glm::lookAt(
 			glm::vec3(constants.eye.x, constants.eye.y, constants.eye.z),
 			glm::vec3(0, 0, 0),
@@ -195,13 +158,14 @@ int main() {
 		mesh.draw();
 
 		//画面スワップ
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(context.window());
 		//イベント処理
 		glfwPollEvents();
 	}
+	texture.release();
+	ubo.release();
+	mesh.release();
+	shaderProgram.release();
 
-	glfwDestroyWindow(window);
-	spdlog::info("destroied window");
-	glfwTerminate();
-	spdlog::info("terminated glfw");
+	context.release();
 }

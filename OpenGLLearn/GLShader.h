@@ -25,8 +25,8 @@ public:
 	{
 		return m_id != 0;
 	}
+	void release();//解放
 private:
 	static GLuint CompileShader(GLenum shaderType, const char* source);	//シェーダーコンパイル
-	void release();//解放
 };
 

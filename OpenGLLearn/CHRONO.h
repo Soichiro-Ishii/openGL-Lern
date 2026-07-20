@@ -1,13 +1,10 @@
 #pragma once
-#include<chrono>
-#include<iostream>
-using namespace std::chrono;
 
 class CHRONO
 {
-	system_clock::time_point start, end;
+	double m_start, m_end;
 public:
-	time_t timeStart();
-	time_t timeEnd();
+	double timeStart();
+	double timeEnd();
 	double getElapsed();
 };

@@ -1,7 +1,7 @@
 #include"pch.h"
 #include "GLMesh.h"
 
-GLMesh::GLMesh(GLMeshData* data) {
+GLMesh::GLMesh(GLMeshData& data) {
 	create(data);
 }
 GLMesh::~GLMesh() {
@@ -29,7 +29,7 @@ GLMesh& GLMesh::operator=(GLMesh&& other) noexcept {
 	return *this;
 }
 
-void GLMesh::create(GLMeshData* data) {
+void GLMesh::create(GLMeshData& data) {
 	release();
 	//vao作成
 	glGenVertexArrays(1, &m_vao);
@@ -40,17 +40,17 @@ void GLMesh::create(GLMeshData* data) {
 	//vaoバインド
 	glBindVertexArray(m_vao);
 
-	m_vertexCount = static_cast<GLsizei>(data->vertices.size());
-	m_indexCount = static_cast<GLsizei>(data->indices.size());
-	m_primitiveMode = data->primitiveMode;
+	m_vertexCount = static_cast<GLsizei>(data.vertices.size());
+	m_indexCount = static_cast<GLsizei>(data.indices.size());
+	m_primitiveMode = data.primitiveMode;
 
 	//vboをバインド
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	//バッファにデータコピー
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		data->vertices.size() * sizeof(Vertex),
-		data->vertices.data(),
+		data.vertices.size() * sizeof(Vertex),
+		data.vertices.data(),
 		GL_STATIC_DRAW
 	);
 
@@ -59,8 +59,8 @@ void GLMesh::create(GLMeshData* data) {
 	//コピー
 	glBufferData(
 		GL_ELEMENT_ARRAY_BUFFER,
-		data->indices.size() * sizeof(uint32_t),
-		data->indices.data(),
+		data.indices.size() * sizeof(uint32_t),
+		data.indices.data(),
 		GL_STATIC_DRAW
 	);
 
@@ -80,7 +80,7 @@ void GLMesh::create(GLMeshData* data) {
 	//頂点属性1登録
 	glVertexAttribPointer(
 		1,							//属性変数の位置
-		3,							//成分数(float2)
+		3,							//成分数(float3)
 		GL_FLOAT,					//型
 		GL_FALSE,					//整数データの正規化
 		sizeof(Vertex),				// 次の頂点までの間隔（stride）
@@ -107,7 +107,7 @@ void GLMesh::create(GLMeshData* data) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
-void GLMesh::draw() {
+void GLMesh::draw() const {
 	//頂点をセット
 	glBindVertexArray(m_vao);
 	//描画 インデックスに応じてインデックスでの描画か変える

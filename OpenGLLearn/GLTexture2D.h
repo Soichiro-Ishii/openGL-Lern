@@ -4,7 +4,7 @@
 
 enum class TEXTURE2DFILTER {
 	NEAREST,
-	LINER,
+	LINEAR,
 };
 enum class TEXTURE2DWRAP {
 	REPEAT,
@@ -51,6 +51,5 @@ public:
 	[[nodiscard]] int height() const {
 		return m_height;
 	}
-private:
 	void release();
 };

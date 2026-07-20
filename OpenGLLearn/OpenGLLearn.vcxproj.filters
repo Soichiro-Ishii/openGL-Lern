@@ -32,6 +32,7 @@
     <ClCompile Include="GLMesh.cpp">
       <Filter>GLHelper</Filter>
     </ClCompile>
+    <ClCompile Include="GLContext.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -78,6 +79,7 @@
     <ClInclude Include="GLMesh.h">
       <Filter>GLHelper</Filter>
     </ClInclude>
+    <ClInclude Include="GLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

@@ -72,7 +72,7 @@ void GLUniformBuffer::update(void* data, size_t size, size_t offset) {
 		data
 	);
 }
-void GLUniformBuffer::bindBuffer() {
+void GLUniformBuffer::bindBufferBase() {
 	glBindBufferBase(
 		GL_UNIFORM_BUFFER,
 		m_blockIndex,

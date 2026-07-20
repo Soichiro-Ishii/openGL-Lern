@@ -1,18 +1,15 @@
+#include"pch.h"
+
 #include "CHRONO.h"
-#include<chrono>
-#include<iostream>
 
-using namespace std::chrono;
-
-time_t CHRONO::timeStart() {
-	start = system_clock::now();
-	return system_clock::to_time_t(start);
+double CHRONO::timeStart() {
+	m_start = glfwGetTime();
+	return m_start;
 }
-time_t CHRONO::timeEnd() {
-	end = system_clock::now();
-	return system_clock::to_time_t(end);
+double CHRONO::timeEnd() {
+	m_end = glfwGetTime();
+	return m_end;
 }
 double CHRONO::getElapsed() {
-	double milliSec = static_cast<double>(duration_cast<milliseconds>(end - start).count());
-	return milliSec / 1000;
+	return m_end - m_start;
 }

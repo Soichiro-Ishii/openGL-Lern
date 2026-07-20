@@ -23,11 +23,11 @@ void main()
 {
     //前方からの平行光源とする
     vec3 n = normalize(vNormal.xyz);
-    vec3 v = normalize(vRay);
+    vec3 v = normalize(-vRay);
     vec3 light = vec3(0,0,-1);
     vec4 texCol = texture(mainTexture,vUV);
     float diffuseB = saturate(dot(light, n));
-    vec3 refLight = normalize(reflect(light, n)); 
+    vec3 refLight = normalize(reflect(-light, n)); 
     float specularB = pow(saturate(dot(refLight, v)), 32);
     vec3 ambient = texCol.rgb * 0.1;
     vec3 diffuse = texCol.rgb * diffuseB;

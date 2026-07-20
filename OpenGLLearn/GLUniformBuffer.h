@@ -20,7 +20,7 @@ public:
 
 	void create(void* data, size_t size, GLuint blockIndex, GLenum usage = GL_DYNAMIC_DRAW);
 	void update(void* data, size_t size, size_t offset);
-	void bindBuffer();
+	void bindBufferBase();
 	void changeBlockIndex(GLuint blockIndex);
 	[[nodiscard]] GLuint id() const
 	{
@@ -41,7 +41,6 @@ public:
 	{
 		return m_blockIndex;
 	}
-private:
 	void release();
 };
 

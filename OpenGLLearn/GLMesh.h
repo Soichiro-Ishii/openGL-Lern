@@ -11,7 +11,7 @@ private:
 	GLenum m_primitiveMode = GL_TRIANGLES;
 public:
 	GLMesh() = default;
-	GLMesh(GLMeshData* data);
+	GLMesh(GLMeshData& data);
 	~GLMesh();
 
 	GLMesh(GLMesh&) = delete;
@@ -20,25 +20,24 @@ public:
 	GLMesh(GLMesh&& other) noexcept;
 	GLMesh& operator=(GLMesh&& other) noexcept;
 
-	void create(GLMeshData* data);
-	void draw();
+	void create(GLMeshData& data);
+	void draw() const;
 
-	[[nodiscard]] GLuint vao() {
+	[[nodiscard]] GLuint vao() const {
 		return m_vao;
 	}
-	[[nodiscard]] GLuint vbo() {
+	[[nodiscard]] GLuint vbo() const {
 		return m_vbo;
 	}
-	[[nodiscard]] GLuint ebo() {
+	[[nodiscard]] GLuint ebo() const {
 		return m_ebo;
 	}
-	[[nodiscard]] GLuint vertexCount() {
+	[[nodiscard]] GLuint vertexCount() const {
 		return m_vertexCount;
 	}
-	[[nodiscard]] GLuint indexCount() {
+	[[nodiscard]] GLuint indexCount() const {
 		return m_indexCount;
 	}
-private:
 	void release();
 };
 
