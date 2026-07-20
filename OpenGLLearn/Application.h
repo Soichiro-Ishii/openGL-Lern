@@ -9,7 +9,7 @@ private:
 	FPSLimiter m_FPSLimiter;
 public:
 	Application() = default;
-	~Application() = default;
+	virtual ~Application() = default;
 
 	Application(Application&) = delete;
 	Application& operator=(Application&) = delete;

@@ -13,6 +13,7 @@ GLContext::GLContext(GLContext&& other) noexcept {
 }
 GLContext& GLContext::operator=(GLContext&& other) noexcept {
 	if (this != &other) {
+		release();
 		m_window = std::exchange(other.m_window, nullptr);
 		m_width = std::exchange(other.m_width, 0);
 		m_height = std::exchange(other.m_height, 0);
