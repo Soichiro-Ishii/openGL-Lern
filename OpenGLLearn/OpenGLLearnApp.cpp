@@ -1,6 +1,26 @@
 #include "pch.h"
 #include "OpenGLLearnApp.h"
 #include"ProcMeshGenerator.h"
+
+// HSB (h: 0-360, s: 0-1, b: 0-1) を RGB (0-1) に変換する関数
+glm::vec4 hsbToRgb(const glm::vec3& hsb, float alpha = 1.0f) {
+	float h = hsb.x, s = hsb.y, b = hsb.z;
+	float c = b * s;
+	float h_prime = h / 60.0f;
+	float x = c * (1.0f - std::abs(std::fmod(h_prime, 2.0f) - 1.0f));
+	float m = b - c;
+
+	glm::vec3 rgb;
+	if (h_prime < 1) rgb = { c, x, 0 };
+	else if (h_prime < 2) rgb = { x, c, 0 };
+	else if (h_prime < 3) rgb = { 0, c, x };
+	else if (h_prime < 4) rgb = { 0, x, c };
+	else if (h_prime < 5) rgb = { x, 0, c };
+	else                  rgb = { c, 0, x };
+
+	return glm::vec4(rgb.r + m, rgb.g + m, rgb.b + m, alpha);
+}
+
 int OpenGLLearnApp::onInit() {
 	//シェーダー
 	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\fs.glsl");
@@ -61,7 +81,8 @@ void OpenGLLearnApp::onUpdate(float delta) {
 }
 void OpenGLLearnApp::onRender() {
 	//画面クリア色設定&深度クリアの値設定
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glm::vec4 col = hsbToRgb(glm::vec3(abs(sin(-m_constants.time * 5)) * 360, 1.0f, 1.0f), 1.0f);
+	glClearColor(col.r,col.g,col.b,col.a);
 	//画面クリア
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//シェーダーをセット
