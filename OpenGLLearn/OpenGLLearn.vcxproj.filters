@@ -10,9 +10,6 @@
     <ClCompile Include="LoadStringFile.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="CHRONO.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
     <ClCompile Include="GLTexture2D.cpp">
       <Filter>GLHelper</Filter>
     </ClCompile>
@@ -36,14 +33,21 @@
       <Filter>GLHelper</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>Application</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="OpenGLLearnApp.cpp">
-      <Filter>Application</Filter>
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CHRONO.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="FPSLimiter.cpp">
-      <Filter>util</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -58,7 +62,7 @@
     <Filter Include="GLHelper">
       <UniqueIdentifier>{b33afbf0-2cb7-4721-9394-9d29f8c631e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Application">
+    <Filter Include="Core">
       <UniqueIdentifier>{5b98be0c-be4c-4ccf-b88f-89bd23bb2a97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -67,9 +71,6 @@
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="LoadStringFile.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="CHRONO.h">
       <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="GLTexture2D.h">
@@ -97,14 +98,21 @@
       <Filter>GLHelper</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
-      <Filter>Application</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLLearnApp.h">
-      <Filter>Application</Filter>
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CHRONO.h">
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="FPSLimiter.h">
-      <Filter>util</Filter>
+      <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

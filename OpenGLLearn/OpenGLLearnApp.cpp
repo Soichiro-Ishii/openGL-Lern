@@ -27,7 +27,7 @@ int OpenGLLearnApp::onInit() {
 	if (!m_shader.valid()) return -1;
 
 	//メッシュ
-	GLMeshData meshData = ProcMeshGenerator::createSphere();
+	GLMeshData meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
 	m_mesh.create(meshData);
 
 	//ubo
@@ -50,26 +50,63 @@ int OpenGLLearnApp::onInit() {
 	m_constants.proj = glm::mat4(1.0f);
 	m_constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 1.0f);
 	m_constants.time = 0.0f;
+
+	m_pos = glm::vec3(0, 0, 0);
+	m_ang = glm::vec3(0, 0, 0);
+	m_camera.setPos(m_pos);
+	m_camera.setAng(m_ang);
 	return 0;
 }
 void OpenGLLearnApp::onUpdate(float delta) {
 	//viewPortの設定
 	glViewport(0, 0, width(), height());
+	//位置
+	float speed = 5.0f;
+	glm::vec3 velXZ = glm::vec3(0, 0, 0);
+	glm::vec3 vel = glm::vec3(0, 0, 0);
+	if (input().isPress(GLFW_KEY_W))
+		velXZ += glm::vec3(0, 0, 1);
+	if (input().isPress(GLFW_KEY_S))
+		velXZ -= glm::vec3(0, 0, 1);
+	if (input().isPress(GLFW_KEY_A))
+		velXZ += glm::vec3(1, 0, 0);
+	if (input().isPress(GLFW_KEY_D))
+		velXZ -= glm::vec3(1, 0, 0);
+	if (input().isPress(GLFW_KEY_R))
+		vel += glm::vec3(0, 1, 0);
+	if (input().isPress(GLFW_KEY_F))
+		vel -= glm::vec3(0, 1, 0);
+	velXZ = glm::yawPitchRoll(m_ang.y, 0.0f, 0.0f) * glm::vec4(velXZ, 0.0f);
+	vel += velXZ;
+	if (glm::dot(vel, vel) > 0.0f) {
+		vel = glm::normalize(vel) * speed;
+		m_pos += vel * delta;
+	}
+	m_camera.setPos(m_pos);
+	//角度
+	glm::vec3 angVel = glm::vec3(0, 0, 0);
+	float angSpeed = glm::radians(180.0f);
+	if (input().isPress(GLFW_KEY_LEFT))
+		angVel += glm::vec3(0, 1, 0);
+	if (input().isPress(GLFW_KEY_RIGHT))
+		angVel -= glm::vec3(0, 1, 0);
+	if (input().isPress(GLFW_KEY_DOWN))
+		angVel += glm::vec3(1, 0, 0);
+	if (input().isPress(GLFW_KEY_UP))
+		angVel -= glm::vec3(1, 0, 0);
+	m_ang += angVel * angSpeed * delta;
+	m_camera.setAng(m_ang);
 	//一応毎回更新
 	float aspect = widthf() / heightf();
 	if (width() <= 0 || height() <= 0) aspect = 1.0f;
 	m_constants.time += delta;
-	m_constants.eye = glm::vec4(cos(glm::radians(m_constants.time * 45.0f)), 0.0f, sin(glm::radians(m_constants.time * 45.0f)), 0.0f) * 5.0f;
+	m_constants.eye = glm::vec4(m_pos, 1.0f);
 	m_constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(m_constants.time * 360.0f)), 0.0f));
 	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	m_constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
 	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 75.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	m_constants.view = glm::lookAt(
-		glm::vec3(m_constants.eye.x, m_constants.eye.y, m_constants.eye.z),
-		glm::vec3(0, 0, 0),
-		glm::vec3(0, 1, 0)
-	);
+	m_constants.view = m_camera.getView();
 	m_constants.proj = glm::perspective(
 		glm::radians(90.0f),
 		aspect,
@@ -81,8 +118,7 @@ void OpenGLLearnApp::onUpdate(float delta) {
 }
 void OpenGLLearnApp::onRender() {
 	//画面クリア色設定&深度クリアの値設定
-	glm::vec4 col = hsbToRgb(glm::vec3(abs(sin(-m_constants.time * 5)) * 360, 1.0f, 1.0f), 1.0f);
-	glClearColor(col.r,col.g,col.b,col.a);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	//画面クリア
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//シェーダーをセット

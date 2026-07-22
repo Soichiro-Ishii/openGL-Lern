@@ -157,6 +157,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CHRONO.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
@@ -169,6 +170,7 @@
     <ClCompile Include="GLMesh.cpp" />
     <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="GLUniformBuffer.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="LoadBinaryFile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -188,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CHRONO.h" />
     <ClInclude Include="FPSLimiter.h" />
     <ClInclude Include="GLContext.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="GLMeshData.h" />
     <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLUniformBuffer.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="LoadBinaryFile.h" />
     <ClInclude Include="LoadStringFile.h" />
     <ClInclude Include="GLTexture2D.h" />

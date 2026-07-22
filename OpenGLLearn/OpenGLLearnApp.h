@@ -4,6 +4,7 @@
 #include "GLTexture2D.h"
 #include "GLUniformBuffer.h"
 #include "GLMesh.h"
+#include"Camera.h"
 
 struct alignas(16) SceneConstants {
 	glm::mat4 world;
@@ -24,6 +25,9 @@ private:
 	GLUniformBuffer m_ubo;
 	GLTexture2D m_texture;
 	SceneConstants m_constants{};
+	Camera m_camera;
+	glm::vec3 m_pos;
+	glm::vec3 m_ang;
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

@@ -29,6 +29,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	}
 	deltas.resize(maxNumDelta);
 	m_chrono.timeStart();
+	m_input.init(m_context.window());
 	while (!glfwWindowShouldClose(m_context.window())) {
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
@@ -41,6 +42,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		glfwPollEvents();
 
 		m_context.update();
+		m_input.update();
 
 		onUpdate(delta);
 		//最小化モードのときは描画しない

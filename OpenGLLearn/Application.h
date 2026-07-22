@@ -1,12 +1,14 @@
 #pragma once
 #include"GLContext.h"
 #include"FPSLimiter.h"
+#include"Input.h"
 class Application
 {
 private:
 	GLContext m_context;
 	CHRONO m_chrono;
 	FPSLimiter m_FPSLimiter;
+	Input m_input;
 public:
 	Application() = default;
 	virtual ~Application() = default;
@@ -34,6 +36,9 @@ protected:
 	}
 	[[nodiscard]] float heightf() const {
 		return m_context.heightf();
+	}
+	[[nodiscard]] const Input& input() const {
+		return m_input;
 	}
 	void setTargetFPS(float newFPS) {
 		m_FPSLimiter.setTargetFPS(static_cast<double>(newFPS));
