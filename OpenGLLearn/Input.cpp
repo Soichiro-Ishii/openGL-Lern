@@ -3,7 +3,7 @@
 void Input::init(GLFWwindow* window) {
 	m_window = window;
 	for (int i = 0; i <= 1; i++) {
-		for (int j = 0; j <= GLFW_KEY_END; j++) {
+		for (int j = 0; j <= GLFW_KEY_LAST; j++) {
 			m_keys[i][j] = false;
 		}
 	}
@@ -14,7 +14,7 @@ void Input::update() {
 		spdlog::error("Input:GLFWWindow is not set.");
 		return;
 	}
-	for (int i = 0; i <= GLFW_KEY_END; i++) {
+	for (int i = 0; i <= GLFW_KEY_LAST; i++) {
 		m_keys[m_now][i] = glfwGetKey(m_window, i);
 	}
 }
@@ -23,8 +23,8 @@ bool Input::isPress(int key) const {
 		spdlog::error("Input:GLFWWindow is not set.");
 		return false;
 	}
-	if (key > GLFW_KEY_END) {
-		spdlog::error("Input:That key does not exist.\n key:{}", key);
+	if (key < 0 || key > GLFW_KEY_LAST) {
+		spdlog::error("Invalid key: {}", key);
 		return false;
 	}
 	return m_keys[m_now][key];
@@ -34,8 +34,8 @@ bool Input::isTrigger(int key) const {
 		spdlog::error("Input:GLFWWindow is not set.");
 		return false;
 	}
-	if (key > GLFW_KEY_END) {
-		spdlog::error("Input:That key does not exist.\n key:{}", key);
+	if (key < 0 || key > GLFW_KEY_LAST) {
+		spdlog::error("Invalid key: {}", key);
 		return false;
 	}
 	char before = (m_now + 1) % 2;

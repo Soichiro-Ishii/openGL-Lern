@@ -27,7 +27,8 @@ int OpenGLLearnApp::onInit() {
 	if (!m_shader.valid()) return -1;
 
 	//メッシュ
-	GLMeshData meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
+	GLMeshData meshData;
+	meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
 	m_mesh.create(meshData);
 
 	//ubo

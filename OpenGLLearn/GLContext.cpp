@@ -93,11 +93,14 @@ void GLContext::update() {
 }
 void GLContext::release() {
 	if (m_window != nullptr) {
-		glfwDestroyWindow(m_window);
+		GLFWwindow* window = std::exchange(m_window, nullptr);
+		glfwDestroyWindow(window);
 		spdlog::info("destroied window");
 		glfwTerminate();
 		spdlog::info("terminated glfw");
 	}
+	m_width = 0;
+	m_height = 0;
 }
 
 static void GLAPIENTRY OpenGLDebugCallback(
