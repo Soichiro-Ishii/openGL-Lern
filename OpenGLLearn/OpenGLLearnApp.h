@@ -11,6 +11,7 @@ struct alignas(16) SceneConstants {
 	glm::mat4 view;
 	glm::mat4 proj;
 	glm::vec4 eye;
+	glm::vec4 lightPos;
 	float time;
 	glm::vec2 res;
 	int32_t pad;
@@ -23,7 +24,10 @@ private:
 	GLShader m_shader;
 	GLMesh m_mesh;
 	GLUniformBuffer m_ubo;
-	GLTexture2D m_texture;
+	GLTexture2D m_texture1;
+	GLTexture2D m_texture2;
+	GLTexture2D m_texture3;
+	GLTexture2D m_texture4;
 	SceneConstants m_constants{};
 	Camera m_camera;
 	glm::vec3 m_pos;

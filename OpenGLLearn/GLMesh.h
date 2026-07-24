@@ -9,6 +9,7 @@ private:
 	GLsizei m_indexCount = 0;
 	GLsizei m_vertexCount = 0;
 	GLenum m_primitiveMode = GL_TRIANGLES;
+	GLuint m_instanceCount = 0;
 public:
 	GLMesh() = default;
 	GLMesh(GLMeshData& data);
@@ -20,7 +21,7 @@ public:
 	GLMesh(GLMesh&& other) noexcept;
 	GLMesh& operator=(GLMesh&& other) noexcept;
 
-	void create(GLMeshData& data);
+	void create(GLMeshData& data, GLuint instanceCount = 1);
 	void draw() const;
 
 	[[nodiscard]] GLuint vao() const {

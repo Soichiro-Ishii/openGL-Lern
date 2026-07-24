@@ -15,6 +15,7 @@ GLMesh::GLMesh(GLMesh&& other) noexcept {
 	m_vertexCount = std::exchange(other.m_vertexCount, 0);
 	m_indexCount = std::exchange(other.m_indexCount, 0);
 	m_primitiveMode = std::exchange(other.m_primitiveMode, GL_TRIANGLES);
+	m_instanceCount = std::exchange(other.m_instanceCount, 1);
 }
 GLMesh& GLMesh::operator=(GLMesh&& other) noexcept {
 	if (this != &other) {
@@ -25,12 +26,14 @@ GLMesh& GLMesh::operator=(GLMesh&& other) noexcept {
 		m_vertexCount = std::exchange(other.m_vertexCount, 0);
 		m_indexCount = std::exchange(other.m_indexCount, 0);
 		m_primitiveMode = std::exchange(other.m_primitiveMode, GL_TRIANGLES);
+		m_instanceCount = std::exchange(other.m_instanceCount, 1);
 	}
 	return *this;
 }
 
-void GLMesh::create(GLMeshData& data) {
+void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
 	release();
+	m_instanceCount = instanceCount;
 	//vao作成
 	glGenVertexArrays(1, &m_vao);
 	//バッファ生成
@@ -93,6 +96,19 @@ void GLMesh::create(GLMeshData& data) {
 	//頂点属性2登録
 	glVertexAttribPointer(
 		2,							//属性変数の位置
+		3,							//成分数(float3)
+		GL_FLOAT,					//型
+		GL_FALSE,					//整数データの正規化
+		sizeof(Vertex),				// 次の頂点までの間隔（stride）
+		reinterpret_cast<void*>(
+			offsetof(Vertex, tangent)
+			)						//VBO内のバイトオフセット
+	);
+	//属性1を有効
+	glEnableVertexAttribArray(2);
+	//頂点属性2登録
+	glVertexAttribPointer(
+		3,							//属性変数の位置
 		2,							//成分数(float2)
 		GL_FLOAT,					//型
 		GL_FALSE,					//整数データの正規化
@@ -102,28 +118,31 @@ void GLMesh::create(GLMeshData& data) {
 			)						//VBO内のバイトオフセット
 	);
 	//属性2を有効
-	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 	//バインド解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	spdlog::info("created mesh vertex:{} index:{} instance:{}", m_vertexCount, m_indexCount, m_instanceCount);
 }
 void GLMesh::draw() const {
 	//頂点をセット
 	glBindVertexArray(m_vao);
 	//描画 インデックスに応じてインデックスでの描画か変える
 	if (m_indexCount > 0) {
-		glDrawElements(
+		glDrawElementsInstanced(
 			m_primitiveMode,
 			m_indexCount,
 			GL_UNSIGNED_INT,
-			reinterpret_cast<void*>(0)
+			reinterpret_cast<void*>(0),
+			m_instanceCount
 		);
 	}
 	else {
-		glDrawArrays(
+		glDrawArraysInstanced(
 			m_primitiveMode,
 			0,
-			m_vertexCount
+			m_vertexCount,
+			m_instanceCount
 		);
 	}
 	//バインド解除
@@ -141,4 +160,5 @@ void GLMesh::release() {
 	m_vertexCount = 0;
 	m_indexCount = 0;
 	m_primitiveMode = GL_TRIANGLES;
+	m_indexCount = 0;
 }

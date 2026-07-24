@@ -121,5 +121,8 @@
     <None Include="assets\shaders\vs.glsl">
       <Filter>shader</Filter>
     </None>
+    <None Include="assets\shaders\earthFS.glsl">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

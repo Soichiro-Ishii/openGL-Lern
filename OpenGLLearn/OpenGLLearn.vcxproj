@@ -207,6 +207,7 @@
     <ClInclude Include="ProcMeshGenerator.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\earthFS.glsl" />
     <None Include="assets\shaders\fs.glsl" />
     <None Include="assets\shaders\vs.glsl" />
   </ItemGroup>

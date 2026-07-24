@@ -10,33 +10,44 @@ namespace ProcMeshGenerator
 		const float halfWidth = width * 0.5f;
 		const float halfHeight = height * 0.5f;
 
-		// XY平面上の四角形。正面は+Z方向。
+		/*
+		 * XY平面上の四角形。
+		 * 現在のカメラ側である-Z方向を正面にする。
+		 */
+		const glm::vec3 normal = { 0.0f, 0.0f, -1.0f };
+		const glm::vec3 tangent = { 1.0f, 0.0f, 0.0f };
+
 		data.vertices = {
 			{
 				{ -halfWidth, -halfHeight, 0.0f },
-				{ 0.0f, 0.0f, 1.0f },
+				normal,
+				tangent,
 				{ 0.0f, 0.0f }
 			},
 			{
 				{ halfWidth, -halfHeight, 0.0f },
-				{ 0.0f, 0.0f, 1.0f },
+				normal,
+				tangent,
 				{ 1.0f, 0.0f }
 			},
 			{
 				{ halfWidth, halfHeight, 0.0f },
-				{ 0.0f, 0.0f, 1.0f },
+				normal,
+				tangent,
 				{ 1.0f, 1.0f }
 			},
 			{
 				{ -halfWidth, halfHeight, 0.0f },
-				{ 0.0f, 0.0f, 1.0f },
+				normal,
+				tangent,
 				{ 0.0f, 1.0f }
 			}
 		};
 
+		// -Z方向から見て反時計回り
 		data.indices = {
-			0, 1, 2,
-			0, 2, 3
+			0, 2, 1,
+			0, 3, 2
 		};
 
 		data.primitiveMode = GL_TRIANGLES;
@@ -51,45 +62,165 @@ namespace ProcMeshGenerator
 		const float h = size * 0.5f;
 
 		/*
-		 * 頂点を8個で共有すると、各角の法線を1つに決められない。
-		 * 面ごとに独立した法線とUVを持たせるため、6面×4頂点の24頂点。
+		 * 面ごとに独立した法線・Tangent・UVを持つため、
+		 * 6面 × 4頂点の24頂点。
 		 */
 		data.vertices = {
 			// Front (+Z)
-			{ { -h, -h,  h }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },
-			{ {  h, -h,  h }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },
-			{ {  h,  h,  h }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },
-			{ { -h,  h,  h }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f } },
+			{
+				{ -h, -h, h },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ h, -h, h },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ h, h, h },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ -h, h, h },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 1.0f }
+			},
 
 			// Back (-Z)
-			{ {  h, -h, -h }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f } },
-			{ { -h, -h, -h }, { 0.0f, 0.0f, -1.0f }, { 1.0f, 0.0f } },
-			{ { -h,  h, -h }, { 0.0f, 0.0f, -1.0f }, { 1.0f, 1.0f } },
-			{ {  h,  h, -h }, { 0.0f, 0.0f, -1.0f }, { 0.0f, 1.0f } },
+			{
+				{ h, -h, -h },
+				{ 0.0f, 0.0f, -1.0f },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ -h, -h, -h },
+				{ 0.0f, 0.0f, -1.0f },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ -h, h, -h },
+				{ 0.0f, 0.0f, -1.0f },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ h, h, -h },
+				{ 0.0f, 0.0f, -1.0f },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 1.0f }
+			},
 
 			// Right (+X)
-			{ { h, -h,  h }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ { h, -h, -h }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
-			{ { h,  h, -h }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
-			{ { h,  h,  h }, { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+			{
+				{ h, -h, h },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ h, -h, -h },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ h, h, -h },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ h, h, h },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 0.0f, 1.0f }
+			},
 
 			// Left (-X)
-			{ { -h, -h, -h }, { -1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ { -h, -h,  h }, { -1.0f, 0.0f, 0.0f }, { 1.0f, 0.0f } },
-			{ { -h,  h,  h }, { -1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f } },
-			{ { -h,  h, -h }, { -1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f } },
+			{
+				{ -h, -h, -h },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ -h, -h, h },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ -h, h, h },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ -h, h, -h },
+				{ -1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 0.0f, 1.0f }
+			},
 
 			// Top (+Y)
-			{ { -h, h,  h }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ {  h, h,  h }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } },
-			{ {  h, h, -h }, { 0.0f, 1.0f, 0.0f }, { 1.0f, 1.0f } },
-			{ { -h, h, -h }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f } },
+			{
+				{ -h, h, h },
+				{ 0.0f, 1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ h, h, h },
+				{ 0.0f, 1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ h, h, -h },
+				{ 0.0f, 1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ -h, h, -h },
+				{ 0.0f, 1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 1.0f }
+			},
 
 			// Bottom (-Y)
-			{ { -h, -h, -h }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 0.0f } },
-			{ {  h, -h, -h }, { 0.0f, -1.0f, 0.0f }, { 1.0f, 0.0f } },
-			{ {  h, -h,  h }, { 0.0f, -1.0f, 0.0f }, { 1.0f, 1.0f } },
-			{ { -h, -h,  h }, { 0.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } }
+			{
+				{ -h, -h, -h },
+				{ 0.0f, -1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ h, -h, -h },
+				{ 0.0f, -1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 0.0f }
+			},
+			{
+				{ h, -h, h },
+				{ 0.0f, -1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 1.0f, 1.0f }
+			},
+			{
+				{ -h, -h, h },
+				{ 0.0f, -1.0f, 0.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 1.0f }
+			}
 		};
 
 		data.indices.reserve(36);
@@ -131,9 +262,10 @@ namespace ProcMeshGenerator
 			static_cast<size_t>(verticesPerRow)
 		);
 
+		// 極の縮退三角形を除いたインデックス数
 		data.indices.reserve(
-			static_cast<size_t>(stacks) *
 			static_cast<size_t>(slices) *
+			static_cast<size_t>(stacks - 1) *
 			6
 		);
 
@@ -168,12 +300,22 @@ namespace ProcMeshGenerator
 					sinPhi * sinTheta
 				};
 
-				Vertex vertex;
-				vertex.position = normal * radius;
-				vertex.normal = normal;
-				vertex.uv = { u, 1.0f - v };
+				/*
+				 * UVではUを1-uに反転している。
+				 * したがってTangentはthetaが減少する方向。
+				 */
+				const glm::vec3 tangent = {
+					sinTheta,
+					0.0f,
+					-cosTheta
+				};
 
-				data.vertices.push_back(vertex);
+				data.vertices.push_back({
+					normal * radius,
+					normal,
+					tangent,
+					{ 1.0f - u, 1.0f - v }
+					});
 			}
 		}
 
@@ -190,13 +332,21 @@ namespace ProcMeshGenerator
 				const uint32_t topRight = topLeft + 1;
 				const uint32_t bottomRight = bottomLeft + 1;
 
-				data.indices.push_back(topLeft);
-				data.indices.push_back(bottomRight);
-				data.indices.push_back(bottomLeft);
+				// 南極側ではこの三角形が縮退する
+				if (stack != stacks - 1)
+				{
+					data.indices.push_back(topLeft);
+					data.indices.push_back(bottomRight);
+					data.indices.push_back(bottomLeft);
+				}
 
-				data.indices.push_back(topLeft);
-				data.indices.push_back(topRight);
-				data.indices.push_back(bottomRight);
+				// 北極側ではこの三角形が縮退する
+				if (stack != 0)
+				{
+					data.indices.push_back(topLeft);
+					data.indices.push_back(topRight);
+					data.indices.push_back(bottomRight);
+				}
 			}
 		}
 
@@ -230,6 +380,9 @@ namespace ProcMeshGenerator
 			6
 		);
 
+		const glm::vec3 normal = { 0.0f, 1.0f, 0.0f };
+		const glm::vec3 tangent = { 1.0f, 0.0f, 0.0f };
+
 		for (uint32_t z = 0; z <= zSegments; ++z)
 		{
 			const float v =
@@ -248,7 +401,8 @@ namespace ProcMeshGenerator
 
 				data.vertices.push_back({
 					{ positionX, 0.0f, positionZ },
-					{ 0.0f, 1.0f, 0.0f },
+					normal,
+					tangent,
 					{ u, 1.0f - v }
 					});
 			}
@@ -267,7 +421,7 @@ namespace ProcMeshGenerator
 				const uint32_t topRight = topLeft + 1;
 				const uint32_t bottomRight = bottomLeft + 1;
 
-				// +Y方向から見て反時計回り。
+				// +Y方向から見て反時計回り
 				data.indices.push_back(topLeft);
 				data.indices.push_back(bottomLeft);
 				data.indices.push_back(bottomRight);

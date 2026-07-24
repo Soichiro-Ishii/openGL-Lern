@@ -23,33 +23,41 @@ glm::vec4 hsbToRgb(const glm::vec3& hsb, float alpha = 1.0f) {
 
 int OpenGLLearnApp::onInit() {
 	//シェーダー
-	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\fs.glsl");
+	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFS.glsl");
 	if (!m_shader.valid()) return -1;
 
 	//メッシュ
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
-	m_mesh.create(meshData);
+	m_mesh.create(meshData, 1000);
 
 	//ubo
 	m_ubo.create(nullptr, sizeof(SceneConstants), 0);
 
 	//テクスチャ
-	std::string texPath = "assets\\data\\texture\\8k_earth_daymap.jpg";
+	std::string texPath1 = "assets\\data\\texture\\8k_earth_daymap.jpg";
+	std::string texPath2 = "assets\\data\\texture\\8k_earth_nightmap.jpg";
+	std::string texPath3 = "assets\\data\\texture\\8k_earth_normal_map.png";
+	std::string texPath4 = "assets\\data\\texture\\8k_earth_specular_map.png";
 	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT };
-	if (!m_texture.load(texPath, set)) return -1;
+	if (!m_texture1.load(texPath1, set)) return -1;
+	if (!m_texture2.load(texPath2, set)) return -1;
+	if (!m_texture3.load(texPath3, set)) return -1;
+	if (!m_texture4.load(texPath4, set)) return -1;
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glClearDepth(1.0f);
 	glEnable(GL_CULL_FACE); // カリングを有効化
 	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
 
 	//ubo用
 	m_constants.world = glm::mat4(1.0f);
 	m_constants.view = glm::mat4(1.0f);
 	m_constants.proj = glm::mat4(1.0f);
 	m_constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 1.0f);
+	m_constants.lightPos = glm::vec4(0.0f, 0.0f, -10.0f, 1.0f);
 	m_constants.time = 0.0f;
 
 	m_pos = glm::vec3(0, 0, 0);
@@ -102,11 +110,12 @@ void OpenGLLearnApp::onUpdate(float delta) {
 	if (width() <= 0 || height() <= 0) aspect = 1.0f;
 	m_constants.time += delta;
 	m_constants.eye = glm::vec4(m_pos, 1.0f);
-	m_constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(m_constants.time * 360.0f)), 0.0f));
-	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
-	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 75.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//m_constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(m_constants.time * 360.0f)), 0.0f));
+	//m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_constants.world *= glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 3.0f));
+	//m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 75.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	m_constants.lightPos = glm::vec4(cos(m_constants.time / 4), 0.0f, sin(m_constants.time / 4), 1.0f) * 10.0f;
 	m_constants.view = m_camera.getView();
 	m_constants.proj = glm::perspective(
 		glm::radians(90.0f),
@@ -125,12 +134,18 @@ void OpenGLLearnApp::onRender() {
 	//シェーダーをセット
 	m_shader.bind();
 	//テクスチャセット
-	m_texture.bind(0);
+	m_texture1.bind(0);
+	m_texture2.bind(1);
+	m_texture3.bind(2);
+	m_texture4.bind(3);
 	//メッシュ描画
 	m_mesh.draw();
 }
 void OpenGLLearnApp::onShutdown() {
-	m_texture.release();
+	m_texture1.release();
+	m_texture2.release();
+	m_texture3.release();
+	m_texture4.release();
 	m_ubo.release();
 	m_mesh.release();
 	m_shader.release();

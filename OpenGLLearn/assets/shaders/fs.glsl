@@ -2,8 +2,10 @@
 #define saturate(x) clamp(x, 0.0, 1.0)
 
 layout(location = 0) in vec4 vNormal;
-layout(location = 1) in vec2 vUV;
-layout(location = 2) in vec3 vRay;
+layout(location = 1) in vec4 vTangent;
+layout(location = 2) in vec2 vUV;
+layout(location = 3) in vec3 vRay;
+layout(location = 4) in vec3 vLightDir;
 
 layout(std140, binding = 0) uniform SceneConstants
 {
@@ -11,6 +13,7 @@ layout(std140, binding = 0) uniform SceneConstants
     mat4 view;
     mat4 proj;
     vec4 eye;
+    vec4 lightPos;
     vec3 timeRes;
     float pad;
 };
@@ -24,7 +27,7 @@ void main()
     //前方からの平行光源とする
     vec3 n = normalize(vNormal.xyz);
     vec3 v = normalize(-vRay);
-    vec3 light = vec3(0,0,-1);
+    vec3 light = normalize(lightDir);
     vec4 texCol = texture(mainTexture,vUV);
     float diffuseB = saturate(dot(light, n));
     vec3 refLight = normalize(reflect(-light, n)); 
