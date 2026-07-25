@@ -26,13 +26,18 @@ int OpenGLLearnApp::onInit() {
 	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFS.glsl");
 	if (!m_shader.valid()) return -1;
 
+	GLuint numInstances = 1000;
 	//メッシュ
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
-	m_mesh.create(meshData, 1000);
+	m_mesh.create(meshData, numInstances);
 
 	//ubo
-	m_ubo.create(nullptr, sizeof(SceneConstants), 0);
+	m_ubo1.create(nullptr, sizeof(SceneConstants), 0);
+	m_ubo2.create(nullptr, sizeof(GLuint), 1);
+	//ssbo
+	m_instanceData.resize(numInstances);
+	m_ssbo.create(nullptr, m_instanceData.size() * sizeof(InstanceData), 0);
 
 	//テクスチャ
 	std::string texPath1 = "assets\\data\\texture\\8k_earth_daymap.jpg";
@@ -53,7 +58,6 @@ int OpenGLLearnApp::onInit() {
 	glFrontFace(GL_CCW);
 
 	//ubo用
-	m_constants.world = glm::mat4(1.0f);
 	m_constants.view = glm::mat4(1.0f);
 	m_constants.proj = glm::mat4(1.0f);
 	m_constants.eye = glm::vec4(0.0f, 0.0f, -5.0f, 1.0f);
@@ -64,6 +68,12 @@ int OpenGLLearnApp::onInit() {
 	m_ang = glm::vec3(0, 0, 0);
 	m_camera.setPos(m_pos);
 	m_camera.setAng(m_ang);
+	m_ubo1.update(&m_constants, sizeof(SceneConstants), 0);
+	m_ubo2.update(&numInstances, sizeof(GLuint), 0);
+	//compute
+	constexpr GLuint localSizeX = 256;
+	GLuint groutCountX = (static_cast<GLuint>(m_instanceData.size()) + localSizeX - 1) / localSizeX;
+	m_compute.load("assets\\shaders\\createWorldCS.glsl", localSizeX);
 	return 0;
 }
 void OpenGLLearnApp::onUpdate(float delta) {
@@ -124,7 +134,10 @@ void OpenGLLearnApp::onUpdate(float delta) {
 		1000.0f
 	);
 
-	m_ubo.update(&m_constants, sizeof(SceneConstants), 0);
+	m_ubo1.update(&m_constants, sizeof(SceneConstants), 0);
+
+	m_compute.dispatch();
+	//m_ssbo.update(m_instanceData.data(), m_instanceData.size() * sizeof(InstanceData), 0);
 }
 void OpenGLLearnApp::onRender() {
 	//画面クリア色設定&深度クリアの値設定
@@ -146,7 +159,10 @@ void OpenGLLearnApp::onShutdown() {
 	m_texture2.release();
 	m_texture3.release();
 	m_texture4.release();
-	m_ubo.release();
+	m_ubo1.release();
+	m_ubo2.release();
+	m_ssbo.release();
 	m_mesh.release();
 	m_shader.release();
+	m_compute.release();
 }

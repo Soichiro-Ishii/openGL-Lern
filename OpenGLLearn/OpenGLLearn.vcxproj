@@ -166,9 +166,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GLCompute.cpp" />
     <ClCompile Include="GLContext.cpp" />
     <ClCompile Include="GLMesh.cpp" />
     <ClCompile Include="GLShader.cpp" />
+    <ClCompile Include="GLShaderStorageBuffer.cpp" />
     <ClCompile Include="GLUniformBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LoadBinaryFile.cpp">
@@ -193,10 +195,12 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CHRONO.h" />
     <ClInclude Include="FPSLimiter.h" />
+    <ClInclude Include="GLCompute.h" />
     <ClInclude Include="GLContext.h" />
     <ClInclude Include="GLMesh.h" />
     <ClInclude Include="GLMeshData.h" />
     <ClInclude Include="GLShader.h" />
+    <ClInclude Include="GLShaderStorageBuffer.h" />
     <ClInclude Include="GLUniformBuffer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LoadBinaryFile.h" />
@@ -207,6 +211,7 @@
     <ClInclude Include="ProcMeshGenerator.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\createWorldCS.glsl" />
     <None Include="assets\shaders\earthFS.glsl" />
     <None Include="assets\shaders\fs.glsl" />
     <None Include="assets\shaders\vs.glsl" />

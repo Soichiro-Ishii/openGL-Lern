@@ -9,7 +9,6 @@ layout(location = 4) in vec3 vLightDir;
 
 layout(std140, binding = 0) uniform SceneConstants
 {
-    mat4 world;
     mat4 view;
     mat4 proj;
     vec4 eye;

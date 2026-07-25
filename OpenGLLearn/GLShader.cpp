@@ -70,7 +70,7 @@ void GLShader::load(const char* vsPath, const char* fsPath) {
 		std::string log(logLen, '\0');
 		glGetProgramInfoLog(program, logLen, nullptr, log.data());
 
-		spdlog::critical("Shader program linking failed:\n{}", log);
+		spdlog::critical("Shader program link error:\n{}", log);
 
 		glDeleteProgram(program);
 		program = 0;

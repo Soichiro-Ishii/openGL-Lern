@@ -9,7 +9,6 @@ layout(location = 4) in vec3 vLightDir;
 
 layout(std140, binding = 0) uniform SceneConstants
 {
-    mat4 world;
     mat4 view;
     mat4 proj;
     vec4 eye;
@@ -27,7 +26,7 @@ void main()
     //前方からの平行光源とする
     vec3 n = normalize(vNormal.xyz);
     vec3 v = normalize(-vRay);
-    vec3 light = normalize(lightDir);
+    vec3 light = normalize(vLightDir);
     vec4 texCol = texture(mainTexture,vUV);
     float diffuseB = saturate(dot(light, n));
     vec3 refLight = normalize(reflect(-light, n)); 

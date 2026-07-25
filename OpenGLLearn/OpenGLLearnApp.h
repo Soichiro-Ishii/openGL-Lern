@@ -3,11 +3,12 @@
 #include "GLShader.h"
 #include "GLTexture2D.h"
 #include "GLUniformBuffer.h"
+#include"GLShaderStorageBuffer.h"
 #include "GLMesh.h"
+#include"GLCompute.h"
 #include"Camera.h"
 
 struct alignas(16) SceneConstants {
-	glm::mat4 world;
 	glm::mat4 view;
 	glm::mat4 proj;
 	glm::vec4 eye;
@@ -16,6 +17,9 @@ struct alignas(16) SceneConstants {
 	glm::vec2 res;
 	int32_t pad;
 };
+struct alignas(16) InstanceData {
+	glm::mat4 world;
+};
 
 class OpenGLLearnApp final :
 	public Application
@@ -23,15 +27,19 @@ class OpenGLLearnApp final :
 private:
 	GLShader m_shader;
 	GLMesh m_mesh;
-	GLUniformBuffer m_ubo;
+	GLUniformBuffer m_ubo1;
+	GLUniformBuffer m_ubo2;
+	SceneConstants m_constants{};
+	GLShaderStorageBuffer m_ssbo;
+	std::vector<InstanceData> m_instanceData;
 	GLTexture2D m_texture1;
 	GLTexture2D m_texture2;
 	GLTexture2D m_texture3;
 	GLTexture2D m_texture4;
-	SceneConstants m_constants{};
 	Camera m_camera;
 	glm::vec3 m_pos;
 	glm::vec3 m_ang;
+	GLCompute m_compute;
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

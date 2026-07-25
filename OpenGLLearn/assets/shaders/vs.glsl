@@ -7,7 +7,6 @@ layout(location = 3) in vec2 aUV;
 
 layout(std140, binding = 0) uniform SceneConstants
 {
-    mat4 world;
     mat4 view;
     mat4 proj;
     vec4 eye;
@@ -16,6 +15,15 @@ layout(std140, binding = 0) uniform SceneConstants
     float pad;
 };
 
+struct InstanceData
+{
+    mat4 world;
+};
+
+layout(std430, binding = 0) readonly buffer InstanceBuffer
+{
+    InstanceData instances[];
+};
 
 layout(location = 0) out vec4 vNormal;
 layout(location = 1) out vec4 vTangent;
@@ -25,25 +33,10 @@ layout(location = 4) out vec3 vLightDir;
 
 void main()
 {
-    int sizeX = 10;
-    int sizeY = 10;
-
-    int x = gl_InstanceID % sizeX;
-    int y = (gl_InstanceID / sizeX) % sizeY;
-    int z = gl_InstanceID / (sizeX * sizeY);
-
-    vec4 offset = vec4(
-        float(x) * 10.0,
-        float(y) * 10.0,
-        float(z) * 10.0,
-        0.0
-    );
-
-    vec4 worldPos = world * vec4(aPosition, 1.0);
-    worldPos += offset;
+    vec4 worldPos = instances[gl_InstanceID].world * vec4(aPosition, 1.0);
     gl_Position = proj * view * worldPos;
-    vNormal = world * vec4(aNormal,0.0);
-    vTangent = world * vec4(aTangent,0.0);
+    vNormal = instances[gl_InstanceID].world * vec4(aNormal,0.0);
+    vTangent = instances[gl_InstanceID].world * vec4(aTangent,0.0);
     vUV = aUV;
     vUV.y *= -1;
     vRay = worldPos.xyz - eye.xyz;
