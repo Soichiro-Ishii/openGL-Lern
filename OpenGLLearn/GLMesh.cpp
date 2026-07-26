@@ -160,5 +160,5 @@ void GLMesh::release() {
 	m_vertexCount = 0;
 	m_indexCount = 0;
 	m_primitiveMode = GL_TRIANGLES;
-	m_indexCount = 0;
+	m_instanceCount = 0;
 }

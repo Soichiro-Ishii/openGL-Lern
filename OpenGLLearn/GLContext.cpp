@@ -70,10 +70,7 @@ int GLContext::create(int width, int height, std::string windowName, bool fullSc
 	//gladのglロード
 	if (!gladLoadGL(glfwGetProcAddress)) {
 		spdlog::critical("faild loading gl");
-		glfwDestroyWindow(m_window);
-		spdlog::info("destroied window");
-		glfwTerminate();
-		spdlog::info("terminated glfw");
+		release();
 		return -1;
 	}
 	spdlog::info("gl loded");

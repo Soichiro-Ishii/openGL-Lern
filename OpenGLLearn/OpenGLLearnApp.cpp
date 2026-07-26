@@ -73,7 +73,8 @@ int OpenGLLearnApp::onInit() {
 	//compute
 	constexpr GLuint localSizeX = 256;
 	GLuint groutCountX = (static_cast<GLuint>(m_instanceData.size()) + localSizeX - 1) / localSizeX;
-	m_compute.load("assets\\shaders\\createWorldCS.glsl", localSizeX);
+	m_compute.load("assets\\shaders\\createWorldCS.glsl", groutCountX);
+	if (!m_compute.valid()) return -1;
 	return 0;
 }
 void OpenGLLearnApp::onUpdate(float delta) {
@@ -116,8 +117,9 @@ void OpenGLLearnApp::onUpdate(float delta) {
 	m_ang += angVel * angSpeed * delta;
 	m_camera.setAng(m_ang);
 	//一応毎回更新
-	float aspect = widthf() / heightf();
+	float aspect = 1.0f;
 	if (width() <= 0 || height() <= 0) aspect = 1.0f;
+	else aspect = widthf() / heightf();
 	m_constants.time += delta;
 	m_constants.eye = glm::vec4(m_pos, 1.0f);
 	//m_constants.world = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, sin(glm::radians(m_constants.time * 360.0f)), 0.0f));

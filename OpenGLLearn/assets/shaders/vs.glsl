@@ -37,6 +37,8 @@ void main()
     gl_Position = proj * view * worldPos;
     vNormal = instances[gl_InstanceID].world * vec4(aNormal,0.0);
     vTangent = instances[gl_InstanceID].world * vec4(aTangent,0.0);
+    vNormal.w = 1.0;
+    vTangent.w = 1.0;
     vUV = aUV;
     vUV.y *= -1;
     vRay = worldPos.xyz - eye.xyz;

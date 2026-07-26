@@ -80,5 +80,5 @@ void main(){
 			float(z) * 10.0
 	);
 
-    instances[id].world = translationMatrix(offset);
+    instances[id].world = translationMatrix(offset) * mat4(rotateY(radians(-20 * timeRes.x)));
 }

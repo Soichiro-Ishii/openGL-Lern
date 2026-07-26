@@ -33,8 +33,11 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	while (!glfwWindowShouldClose(m_context.window())) {
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
-		deltas[deltaIdx] = delta;
-		deltaIdx++;
+		//最小化モードのときは記録しない
+		if (width() <= 0 || height() <= 0) {
+			deltas[deltaIdx] = delta;
+			deltaIdx++;
+		}
 		m_chrono.timeStart();
 		m_FPSLimiter.begin();
 

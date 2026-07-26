@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "GLShaderStorageBuffer.h"
-#include "pch.h"
-#include "GLShaderStorageBuffer.h"
 
 GLShaderStorageBuffer::GLShaderStorageBuffer(void* data, size_t size, GLuint blockIndex, GLenum usage) {
 	create(data, size, blockIndex, usage);
@@ -57,7 +55,7 @@ void GLShaderStorageBuffer::update(void* data, size_t size, size_t offset) {
 	}
 	if (offset + size > m_size) {
 		spdlog::error(
-			"UniformBuffer update out of range: offset={}, size={}, capacity={}",
+			"ShaderStorageBuffer update out of range: offset={}, size={}, capacity={}",
 			offset,
 			size,
 			m_size

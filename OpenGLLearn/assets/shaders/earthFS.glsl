@@ -29,7 +29,6 @@ void main()
     // ------------------------------------------------------------
     // 法線マッピング
     // ------------------------------------------------------------
-
     vec3 geometryN = normalize(vNormal.xyz);
     vec3 t = normalize(vTangent.xyz);
 
@@ -196,9 +195,5 @@ void main()
         emission +
         specular;
 
-    outColor =
-        vec4(
-            finalColor,
-            mainTexCol.a
-        );
+    outColor = vec4(finalColor,mainTexCol.a);
 }
