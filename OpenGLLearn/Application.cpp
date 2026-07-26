@@ -11,7 +11,6 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	if (onInit() != 0) {
 		spdlog::critical("faild application initialization");
 		onShutdown();
-		m_context.release();
 		return -1;
 	}
 	//delta平均取る用配列
@@ -34,7 +33,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
 		//最小化モードのときは記録しない
-		if (width() <= 0 || height() <= 0) {
+		if (!(width() <= 0 || height() <= 0)) {
 			deltas[deltaIdx] = delta;
 			deltaIdx++;
 		}
@@ -69,6 +68,5 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		}
 	}
 	onShutdown();
-	m_context.release();
 	return 0;
 }

@@ -436,4 +436,33 @@ namespace ProcMeshGenerator
 
 		return data;
 	}
+
+	GLMeshData createScreen() {
+		//フルスクリーントライアングルを生成する
+		std::vector<Vertex> vertices = {
+			{
+				{ -1.0f, -1.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f }
+			},
+			{
+				{ 3.0f, -1.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 2.0f, 0.0f }
+			},
+			{
+				{ -1.0f, 3.0f, 0.0f },
+				{ 0.0f, 0.0f, 1.0f },
+				{ 1.0f, 0.0f, 0.0f },
+				{ 0.0f, 2.0f }
+			}
+		};
+		std::vector<unsigned int> indices = { 0, 1, 2 };
+		GLMeshData data;
+		data.vertices = vertices;
+		data.indices = indices;
+		return data;
+	}
 }

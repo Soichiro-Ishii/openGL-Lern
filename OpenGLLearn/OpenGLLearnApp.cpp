@@ -30,6 +30,7 @@ int OpenGLLearnApp::onInit() {
 	//メッシュ
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
+	//meshData = ProcMeshGenerator::createScreen();
 	m_mesh.create(meshData, numInstances);
 
 	//ubo
@@ -157,14 +158,5 @@ void OpenGLLearnApp::onRender() {
 	m_mesh.draw();
 }
 void OpenGLLearnApp::onShutdown() {
-	m_texture1.release();
-	m_texture2.release();
-	m_texture3.release();
-	m_texture4.release();
-	m_ubo1.release();
-	m_ubo2.release();
-	m_ssbo.release();
-	m_mesh.release();
-	m_shader.release();
-	m_compute.release();
+	spdlog::info("Application shutdown");
 }

@@ -25,4 +25,5 @@ namespace ProcMeshGenerator
 		uint32_t xSegments = 1,
 		uint32_t zSegments = 1
 	);
+	GLMeshData createScreen();
 }

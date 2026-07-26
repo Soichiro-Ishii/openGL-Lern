@@ -47,11 +47,21 @@
     <ClCompile Include="Input.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GLShaderStorageBuffer.cpp">
       <Filter>GLHelper</Filter>
     </ClCompile>
-    <ClCompile Include="GLCompute.cpp" />
+    <ClCompile Include="GLCompute.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateApp.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TestRTRMApp.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -116,11 +126,21 @@
     <ClInclude Include="Input.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="GLShaderStorageBuffer.h">
       <Filter>GLHelper</Filter>
     </ClInclude>
-    <ClInclude Include="GLCompute.h" />
+    <ClInclude Include="GLCompute.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateApp.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TestRTRMApp.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">
@@ -133,6 +153,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="assets\shaders\createWorldCS.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="assets\shaders\screenVS.glsl">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
