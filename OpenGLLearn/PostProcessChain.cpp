@@ -26,12 +26,13 @@ void PostProcessChain::resize(int width, int height) {
 	for (auto& rt : m_passes)
 		rt->resize(width, height);
 }
-void PostProcessChain::execute(const GLTexture2D& texture, const GLMesh& screen) {
+const GLTexture2D& PostProcessChain::execute(const GLTexture2D& texture, const GLMesh& screen) {
 	//やりたい事的に参照ではなくポインタ使う
-	const GLTexture2D* tex = &texture;
+	const GLTexture2D* current = &texture;
 	for (auto& rt : m_passes) {
-		rt->execute(*tex, screen);
+		rt->execute(*current, screen);
 		//出力されたテクスチャを次に渡すテクスチャとする
-		tex = &rt->output();
+		current = &rt->output();
 	}
+	return *current;
 }

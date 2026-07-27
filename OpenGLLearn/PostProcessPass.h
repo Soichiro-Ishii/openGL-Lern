@@ -19,7 +19,7 @@ public:
 	PostProcessPass(PostProcessPass&& other) noexcept;
 	PostProcessPass& operator=(PostProcessPass&& other) noexcept;
 
-	void create(GLShader& shader, int width, int height, ColorTexSet cSet);
+	bool create(GLShader& shader, int width, int height, ColorTexSet cSet);
 	void resize(int width, int height);
 	void execute(const GLTexture2D& texture, const GLMesh& screen);
 

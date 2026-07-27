@@ -61,9 +61,9 @@ void TestRTRMApp::onRender() {
 	m_sky.bind(0);
 	m_screen.draw();
 
-	m_blurPPC.execute(m_BHrt.color(), m_screen);
+	const GLTexture2D* outTex = &m_blurPPC.execute(m_BHrt.color(), m_screen);
 
-	m_inversePP.execute(m_blurPPC.output(), m_screen);
+	m_inversePP.execute(*outTex, m_screen);
 
 	m_lastShader.bind();
 	m_inversePP.output().bind(0);

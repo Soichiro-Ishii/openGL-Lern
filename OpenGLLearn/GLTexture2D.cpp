@@ -203,6 +203,8 @@ void GLTexture2D::unBind(GLuint textureId) const {
 void GLTexture2D::resize(int newWidth, int newHeight) {
 	if (newWidth == m_desc.width && newHeight == m_desc.height)
 		return;
+	if (newWidth <= 0 || newHeight <= 0)
+		return;
 	if (m_id == 0)
 		return;
 

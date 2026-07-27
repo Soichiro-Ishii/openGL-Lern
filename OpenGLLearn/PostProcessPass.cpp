@@ -17,9 +17,10 @@ PostProcessPass& PostProcessPass::operator=(PostProcessPass&& other) noexcept {
 	return *this;
 }
 
-void PostProcessPass::create(GLShader& shader, int width, int height, ColorTexSet cSet) {
+bool PostProcessPass::create(GLShader& shader, int width, int height, ColorTexSet cSet) {
 	m_shader = &shader;
-	m_rt.create(width, height, cSet);
+	bool result = m_rt.create(width, height, cSet);
+	return result;
 }
 
 void PostProcessPass::resize(int width, int height) {
@@ -27,9 +28,11 @@ void PostProcessPass::resize(int width, int height) {
 }
 
 void PostProcessPass::execute(const GLTexture2D& texture, const GLMesh& screen) {
+	glViewport(0, 0, m_rt.width(), m_rt.height());
 	m_rt.bind();
+	glClearDepth(1.0f);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_shader->bind();
 	texture.bind(0);
 	screen.draw();
