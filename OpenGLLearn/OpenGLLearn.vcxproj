@@ -190,6 +190,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PostProcessChain.cpp" />
+    <ClCompile Include="PostProcessPass.cpp" />
     <ClCompile Include="ProcMeshGenerator.cpp" />
     <ClCompile Include="TemplateApp.cpp" />
     <ClCompile Include="TestRTRMApp.cpp" />
@@ -214,6 +216,8 @@
     <ClInclude Include="GLTexture2D.h" />
     <ClInclude Include="OpenGLLearnApp.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PostProcessChain.h" />
+    <ClInclude Include="PostProcessPass.h" />
     <ClInclude Include="ProcMeshGenerator.h" />
     <ClInclude Include="TemplateApp.h" />
     <ClInclude Include="TestRTRMApp.h" />

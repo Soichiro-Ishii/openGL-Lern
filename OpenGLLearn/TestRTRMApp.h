@@ -5,6 +5,8 @@
 #include "GLUniformBuffer.h"
 #include"GLRenderTarget.h"
 #include "GLMesh.h"
+#include"PostProcessPass.h"
+#include"PostProcessChain.h"
 
 struct alignas(16) BlackHoleConstants
 {
@@ -25,7 +27,10 @@ private:
 	GLUniformBuffer	m_BHCUB;
 	BlackHoleConstants m_BHConsts;
 	GLRenderTarget m_BHrt;
-	GLRenderTarget m_blurRT[2];
+	PostProcessPass m_inversePP;
+	PostProcessPass m_blurPP[2];
+	PostProcessChain m_blurPPC;
+	GLShader m_inverseShader;
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

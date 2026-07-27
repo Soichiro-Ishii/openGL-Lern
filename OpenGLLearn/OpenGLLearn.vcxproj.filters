@@ -62,8 +62,16 @@
     <ClCompile Include="TestRTRMApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GLFrameBuffer.cpp" />
-    <ClCompile Include="GLRenderTarget.cpp" />
+    <ClCompile Include="PostProcessChain.cpp" />
+    <ClCompile Include="GLFrameBuffer.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="GLRenderTarget.cpp">
+      <Filter>GLHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessPass.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -143,8 +151,16 @@
     <ClInclude Include="TestRTRMApp.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GLFrameBuffer.h" />
-    <ClInclude Include="GLRenderTarget.h" />
+    <ClInclude Include="PostProcessChain.h" />
+    <ClInclude Include="GLFrameBuffer.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="GLRenderTarget.h">
+      <Filter>GLHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessPass.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">
