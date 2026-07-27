@@ -3,6 +3,7 @@
 #include "GLShader.h"
 #include "GLTexture2D.h"
 #include "GLUniformBuffer.h"
+#include"GLRenderTarget.h"
 #include "GLMesh.h"
 
 struct alignas(16) BlackHoleConstants
@@ -17,10 +18,12 @@ class TestRTRMApp :
 {
 private:
 	GLMesh m_screen;
-	GLShader m_shader;
+	GLShader m_RTRMshader;
+	GLShader m_postShader;
 	GLTexture2D m_sky;
 	GLUniformBuffer	m_BHCUB;
 	BlackHoleConstants m_BHConsts;
+	GLRenderTarget m_rt;
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

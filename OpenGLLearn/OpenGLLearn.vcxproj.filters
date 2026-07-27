@@ -62,6 +62,8 @@
     <ClCompile Include="TestRTRMApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="GLFrameBuffer.cpp" />
+    <ClCompile Include="GLRenderTarget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -141,6 +143,8 @@
     <ClInclude Include="TestRTRMApp.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GLFrameBuffer.h" />
+    <ClInclude Include="GLRenderTarget.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">
@@ -159,6 +163,9 @@
       <Filter>shader</Filter>
     </None>
     <None Include="assets\shaders\screenVS.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="assets\shaders\inverseFS.glsl">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

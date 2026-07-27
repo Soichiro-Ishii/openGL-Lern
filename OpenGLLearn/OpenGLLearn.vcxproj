@@ -168,7 +168,9 @@
     </ClCompile>
     <ClCompile Include="GLCompute.cpp" />
     <ClCompile Include="GLContext.cpp" />
+    <ClCompile Include="GLFrameBuffer.cpp" />
     <ClCompile Include="GLMesh.cpp" />
+    <ClCompile Include="GLRenderTarget.cpp" />
     <ClCompile Include="GLShader.cpp" />
     <ClCompile Include="GLShaderStorageBuffer.cpp" />
     <ClCompile Include="GLUniformBuffer.cpp" />
@@ -199,8 +201,10 @@
     <ClInclude Include="FPSLimiter.h" />
     <ClInclude Include="GLCompute.h" />
     <ClInclude Include="GLContext.h" />
+    <ClInclude Include="GLFrameBuffer.h" />
     <ClInclude Include="GLMesh.h" />
     <ClInclude Include="GLMeshData.h" />
+    <ClInclude Include="GLRenderTarget.h" />
     <ClInclude Include="GLShader.h" />
     <ClInclude Include="GLShaderStorageBuffer.h" />
     <ClInclude Include="GLUniformBuffer.h" />
@@ -219,6 +223,7 @@
     <None Include="assets\shaders\createWorldCS.glsl" />
     <None Include="assets\shaders\earthFS.glsl" />
     <None Include="assets\shaders\fs.glsl" />
+    <None Include="assets\shaders\inverseFS.glsl" />
     <None Include="assets\shaders\screenVS.glsl" />
     <None Include="assets\shaders\vs.glsl" />
   </ItemGroup>
