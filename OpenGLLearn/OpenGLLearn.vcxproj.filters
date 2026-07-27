@@ -168,5 +168,11 @@
     <None Include="assets\shaders\inverseFS.glsl">
       <Filter>shader</Filter>
     </None>
+    <None Include="assets\shaders\blurFS.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="assets\shaders\renderTexFS.glsl">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

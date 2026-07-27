@@ -90,6 +90,9 @@ void GLRenderTarget::resize(int newWidth, int newHeight) {
 	//テクスチャ側でreturnシてくれるが一応
 	if (newWidth == m_width && newHeight == m_height)
 		return;
+	//最小化モードのときは変えない
+	if (newWidth == 0 && newHeight == 0)
+		return;
 
 	m_colorTex.resize(newWidth, newHeight);
 	m_depthTex.resize(newWidth, newHeight);

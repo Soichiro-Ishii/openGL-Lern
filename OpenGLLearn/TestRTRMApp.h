@@ -19,11 +19,13 @@ class TestRTRMApp :
 private:
 	GLMesh m_screen;
 	GLShader m_RTRMshader;
-	GLShader m_postShader;
+	GLShader m_blurShader;
+	GLShader m_lastShader;
 	GLTexture2D m_sky;
 	GLUniformBuffer	m_BHCUB;
 	BlackHoleConstants m_BHConsts;
-	GLRenderTarget m_rt;
+	GLRenderTarget m_BHrt;
+	GLRenderTarget m_blurRT[2];
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

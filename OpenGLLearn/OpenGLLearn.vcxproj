@@ -220,10 +220,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl" />
+    <None Include="assets\shaders\blurFS.glsl" />
     <None Include="assets\shaders\createWorldCS.glsl" />
     <None Include="assets\shaders\earthFS.glsl" />
     <None Include="assets\shaders\fs.glsl" />
     <None Include="assets\shaders\inverseFS.glsl" />
+    <None Include="assets\shaders\renderTexFS.glsl" />
     <None Include="assets\shaders\screenVS.glsl" />
     <None Include="assets\shaders\vs.glsl" />
   </ItemGroup>
