@@ -7,6 +7,8 @@
 #include "GLMesh.h"
 #include"GLCompute.h"
 #include"Camera.h"
+#include"GLRenderTarget.h"
+#include"PostProcessChain.h"
 
 struct alignas(16) SceneConstants {
 	glm::mat4 view;
@@ -26,6 +28,8 @@ class OpenGLLearnApp final :
 {
 private:
 	GLShader m_shader;
+	GLShader m_blurShader;
+	GLShader m_lastShader;
 	GLMesh m_mesh;
 	GLUniformBuffer m_ubo1;
 	GLUniformBuffer m_ubo2;
@@ -40,6 +44,10 @@ private:
 	glm::vec3 m_pos;
 	glm::vec3 m_ang;
 	GLCompute m_compute;
+	GLRenderTarget m_normalRT;
+	PostProcessPass m_blurPP[2];
+	PostProcessChain m_blurPPC;
+	GLMesh m_screen;
 protected:
 	int onInit() override;
 	void onUpdate(float delta) override;

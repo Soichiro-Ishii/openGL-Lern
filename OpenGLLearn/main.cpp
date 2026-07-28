@@ -1,9 +1,9 @@
 #include "pch.h"
-#include"TestRTRMApp.h"
+#include"OpenGLLearnApp.h"
 
 
 int main() {
-	TestRTRMApp app;
+	OpenGLLearnApp app;
 	int result = app.run(1920, 1080, "openGLLearn", false);
 	return result;
 }

@@ -26,12 +26,18 @@ int OpenGLLearnApp::onInit() {
 	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFS.glsl");
 	if (!m_shader.valid()) return -1;
 
+	m_blurShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blurFS.glsl");
+	if (!m_blurShader.valid()) return -1;
+
+	m_lastShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\renderTexFS.glsl");
+	if (!m_lastShader.valid()) return -1;
 	GLuint numInstances = 1000;
 	//メッシュ
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createSphere(1.0f, 64, 32);
-	//meshData = ProcMeshGenerator::createScreen();
 	m_mesh.create(meshData, numInstances);
+	meshData = ProcMeshGenerator::createScreen();
+	m_screen.create(meshData);
 
 	//ubo
 	m_ubo1.create(nullptr, sizeof(SceneConstants), 0);
@@ -76,11 +82,20 @@ int OpenGLLearnApp::onInit() {
 	GLuint groutCountX = (static_cast<GLuint>(m_instanceData.size()) + localSizeX - 1) / localSizeX;
 	m_compute.load("assets\\shaders\\createWorldCS.glsl", groutCountX);
 	if (!m_compute.valid()) return -1;
+	ColorTexSet cSet = ColorTexSet::NORMAL;
+	m_normalRT.create(width(), height(), cSet);
+	for (auto& rt : m_blurPP)
+		rt.create(m_blurShader, width(), height(), cSet);
+	int blurRep = 3;
+	m_blurPPC.allocate(blurRep);
+	for (int i = 0; i < blurRep; i++) {
+		m_blurPPC.add(m_blurPP[i % 2]);
+	}
 	return 0;
 }
 void OpenGLLearnApp::onUpdate(float delta) {
-	//viewPortの設定
-	glViewport(0, 0, width(), height());
+	m_normalRT.resize(width(), height());
+	m_blurPPC.resize(width(), height());
 	//位置
 	float speed = 5.0f;
 	glm::vec3 velXZ = glm::vec3(0, 0, 0);
@@ -143,6 +158,10 @@ void OpenGLLearnApp::onUpdate(float delta) {
 	//m_ssbo.update(m_instanceData.data(), m_instanceData.size() * sizeof(InstanceData), 0);
 }
 void OpenGLLearnApp::onRender() {
+	m_normalRT.bind();
+	glViewport(0, 0, m_normalRT.width(), m_normalRT.height());
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	//画面クリア色設定&深度クリアの値設定
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	//画面クリア
@@ -156,6 +175,18 @@ void OpenGLLearnApp::onRender() {
 	m_texture4.bind(3);
 	//メッシュ描画
 	m_mesh.draw();
+	m_normalRT.unbind();
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
+	const GLTexture2D* res = &m_blurPPC.execute(m_normalRT.color(), m_screen);
+
+	glViewport(0, 0, width(), height());
+
+	m_lastShader.bind();
+	res->bind(0);
+	m_screen.draw();
 }
 void OpenGLLearnApp::onShutdown() {
 	spdlog::info("Application shutdown");
