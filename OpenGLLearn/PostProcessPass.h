@@ -26,5 +26,8 @@ public:
 	[[nodiscard]] const GLTexture2D& output() const {
 		return m_rt.color();
 	}
+	[[nodiscard]] const GLShader& shader() const {
+		return *m_shader;
+	}
 };
 
