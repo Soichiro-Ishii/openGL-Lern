@@ -62,7 +62,6 @@
     <ClCompile Include="TestRTRMApp.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="PostProcessChain.cpp" />
     <ClCompile Include="GLFrameBuffer.cpp">
       <Filter>GLHelper</Filter>
     </ClCompile>
@@ -70,6 +69,9 @@
       <Filter>GLHelper</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessPass.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcessChain.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -151,7 +153,6 @@
     <ClInclude Include="TestRTRMApp.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="PostProcessChain.h" />
     <ClInclude Include="GLFrameBuffer.h">
       <Filter>GLHelper</Filter>
     </ClInclude>
@@ -159,6 +160,9 @@
       <Filter>GLHelper</Filter>
     </ClInclude>
     <ClInclude Include="PostProcessPass.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcessChain.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,15 +47,24 @@ int OpenGLLearnApp::onInit() {
 	m_ssbo.create(nullptr, m_instanceData.size() * sizeof(InstanceData), 0);
 
 	//テクスチャ
-	std::string texPath1 = "assets\\data\\texture\\8k_earth_daymap.jpg";
-	std::string texPath2 = "assets\\data\\texture\\8k_earth_nightmap.jpg";
-	std::string texPath3 = "assets\\data\\texture\\8k_earth_normal_map.png";
-	std::string texPath4 = "assets\\data\\texture\\8k_earth_specular_map.png";
+	std::string daytexPath = "assets\\data\\texture\\8k_earth_daymap.jpg";
+	std::string nightTexPath = "assets\\data\\texture\\8k_earth_nightmap.jpg";
+	std::string normalTexPath = "assets\\data\\texture\\8k_earth_normal_map.png";
+	std::string specTexPath = "assets\\data\\texture\\8k_earth_specular_map.png";
 	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT };
-	if (!m_texture1.load(texPath1, set)) return -1;
-	if (!m_texture2.load(texPath2, set)) return -1;
-	if (!m_texture3.load(texPath3, set)) return -1;
-	if (!m_texture4.load(texPath4, set)) return -1;
+	TEXTURE2DDESC linerDesc;
+	TEXTURE2DDESC sRGBDesc;
+	linerDesc.set = set;
+	linerDesc.format = GL_RGBA;
+	linerDesc.type = GL_UNSIGNED_BYTE;
+	//共通部分はコピー
+	sRGBDesc = linerDesc;
+	linerDesc.internalFormat = GL_RGBA8;
+	sRGBDesc.internalFormat = GL_SRGB8_ALPHA8;
+	if (!m_texture1.load(daytexPath, sRGBDesc)) return -1;
+	if (!m_texture2.load(nightTexPath, sRGBDesc)) return -1;
+	if (!m_texture3.load(normalTexPath, linerDesc)) return -1;
+	if (!m_texture4.load(specTexPath, linerDesc)) return -1;
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -82,10 +91,9 @@ int OpenGLLearnApp::onInit() {
 	GLuint groutCountX = (static_cast<GLuint>(m_instanceData.size()) + localSizeX - 1) / localSizeX;
 	m_compute.load("assets\\shaders\\createWorldCS.glsl", groutCountX);
 	if (!m_compute.valid()) return -1;
-	ColorTexSet cSet = ColorTexSet::NORMAL;
-	m_normalRT.create(width(), height(), cSet);
+	m_normalRT.create(width(), height(), ColorTexSet::HDR);
 	for (auto& rt : m_blurPP)
-		rt.create(m_blurShader, width(), height(), cSet);
+		rt.create(m_blurShader, width(), height(), ColorTexSet::NORMAL);
 	int blurRep = 3;
 	m_blurPPC.allocate(blurRep);
 	for (int i = 0; i < blurRep; i++) {
@@ -180,13 +188,19 @@ void OpenGLLearnApp::onRender() {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 
-	const GLTexture2D* res = &m_blurPPC.execute(m_normalRT.color(), m_screen);
-
 	glViewport(0, 0, width(), height());
 
 	m_lastShader.bind();
-	res->bind(0);
+	m_normalRT.color().bind(0);
 	m_screen.draw();
+	//テストとしてブラーは切る
+	//const GLTexture2D* res = &m_blurPPC.execute(m_normalRT.color(), m_screen);
+
+	//glViewport(0, 0, width(), height());
+
+	//m_lastShader.bind();
+	//res->bind(0);
+	//m_screen.draw();
 }
 void OpenGLLearnApp::onShutdown() {
 	spdlog::info("Application shutdown");

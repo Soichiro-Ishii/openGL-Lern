@@ -41,6 +41,8 @@ int GLContext::create(int width, int height, std::string windowName, bool fullSc
 		GLFW_OPENGL_CORE_PROFILE);
 	//デバッグ出力有効
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+	//sRGB
+	glfwWindowHint(GLFW_SRGB_CAPABLE, GLFW_TRUE);
 	//ウィンドウ作成
 	if (fullScreen) {
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor();

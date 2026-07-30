@@ -33,7 +33,7 @@ int TestRTRMApp::onInit() {
 	m_BHrt.create(width(), height(), cSet);
 	for (auto& rt : m_blurPP)
 		rt.create(m_blurShader, width(), height(), cSet);
-	int blurRep = 10;
+	int blurRep = 5;
 	m_blurPPC.allocate(blurRep);
 	for (int i = 0; i < blurRep; i++) {
 		m_blurPPC.add(m_blurPP[i % 2]);
@@ -66,6 +66,7 @@ void TestRTRMApp::onRender() {
 	m_inversePP.execute(*outTex, m_screen);
 
 	m_lastShader.bind();
+	outTex->bind(0);
 	m_inversePP.output().bind(0);
 	m_screen.draw();
 }

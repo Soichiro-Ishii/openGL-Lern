@@ -42,6 +42,7 @@ public:
 	GLTexture2D& operator=(GLTexture2D&& other) noexcept;
 
 	bool load(std::string& texPath, TEXTURE2DSETTING set);
+	bool load(std::string& texPath, TEXTURE2DDESC& desc);
 	void create(TEXTURE2DDESC& desc);
 	void bind(GLuint textureUnit) const;
 	void unBind(GLuint textureUnit) const;

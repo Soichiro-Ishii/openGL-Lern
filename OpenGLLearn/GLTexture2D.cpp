@@ -127,6 +127,102 @@ bool GLTexture2D::load(std::string& texPath, TEXTURE2DSETTING set) {
 	return true;
 }
 
+bool GLTexture2D::load(std::string& texPath, TEXTURE2DDESC& desc) {
+	release();
+	m_desc = desc;
+	int originalChannels = 0;
+
+	unsigned char* data = stbi_load(
+		texPath.c_str(),
+		&m_desc.width,
+		&m_desc.height,
+		&originalChannels,
+		4
+	);
+
+	if (!data) {
+		spdlog::error(
+			"Failed to load texture\n"
+			"Reason: {}\n"
+			"Relative path: {}\n"
+			"Absolute path: {}",
+			stbi_failure_reason(),
+			texPath,
+			std::filesystem::absolute(texPath).string()
+		);
+
+		m_desc.width = 0;
+		m_desc.height = 0;
+		return false;
+	}
+	//テクスチャ作成
+	glGenTextures(1, &m_id);
+	//バインド
+	glBindTexture(GL_TEXTURE_2D, m_id);
+	//書き込み
+	glTexImage2D(
+		GL_TEXTURE_2D,	//2D
+		0,				//ミニマップレベル
+		m_desc.internalFormat,		//形式
+		m_desc.width,		//幅
+		m_desc.height,		//高さ
+		0,				//常に0
+		m_desc.format,		//並び
+		m_desc.type,//型
+		data
+	);
+
+	//フィルター設定
+	GLuint filter;
+	if (desc.set.filter == TEXTURE2DFILTER::NEAREST)
+		filter = GL_NEAREST;
+	else
+		filter = GL_LINEAR;
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_MIN_FILTER,
+		filter
+	);
+
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_MAG_FILTER,
+		filter
+	);
+	//uv範囲外設定
+	GLuint wrap;
+	if (desc.set.wrap == TEXTURE2DWRAP::REPEAT)
+		wrap = GL_REPEAT;
+	else if (desc.set.wrap == TEXTURE2DWRAP::CLAMP_TO_EDGE)
+		wrap = GL_CLAMP_TO_EDGE;
+	else
+		wrap = GL_MIRRORED_REPEAT;
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_S,
+		wrap
+	);
+	glTexParameteri(
+		GL_TEXTURE_2D,
+		GL_TEXTURE_WRAP_T,
+		wrap
+	);
+	//バインド解除
+	glBindTexture(GL_TEXTURE_2D, 0);
+	stbi_image_free(data);
+
+	spdlog::info(
+		"Texture loaded: {} ({}x{}, channels={})",
+		texPath,
+		m_desc.width,
+		m_desc.height,
+		originalChannels
+	);
+
+	return true;
+}
+
+
 void GLTexture2D::create(TEXTURE2DDESC& desc) {
 	release();
 	m_desc = desc;

@@ -13,6 +13,8 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		onShutdown();
 		return -1;
 	}
+	//sRGB
+	glEnable(GL_FRAMEBUFFER_SRGB);
 	//delta平均取る用配列
 	std::vector<float> deltas;
 	size_t deltaIdx = 0;
