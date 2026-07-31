@@ -29,10 +29,13 @@ void PostProcessChain::resize(int width, int height) {
 const GLTexture2D& PostProcessChain::execute(const GLTexture2D& texture, const GLMesh& screen) {
 	//やりたい事的に参照ではなくポインタ使う
 	const GLTexture2D* current = &texture;
+	unsigned int procCount = 0;
 	for (auto& rt : m_passes) {
+		rt->shader().setUniformUInt("procCount", procCount);
 		rt->execute(*current, screen);
 		//出力されたテクスチャを次に渡すテクスチャとする
 		current = &rt->output();
+		procCount++;
 	}
 	return *current;
 }

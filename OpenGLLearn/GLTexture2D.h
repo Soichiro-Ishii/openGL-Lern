@@ -11,9 +11,14 @@ enum class TEXTURE2DWRAP {
 	CLAMP_TO_EDGE,
 	MIRRORED_REPEAT
 };
+enum class COLOR_SPACE {
+	RGB,
+	SRGB
+};
 struct TEXTURE2DSETTING {
 	TEXTURE2DFILTER filter = TEXTURE2DFILTER::NEAREST;
 	TEXTURE2DWRAP wrap = TEXTURE2DWRAP::REPEAT;
+	COLOR_SPACE colorSpace = COLOR_SPACE::RGB;			//load関数以外では無視される
 };
 
 struct TEXTURE2DDESC {
@@ -41,9 +46,10 @@ public:
 	GLTexture2D(GLTexture2D&& other) noexcept;
 	GLTexture2D& operator=(GLTexture2D&& other) noexcept;
 
+	bool loadHDR(std::string& texPath, TEXTURE2DDESC& desc);
+	bool loadNORMAL(std::string& texPath, TEXTURE2DDESC& desc);
 	bool load(std::string& texPath, TEXTURE2DSETTING set);
-	bool load(std::string& texPath, TEXTURE2DDESC& desc);
-	void create(TEXTURE2DDESC& desc);
+	void create(TEXTURE2DDESC& desc, void* data = nullptr);
 	void bind(GLuint textureUnit) const;
 	void unBind(GLuint textureUnit) const;
 

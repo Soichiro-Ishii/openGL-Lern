@@ -2,6 +2,7 @@
 #include "GLTexture2D.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
+#include"path.h"
 
 GLTexture2D::GLTexture2D(std::string texPath, TEXTURE2DSETTING set) {
 	load(texPath, set);
@@ -28,202 +29,104 @@ GLTexture2D& GLTexture2D::operator=(GLTexture2D&& other) noexcept {
 	return *this;
 }
 
+bool GLTexture2D::loadHDR(std::string& texPath, TEXTURE2DDESC& desc) {
+	int originalChannels = 0;
+
+	float* data = stbi_loadf(
+		texPath.c_str(),
+		&desc.width,
+		&desc.height,
+		&originalChannels,
+		4
+	);
+
+	if (!data) {
+		spdlog::error(
+			"Failed to load texture\n"
+			"Reason: {}\n"
+			"Relative path: {}\n"
+			"Absolute path: {}",
+			stbi_failure_reason(),
+			texPath,
+			std::filesystem::absolute(texPath).string()
+		);
+
+		return false;
+	}
+	spdlog::info(
+		"Texture loaded: {} ({}x{}, channels={})",
+		texPath,
+		desc.width,
+		desc.height,
+		originalChannels
+	);
+
+	create(desc, data);
+
+	stbi_image_free(data);
+
+	return true;
+}
+bool GLTexture2D::loadNORMAL(std::string& texPath, TEXTURE2DDESC& desc) {
+	int originalChannels = 0;
+
+	unsigned char* data = stbi_load(
+		texPath.c_str(),
+		&desc.width,
+		&desc.height,
+		&originalChannels,
+		4
+	);
+
+	if (!data) {
+		spdlog::error(
+			"Failed to load texture\n"
+			"Reason: {}\n"
+			"Relative path: {}\n"
+			"Absolute path: {}",
+			stbi_failure_reason(),
+			texPath,
+			std::filesystem::absolute(texPath).string()
+		);
+
+		return false;
+	}
+	spdlog::info(
+		"Texture loaded: {} ({}x{}, channels={})",
+		texPath,
+		desc.width,
+		desc.height,
+		originalChannels
+	);
+
+	create(desc, data);
+
+	stbi_image_free(data);
+
+	return true;
+}
+
 bool GLTexture2D::load(std::string& texPath, TEXTURE2DSETTING set) {
-	release();
-
-	int originalChannels = 0;
-
-	unsigned char* data = stbi_load(
-		texPath.c_str(),
-		&m_desc.width,
-		&m_desc.height,
-		&originalChannels,
-		4
-	);
-
-	if (!data) {
-		spdlog::error(
-			"Failed to load texture\n"
-			"Reason: {}\n"
-			"Relative path: {}\n"
-			"Absolute path: {}",
-			stbi_failure_reason(),
-			texPath,
-			std::filesystem::absolute(texPath).string()
-		);
-
-		m_desc.width = 0;
-		m_desc.height = 0;
-		return false;
+	std::string ext = splitFileAndExt(texPath).second;
+	TEXTURE2DDESC desc;
+	desc.set = set;
+	if (ext == "hdr" || ext == "HDR") {
+		desc.internalFormat = GL_RGBA16F;	//hdrのときはsRGB関係ないから変えない
+		desc.format = GL_RGBA;
+		desc.type = GL_FLOAT;
+		return loadHDR(texPath, desc);
 	}
-	//テクスチャ作成
-	glGenTextures(1, &m_id);
-	//バインド
-	glBindTexture(GL_TEXTURE_2D, m_id);
-	//書き込み
-	glTexImage2D(
-		GL_TEXTURE_2D,	//2D
-		0,				//ミニマップレベル
-		GL_RGBA8,		//形式
-		m_desc.width,		//幅
-		m_desc.height,		//高さ
-		0,				//常に0
-		GL_RGBA,		//並び
-		GL_UNSIGNED_BYTE,//型
-		data
-	);
-	m_desc.internalFormat = GL_RGBA8;
-	m_desc.format = GL_RGBA;
-	m_desc.type = GL_UNSIGNED_BYTE;
-
-	//フィルター設定
-	GLuint filter;
-	if (set.filter == TEXTURE2DFILTER::NEAREST)
-		filter = GL_NEAREST;
+	//それ以外
+	if (set.colorSpace == COLOR_SPACE::RGB)
+		desc.internalFormat = GL_RGBA8;
 	else
-		filter = GL_LINEAR;
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MIN_FILTER,
-		filter
-	);
-
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MAG_FILTER,
-		filter
-	);
-	//uv範囲外設定
-	GLuint wrap;
-	if (set.wrap == TEXTURE2DWRAP::REPEAT)
-		wrap = GL_REPEAT;
-	else if (set.wrap == TEXTURE2DWRAP::CLAMP_TO_EDGE)
-		wrap = GL_CLAMP_TO_EDGE;
-	else
-		wrap = GL_MIRRORED_REPEAT;
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_S,
-		wrap
-	);
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_T,
-		wrap
-	);
-	m_desc.set = set;
-	//バインド解除
-	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(data);
-
-	spdlog::info(
-		"Texture loaded: {} ({}x{}, channels={})",
-		texPath,
-		m_desc.width,
-		m_desc.height,
-		originalChannels
-	);
-
-	return true;
+		desc.internalFormat = GL_SRGB8_ALPHA8;
+	desc.format = GL_RGBA;
+	desc.type = GL_UNSIGNED_BYTE;
+	return loadNORMAL(texPath, desc);
 }
 
-bool GLTexture2D::load(std::string& texPath, TEXTURE2DDESC& desc) {
-	release();
-	m_desc = desc;
-	int originalChannels = 0;
-
-	unsigned char* data = stbi_load(
-		texPath.c_str(),
-		&m_desc.width,
-		&m_desc.height,
-		&originalChannels,
-		4
-	);
-
-	if (!data) {
-		spdlog::error(
-			"Failed to load texture\n"
-			"Reason: {}\n"
-			"Relative path: {}\n"
-			"Absolute path: {}",
-			stbi_failure_reason(),
-			texPath,
-			std::filesystem::absolute(texPath).string()
-		);
-
-		m_desc.width = 0;
-		m_desc.height = 0;
-		return false;
-	}
-	//テクスチャ作成
-	glGenTextures(1, &m_id);
-	//バインド
-	glBindTexture(GL_TEXTURE_2D, m_id);
-	//書き込み
-	glTexImage2D(
-		GL_TEXTURE_2D,	//2D
-		0,				//ミニマップレベル
-		m_desc.internalFormat,		//形式
-		m_desc.width,		//幅
-		m_desc.height,		//高さ
-		0,				//常に0
-		m_desc.format,		//並び
-		m_desc.type,//型
-		data
-	);
-
-	//フィルター設定
-	GLuint filter;
-	if (desc.set.filter == TEXTURE2DFILTER::NEAREST)
-		filter = GL_NEAREST;
-	else
-		filter = GL_LINEAR;
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MIN_FILTER,
-		filter
-	);
-
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_MAG_FILTER,
-		filter
-	);
-	//uv範囲外設定
-	GLuint wrap;
-	if (desc.set.wrap == TEXTURE2DWRAP::REPEAT)
-		wrap = GL_REPEAT;
-	else if (desc.set.wrap == TEXTURE2DWRAP::CLAMP_TO_EDGE)
-		wrap = GL_CLAMP_TO_EDGE;
-	else
-		wrap = GL_MIRRORED_REPEAT;
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_S,
-		wrap
-	);
-	glTexParameteri(
-		GL_TEXTURE_2D,
-		GL_TEXTURE_WRAP_T,
-		wrap
-	);
-	//バインド解除
-	glBindTexture(GL_TEXTURE_2D, 0);
-	stbi_image_free(data);
-
-	spdlog::info(
-		"Texture loaded: {} ({}x{}, channels={})",
-		texPath,
-		m_desc.width,
-		m_desc.height,
-		originalChannels
-	);
-
-	return true;
-}
-
-
-void GLTexture2D::create(TEXTURE2DDESC& desc) {
+void GLTexture2D::create(TEXTURE2DDESC& desc, void* data) {
 	release();
 	m_desc = desc;
 	//テクスチャ作成
@@ -240,7 +143,7 @@ void GLTexture2D::create(TEXTURE2DDESC& desc) {
 		0,				//常に0
 		m_desc.format,		//並び
 		m_desc.type,//型
-		nullptr
+		data
 	);
 	//フィルター設定
 	GLuint filter;

@@ -74,6 +74,7 @@
     <ClCompile Include="PostProcessChain.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -165,6 +166,7 @@
     <ClInclude Include="PostProcessChain.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="path.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\fs.glsl">

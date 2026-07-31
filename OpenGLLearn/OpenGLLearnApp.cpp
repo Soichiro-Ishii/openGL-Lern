@@ -51,20 +51,12 @@ int OpenGLLearnApp::onInit() {
 	std::string nightTexPath = "assets\\data\\texture\\8k_earth_nightmap.jpg";
 	std::string normalTexPath = "assets\\data\\texture\\8k_earth_normal_map.png";
 	std::string specTexPath = "assets\\data\\texture\\8k_earth_specular_map.png";
-	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT };
-	TEXTURE2DDESC linerDesc;
-	TEXTURE2DDESC sRGBDesc;
-	linerDesc.set = set;
-	linerDesc.format = GL_RGBA;
-	linerDesc.type = GL_UNSIGNED_BYTE;
-	//共通部分はコピー
-	sRGBDesc = linerDesc;
-	linerDesc.internalFormat = GL_RGBA8;
-	sRGBDesc.internalFormat = GL_SRGB8_ALPHA8;
-	if (!m_texture1.load(daytexPath, sRGBDesc)) return -1;
-	if (!m_texture2.load(nightTexPath, sRGBDesc)) return -1;
-	if (!m_texture3.load(normalTexPath, linerDesc)) return -1;
-	if (!m_texture4.load(specTexPath, linerDesc)) return -1;
+	TEXTURE2DSETTING linerSet = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT, COLOR_SPACE::RGB };
+	TEXTURE2DSETTING sRGBSet = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT, COLOR_SPACE::SRGB };
+	if (!m_texture1.load(daytexPath, sRGBSet)) return -1;
+	if (!m_texture2.load(nightTexPath, sRGBSet)) return -1;
+	if (!m_texture3.load(normalTexPath, linerSet)) return -1;
+	if (!m_texture4.load(specTexPath, linerSet)) return -1;
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);

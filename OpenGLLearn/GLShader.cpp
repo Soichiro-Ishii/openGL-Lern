@@ -85,6 +85,44 @@ void GLShader::bind() const {
 	glUseProgram(m_id);
 }
 
+GLint GLShader::getUniformLocation(std::string name) const {
+	auto it = m_locations.find(name);
+
+	if (it != m_locations.end())
+		return it->second;
+
+	GLint loc = glGetUniformLocation(m_id, name.c_str());
+	m_locations[name] = loc;
+	return loc;
+}
+
+void GLShader::setUniformFloat(std::string name, float val) const {
+	glProgramUniform1f(m_id, getUniformLocation(name), val);
+}
+void GLShader::setUniformInt(std::string name, int val) const {
+	glProgramUniform1i(m_id, getUniformLocation(name), val);
+}
+void GLShader::setUniformUInt(std::string name, unsigned int val) const {
+	glProgramUniform1ui(m_id, getUniformLocation(name), val);
+}
+
+void GLShader::setUniformVec2(std::string name, const glm::vec2& vec) const {
+	glProgramUniform2fv(m_id, getUniformLocation(name), 1, &vec.x);
+}
+void GLShader::setUniformVec3(std::string name, const glm::vec3& vec) const {
+	glProgramUniform3fv(m_id, getUniformLocation(name), 1, &vec.x);
+}
+void GLShader::setUniformVec4(std::string name, const glm::vec4& vec) const {
+	glProgramUniform4fv(m_id, getUniformLocation(name), 1, &vec.x);
+}
+
+void GLShader::setUniformMat3(std::string name, const glm::mat3& mat) const {
+	glProgramUniformMatrix3fv(m_id, getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+}
+void GLShader::setUniformMat4(std::string name, const glm::mat4& mat) const {
+	glProgramUniformMatrix4fv(m_id, getUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
+}
+
 GLShader::GLShader(GLShader&& other) noexcept {
 	release();
 	m_id = std::exchange(other.m_id, 0);

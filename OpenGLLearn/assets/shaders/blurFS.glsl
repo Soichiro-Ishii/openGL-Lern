@@ -5,25 +5,32 @@ layout(binding = 0) uniform sampler2D uTex;
 
 layout(location = 0) out vec4 outColor;
 
+uniform uint procCount;
+
 void main()
 {
     vec2 texelSize = 1.0 / vec2(textureSize(uTex, 0));
 
-    vec3 color = vec3(0.0);
+    float weights[5] = float[](
+        0.227027,
+        0.1945946,
+        0.1216216,
+        0.054054,
+        0.016216
+    );
 
-    color += texture(uTex, vUV + texelSize * vec2(-1.0, -1.0)).rgb;
-    color += texture(uTex, vUV + texelSize * vec2( 0.0, -1.0)).rgb;
-    color += texture(uTex, vUV + texelSize * vec2( 1.0, -1.0)).rgb;
 
-    color += texture(uTex, vUV + texelSize * vec2(-1.0,  0.0)).rgb;
-    color += texture(uTex, vUV).rgb;
-    color += texture(uTex, vUV + texelSize * vec2( 1.0,  0.0)).rgb;
+    vec3 color = texture(uTex,vUV).rgb * weights[0];
+    vec2 offset;
+    if(procCount % 2 == 0)
+        offset = vec2(texelSize.x,0.0);
+    else
+        offset = vec2(0.0,texelSize.y);
 
-    color += texture(uTex, vUV + texelSize * vec2(-1.0,  1.0)).rgb;
-    color += texture(uTex, vUV + texelSize * vec2( 0.0,  1.0)).rgb;
-    color += texture(uTex, vUV + texelSize * vec2( 1.0,  1.0)).rgb;
-
-    color /= 9.0;
+    for(int i = 1;i<5;i++){
+        color += texture(uTex,vUV + offset * i).rgb * weights[i];
+        color += texture(uTex,vUV - offset * i).rgb * weights[i];
+    }
 
     outColor = vec4(color, 1.0);
 }

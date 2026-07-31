@@ -20,8 +20,9 @@ int TestRTRMApp::onInit() {
 	if (!m_inverseShader.valid()) return -1;
 
 
-	std::string texPath1 = "assets\\data\\texture\\starmap_2020_8k2.png";
-	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT };
+	std::string texPath1 = "assets\\data\\texture\\milkyway_2020_8k.hdr";
+	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT,COLOR_SPACE::SRGB };
+
 	if (!m_sky.load(texPath1, set)) return -1;
 
 	m_BHConsts.resolution.x = widthf();
@@ -29,11 +30,11 @@ int TestRTRMApp::onInit() {
 	m_BHConsts.time = 0.0f;
 	m_BHCUB.create(nullptr, sizeof(BlackHoleConstants), 0);
 
-	ColorTexSet cSet = ColorTexSet::NORMAL;
-	m_BHrt.create(width(), height(), cSet);
+	ColorTexSet cSet = ColorTexSet::HDR;
+	m_BHrt.create(width() * 2, height() * 2, cSet);
 	for (auto& rt : m_blurPP)
-		rt.create(m_blurShader, width(), height(), cSet);
-	int blurRep = 5;
+		rt.create(m_blurShader, width() * 2, height() * 2, cSet);
+	int blurRep = 2;
 	m_blurPPC.allocate(blurRep);
 	for (int i = 0; i < blurRep; i++) {
 		m_blurPPC.add(m_blurPP[i % 2]);
@@ -43,31 +44,30 @@ int TestRTRMApp::onInit() {
 	return 0;
 }
 void TestRTRMApp::onUpdate(float delta) {
-	//viewPortの設定
-	glViewport(0, 0, width(), height());
-	m_BHrt.resize(width(), height());
-	m_blurPPC.resize(width(), height());
+	m_BHrt.resize(width() * 2, height() * 2);
+	m_blurPPC.resize(width() * 2, height() * 2);
 	m_inversePP.resize(width(), height());
 	m_BHConsts.time += delta;
-	m_BHConsts.resolution.x = widthf();
-	m_BHConsts.resolution.y = heightf();
+	m_BHConsts.resolution.x = widthf() * 2;
+	m_BHConsts.resolution.y = heightf() * 2;
 	m_BHCUB.update(&m_BHConsts, sizeof(BlackHoleConstants), 0);
 }
 void TestRTRMApp::onRender() {
+	glViewport(0, 0, width() * 2, height() * 2);
 	m_BHrt.bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	m_RTRMshader.bind();
 	m_sky.bind(0);
 	m_screen.draw();
+	m_BHrt.unbind();
 
 	const GLTexture2D* outTex = &m_blurPPC.execute(m_BHrt.color(), m_screen);
 
-	m_inversePP.execute(*outTex, m_screen);
-
+	//m_inversePP.execute(*outTex, m_screen);
+	glViewport(0, 0, width(), height());
 	m_lastShader.bind();
 	outTex->bind(0);
-	m_inversePP.output().bind(0);
 	m_screen.draw();
 }
 void TestRTRMApp::onShutdown() {
