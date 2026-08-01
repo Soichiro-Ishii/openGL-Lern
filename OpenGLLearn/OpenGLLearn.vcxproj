@@ -78,6 +78,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,6 +97,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,7 +114,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -136,7 +138,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -156,83 +158,83 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="BlackHoleStage.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CHRONO.cpp">
+    <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Stages\BlackHoleStage.cpp" />
+    <ClCompile Include="Core\Camera.cpp" />
+    <ClCompile Include="Core\CHRONO.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="EarthStage.cpp" />
-    <ClCompile Include="FPSLimiter.cpp">
+    <ClCompile Include="Stages\EarthStage.cpp" />
+    <ClCompile Include="Core\FPSLimiter.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GLCompute.cpp" />
-    <ClCompile Include="GLContext.cpp" />
-    <ClCompile Include="GLFrameBuffer.cpp" />
-    <ClCompile Include="GLMesh.cpp" />
-    <ClCompile Include="GLRenderTarget.cpp" />
-    <ClCompile Include="GLShader.cpp" />
-    <ClCompile Include="GLShaderStorageBuffer.cpp" />
-    <ClCompile Include="GLUniformBuffer.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LoadBinaryFile.cpp">
+    <ClCompile Include="Graphics\OpenGL\GLCompute.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLContext.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLFrameBuffer.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLMesh.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLRenderTarget.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLShader.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLShaderStorageBuffer.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLUniformBuffer.cpp" />
+    <ClCompile Include="Core\Input.cpp" />
+    <ClCompile Include="Utils\LoadBinaryFile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="LoadStringFile.cpp">
+    <ClCompile Include="Utils\LoadStringFile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="GLTexture2D.cpp" />
-    <ClCompile Include="OpenGLLearnApp.cpp" />
-    <ClCompile Include="path.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLTexture2D.cpp" />
+    <ClCompile Include="Apps\OpenGLLearnApp.cpp" />
+    <ClCompile Include="Utils\path.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PostProcessChain.cpp" />
-    <ClCompile Include="PostProcessPass.cpp" />
-    <ClCompile Include="ProcMeshGenerator.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="StageManager.cpp" />
-    <ClCompile Include="TemplateApp.cpp" />
-    <ClCompile Include="TestRTRMApp.cpp" />
-    <ClCompile Include="TmpStage.cpp" />
+    <ClCompile Include="Graphics\PostProcessChain.cpp" />
+    <ClCompile Include="Graphics\PostProcessPass.cpp" />
+    <ClCompile Include="Graphics\ProcMeshGenerator.cpp" />
+    <ClCompile Include="Stages\Stage.cpp" />
+    <ClCompile Include="Stages\StageManager.cpp" />
+    <ClCompile Include="Apps\TemplateApp.cpp" />
+    <ClCompile Include="Apps\TestRTRMApp.cpp" />
+    <ClCompile Include="Stages\TmpStage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="BlackHoleStage.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CHRONO.h" />
-    <ClInclude Include="EarthStage.h" />
-    <ClInclude Include="FPSLimiter.h" />
-    <ClInclude Include="GLCompute.h" />
-    <ClInclude Include="GLContext.h" />
-    <ClInclude Include="GLFrameBuffer.h" />
-    <ClInclude Include="GLMesh.h" />
-    <ClInclude Include="GLMeshData.h" />
-    <ClInclude Include="GLRenderTarget.h" />
-    <ClInclude Include="GLShader.h" />
-    <ClInclude Include="GLShaderStorageBuffer.h" />
-    <ClInclude Include="GLUniformBuffer.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="LoadBinaryFile.h" />
-    <ClInclude Include="LoadStringFile.h" />
-    <ClInclude Include="GLTexture2D.h" />
-    <ClInclude Include="OpenGLLearnApp.h" />
-    <ClInclude Include="path.h" />
+    <ClInclude Include="Core\Application.h" />
+    <ClInclude Include="Stages\BlackHoleStage.h" />
+    <ClInclude Include="Core\Camera.h" />
+    <ClInclude Include="Core\CHRONO.h" />
+    <ClInclude Include="Stages\EarthStage.h" />
+    <ClInclude Include="Core\FPSLimiter.h" />
+    <ClInclude Include="Graphics\OpenGL\GLCompute.h" />
+    <ClInclude Include="Graphics\OpenGL\GLContext.h" />
+    <ClInclude Include="Graphics\OpenGL\GLFrameBuffer.h" />
+    <ClInclude Include="Graphics\OpenGL\GLMesh.h" />
+    <ClInclude Include="Graphics\OpenGL\GLMeshData.h" />
+    <ClInclude Include="Graphics\OpenGL\GLRenderTarget.h" />
+    <ClInclude Include="Graphics\OpenGL\GLShader.h" />
+    <ClInclude Include="Graphics\OpenGL\GLShaderStorageBuffer.h" />
+    <ClInclude Include="Graphics\OpenGL\GLUniformBuffer.h" />
+    <ClInclude Include="Core\Input.h" />
+    <ClInclude Include="Utils\LoadBinaryFile.h" />
+    <ClInclude Include="Utils\LoadStringFile.h" />
+    <ClInclude Include="Graphics\OpenGL\GLTexture2D.h" />
+    <ClInclude Include="Apps\OpenGLLearnApp.h" />
+    <ClInclude Include="Utils\path.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PostProcessChain.h" />
-    <ClInclude Include="PostProcessPass.h" />
-    <ClInclude Include="ProcMeshGenerator.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="StageManager.h" />
-    <ClInclude Include="TemplateApp.h" />
-    <ClInclude Include="TestRTRMApp.h" />
-    <ClInclude Include="TmpStage.h" />
+    <ClInclude Include="Graphics\PostProcessChain.h" />
+    <ClInclude Include="Graphics\PostProcessPass.h" />
+    <ClInclude Include="Graphics\ProcMeshGenerator.h" />
+    <ClInclude Include="Stages\Stage.h" />
+    <ClInclude Include="Stages\StageManager.h" />
+    <ClInclude Include="Apps\TemplateApp.h" />
+    <ClInclude Include="Apps\TestRTRMApp.h" />
+    <ClInclude Include="Stages\TmpStage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl" />
