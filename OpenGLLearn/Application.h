@@ -22,6 +22,7 @@ protected:
 	virtual void onUpdate(float delta) = 0;
 	virtual void onRender() = 0;
 	virtual void onShutdown() = 0;
+public:
 	[[nodiscard]] GLFWwindow* window() const {
 		return m_context.window();
 	}

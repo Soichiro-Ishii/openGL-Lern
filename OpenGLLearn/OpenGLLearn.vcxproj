@@ -157,11 +157,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BlackHoleStage.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CHRONO.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="EarthStage.cpp" />
     <ClCompile Include="FPSLimiter.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -194,13 +196,18 @@
     <ClCompile Include="PostProcessChain.cpp" />
     <ClCompile Include="PostProcessPass.cpp" />
     <ClCompile Include="ProcMeshGenerator.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="TemplateApp.cpp" />
     <ClCompile Include="TestRTRMApp.cpp" />
+    <ClCompile Include="TmpStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BlackHoleStage.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CHRONO.h" />
+    <ClInclude Include="EarthStage.h" />
     <ClInclude Include="FPSLimiter.h" />
     <ClInclude Include="GLCompute.h" />
     <ClInclude Include="GLContext.h" />
@@ -221,8 +228,11 @@
     <ClInclude Include="PostProcessChain.h" />
     <ClInclude Include="PostProcessPass.h" />
     <ClInclude Include="ProcMeshGenerator.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageManager.h" />
     <ClInclude Include="TemplateApp.h" />
     <ClInclude Include="TestRTRMApp.h" />
+    <ClInclude Include="TmpStage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl" />

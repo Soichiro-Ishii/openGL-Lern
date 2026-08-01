@@ -1,5 +1,5 @@
 #pragma once
-#include "Application.h"
+#include "Stage.h"
 #include "GLShader.h"
 #include "GLTexture2D.h"
 #include "GLUniformBuffer.h"
@@ -15,8 +15,8 @@ struct alignas(16) BlackHoleConstants
 	float padding;
 };
 
-class TestRTRMApp final :
-	public Application
+class BlackHoleStage :
+	public Stage
 {
 private:
 	GLMesh m_screen;
@@ -31,10 +31,13 @@ private:
 	PostProcessPass m_blurPP[2];
 	PostProcessChain m_blurPPC;
 	GLShader m_inverseShader;
-protected:
-	int onInit() override;
+public:
+	BlackHoleStage();
+	void onInit() override;
 	void onUpdate(float delta) override;
 	void onRender() override;
 	void onShutdown() override;
+private:
+	void setStageName() override;
 };
 

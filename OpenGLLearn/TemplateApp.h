@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-class TemplateApp :
+class TemplateApp final :
 	public Application
 {
 protected:

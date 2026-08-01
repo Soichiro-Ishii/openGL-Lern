@@ -1,29 +1,42 @@
 #include "pch.h"
-#include "TestRTRMApp.h"
+#include "BlackHoleStage.h"
 #include"ProcMeshGenerator.h"
-
-int TestRTRMApp::onInit() {
+BlackHoleStage::BlackHoleStage()
+{
+	setStageName();
+}
+void BlackHoleStage::onInit() {
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createScreen();
 	m_screen.create(meshData);
 
 	m_RTRMshader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blackHoleRayMarch1FS.glsl");
-	if (!m_RTRMshader.valid()) return -1;
+	if (!m_RTRMshader.valid()) {
+		spdlog::critical("faild to load RTRMshader");
+	}
 
 	m_blurShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blurFS.glsl");
-	if (!m_blurShader.valid()) return -1;
+	if (!m_blurShader.valid()) {
+		spdlog::critical("faild to load blurShader");
+	}
 
 	m_lastShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\renderTexFS.glsl");
-	if (!m_lastShader.valid()) return -1;
+	if (!m_lastShader.valid()) {
+		spdlog::critical("faild to load lastShader");
+	}
 
 	m_inverseShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\inverseFS.glsl");
-	if (!m_inverseShader.valid()) return -1;
+	if (!m_inverseShader.valid()) {
+		spdlog::critical("faild to load inverseShader");
+	}
 
 
 	std::string texPath1 = "assets\\data\\texture\\milkyway_2020_8k.hdr";
 	TEXTURE2DSETTING set = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT,COLOR_SPACE::SRGB };
 
-	if (!m_sky.load(texPath1, set)) return -1;
+	if (!m_sky.load(texPath1, set)) {
+		spdlog::critical("faild to load sky texture");
+	}
 
 	m_BHConsts.resolution.x = widthf();
 	m_BHConsts.resolution.y = heightf();
@@ -40,10 +53,8 @@ int TestRTRMApp::onInit() {
 		m_blurPPC.add(m_blurPP[i % 2]);
 	}
 	m_inversePP.create(m_inverseShader, width(), height(), cSet);
-
-	return 0;
 }
-void TestRTRMApp::onUpdate(float delta) {
+void BlackHoleStage::onUpdate(float delta) {
 	m_BHrt.resize(width(), height());
 	m_blurPPC.resize(width(), height());
 	m_inversePP.resize(width(), height());
@@ -52,7 +63,7 @@ void TestRTRMApp::onUpdate(float delta) {
 	m_BHConsts.resolution.y = heightf();
 	m_BHCUB.update(&m_BHConsts, sizeof(BlackHoleConstants), 0);
 }
-void TestRTRMApp::onRender() {
+void BlackHoleStage::onRender() {
 	glViewport(0, 0, width(), height());
 	m_BHrt.bind();
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -70,6 +81,9 @@ void TestRTRMApp::onRender() {
 	outTex->bind(0);
 	m_screen.draw();
 }
-void TestRTRMApp::onShutdown() {
+void BlackHoleStage::onShutdown() {}
 
+void BlackHoleStage::setStageName()
+{
+	m_name = "blackHole";
 }

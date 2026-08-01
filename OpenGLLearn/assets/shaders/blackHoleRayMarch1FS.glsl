@@ -40,9 +40,9 @@ const float CLOUD_DENSITY = 0.75;
 
 const vec3 MATERIALS[MATERIAL_COUNT] = vec3[MATERIAL_COUNT]
 (
-    vec3(0.8, 0.4, 0.0), // オレンジ
+    vec3(0.9, 0.3, 0.0), // オレンジ
     vec3(0.0, 0.0, 0.0), // ブラックホール
-    vec3(0.5, 0.7, 0.9)  // 青白
+    vec3(0.2, 0.4, 1.0)  // 青白
 );
 
 const vec2 SSAA_OFFSETS[4] = vec2[4]
