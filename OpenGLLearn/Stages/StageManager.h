@@ -9,8 +9,8 @@ private:
 	const Application* m_app;
 public:
 	void setStageManager(const Application* app);
-	void change(std::unique_ptr<Stage> stage);
-	void onInit();
+	bool change(std::unique_ptr<Stage> stage);
+	bool onInit();
 	void onUpdate(float delta);
 	void onRender();
 	void onShutdown();

@@ -8,7 +8,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		spdlog::critical("faild creating context");
 		return -1;
 	}
-	if (onInit() != 0) {
+	if (!onInit()) {
 		spdlog::critical("faild application initialization");
 		onShutdown();
 		return -1;
@@ -31,7 +31,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	deltas.resize(maxNumDelta);
 	m_chrono.timeStart();
 	m_input.init(m_context.window());
-	while (!glfwWindowShouldClose(m_context.window())) {
+	while (!glfwWindowShouldClose(m_context.window()) && !m_quit) {
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
 		//最小化モードのときは記録しない
@@ -71,4 +71,8 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	}
 	onShutdown();
 	return 0;
+}
+
+void Application::quit() {
+	m_quit = true;
 }

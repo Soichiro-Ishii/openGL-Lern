@@ -4,17 +4,20 @@
 #include"EarthStage.h"
 #include"BlackHoleStage.h"
 
-int OpenGLLearnApp::onInit() {
+bool OpenGLLearnApp::onInit() {
 	m_stageManager.setStageManager(this);
-	m_stageManager.change(std::make_unique<EarthStage>());
-	return 0;
+	return m_stageManager.change(std::make_unique<EarthStage>());
 }
 void OpenGLLearnApp::onUpdate(float delta) {
-	m_stageManager.onUpdate(delta);
+	bool stageChangeResult = true;
 	if (input().isTrigger(GLFW_KEY_F1))
-		m_stageManager.change(std::make_unique<EarthStage>());
+		stageChangeResult = m_stageManager.change(std::make_unique<EarthStage>());
 	if (input().isTrigger(GLFW_KEY_F2))
-		m_stageManager.change(std::make_unique<BlackHoleStage>());
+		stageChangeResult = m_stageManager.change(std::make_unique<BlackHoleStage>());
+	if (!stageChangeResult)
+		quit();
+
+	m_stageManager.onUpdate(delta);
 }
 void OpenGLLearnApp::onRender() {
 	m_stageManager.onRender();

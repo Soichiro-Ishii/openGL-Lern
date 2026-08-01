@@ -6,27 +6,35 @@ void StageManager::setStageManager(const Application* app)
 	m_app = app;
 }
 
-void StageManager::change(std::unique_ptr<Stage> stage)
+bool StageManager::change(std::unique_ptr<Stage> stage)
 {
-	if (m_app == nullptr)
-		return;
+	if (m_app == nullptr) {
+		spdlog::critical("stage manager is not set application.");
+		return false;
+	}
 	if (m_active && m_stage->name() == stage->name())
-		return;
+		return true;
 	if (m_active) {
 		onShutdown();
 	}
 	m_stage = std::move(stage);
-	onInit();
+	if (!onInit()) {
+		spdlog::info("faild to init stage : {}", m_stage->name());
+		return false;
+	}
 	spdlog::info("active stage : {}", m_stage->name());
 	m_active = true;
+	return true;
 }
 
-void StageManager::onInit()
+bool StageManager::onInit()
 {
-	if (m_app == nullptr)
-		return;
+	if (m_app == nullptr) {
+		spdlog::critical("stage manager is not set application.");
+		return false;
+	}
 	m_stage->setApp(m_app);
-	m_stage->onInit();
+	return m_stage->onInit();
 }
 
 void StageManager::onUpdate(float delta)

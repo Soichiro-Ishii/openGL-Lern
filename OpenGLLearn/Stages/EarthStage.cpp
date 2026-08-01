@@ -6,21 +6,24 @@ EarthStage::EarthStage()
 {
 	setStageName();
 }
-void EarthStage::onInit() {
+bool EarthStage::onInit() {
 	//シェーダー
 	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFS.glsl");
 	if (!m_shader.valid()) {
 		spdlog::critical("faild to load shader");
+		return false;
 	}
 
 	m_blurShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blurFS.glsl");
 	if (!m_blurShader.valid()) {
 		spdlog::critical("faild to load blurShader");
+		return false;
 	}
 
 	m_lastShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\renderTexFS.glsl");
 	if (!m_lastShader.valid()) {
 		spdlog::critical("faild to load lastShader");
+		return false;
 	}
 	GLuint numInstances = 1000;
 	//メッシュ
@@ -32,7 +35,7 @@ void EarthStage::onInit() {
 
 	//ubo
 	m_ubo1.create(nullptr, sizeof(SceneConstants), 0);
-	m_ubo2.create(nullptr, sizeof(GLuint), 1);
+	m_ubo2.create(nullptr, sizeof(InstanceCount), 1);
 	//ssbo
 	m_instanceData.resize(numInstances);
 	m_ssbo.create(nullptr, m_instanceData.size() * sizeof(InstanceData), 0);
@@ -46,15 +49,19 @@ void EarthStage::onInit() {
 	TEXTURE2DSETTING sRGBSet = { TEXTURE2DFILTER::LINEAR ,TEXTURE2DWRAP::REPEAT, COLOR_SPACE::SRGB };
 	if (!m_texture1.load(dayTexPath, sRGBSet)) {
 		spdlog::critical("faild to load dayTexture");
+		return false;
 	}
 	if (!m_texture2.load(nightTexPath, sRGBSet)) {
 		spdlog::critical("faild to load nightTexture");
+		return false;
 	}
 	if (!m_texture3.load(normalTexPath, linerSet)) {
 		spdlog::critical("faild to load normalTexture");
+		return false;
 	}
 	if (!m_texture4.load(specTexPath, linerSet)) {
 		spdlog::critical("faild to load specTexture");
+		return false;
 	}
 	//深度バッファ有効&比較関数指定
 	glEnable(GL_DEPTH_TEST);
@@ -76,13 +83,15 @@ void EarthStage::onInit() {
 	m_camera.setPos(m_pos);
 	m_camera.setAng(m_ang);
 	m_ubo1.update(&m_constants, sizeof(SceneConstants), 0);
-	m_ubo2.update(&numInstances, sizeof(GLuint), 0);
+	m_instanceCount.value = numInstances;
+	m_ubo2.update(&m_instanceCount, sizeof(InstanceCount), 0);
 	//compute
 	constexpr GLuint localSizeX = 256;
 	GLuint groutCountX = (static_cast<GLuint>(m_instanceData.size()) + localSizeX - 1) / localSizeX;
 	m_compute.load("assets\\shaders\\createWorldCS.glsl", groutCountX);
 	if (!m_compute.valid()) {
 		spdlog::critical("faild to load compute shader");
+		return false;
 	}
 	m_normalRT.create(width(), height(), ColorTexSet::HDR);
 	for (auto& rt : m_blurPP)
@@ -92,6 +101,7 @@ void EarthStage::onInit() {
 	for (int i = 0; i < blurRep; i++) {
 		m_blurPPC.add(m_blurPP[i % 2]);
 	}
+	return true;
 }
 void EarthStage::onUpdate(float delta) {
 	m_normalRT.resize(width(), height());

@@ -9,6 +9,7 @@ private:
 	CHRONO m_chrono;
 	FPSLimiter m_FPSLimiter;
 	Input m_input;
+	bool m_quit = false;
 public:
 	Application() = default;
 	virtual ~Application() = default;
@@ -18,10 +19,11 @@ public:
 
 	int run(int width, int height, std::string windowName, bool fullScreen = false, int VSync = 1, float targetFPS = 0.0f);
 protected:
-	virtual int onInit() = 0;
+	virtual bool onInit() = 0;
 	virtual void onUpdate(float delta) = 0;
 	virtual void onRender() = 0;
 	virtual void onShutdown() = 0;
+	void quit();
 public:
 	[[nodiscard]] GLFWwindow* window() const {
 		return m_context.window();

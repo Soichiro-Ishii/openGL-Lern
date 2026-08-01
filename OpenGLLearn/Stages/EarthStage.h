@@ -23,6 +23,12 @@ struct alignas(16) InstanceData {
 	glm::mat4 world;
 };
 
+struct alignas(16) InstanceCount
+{
+	uint32_t value;
+	uint32_t padding[3];
+};
+
 class EarthStage final :
 	public Stage
 {
@@ -48,9 +54,10 @@ private:
 	PostProcessPass m_blurPP[2];
 	PostProcessChain m_blurPPC;
 	GLMesh m_screen;
+	InstanceCount m_instanceCount;
 public:
 	EarthStage();
-	void onInit() override;
+	bool onInit() override;
 	void onUpdate(float delta) override;
 	void onRender() override;
 	void onShutdown() override;

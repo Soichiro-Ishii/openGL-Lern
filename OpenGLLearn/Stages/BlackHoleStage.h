@@ -33,7 +33,7 @@ private:
 	GLShader m_inverseShader;
 public:
 	BlackHoleStage();
-	void onInit() override;
+	bool onInit() override;
 	void onUpdate(float delta) override;
 	void onRender() override;
 	void onShutdown() override;

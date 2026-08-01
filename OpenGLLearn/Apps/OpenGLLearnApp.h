@@ -8,7 +8,7 @@ class OpenGLLearnApp final :
 private:
 	StageManager m_stageManager;
 protected:
-	int onInit() override;
+	bool onInit() override;
 	void onUpdate(float delta) override;
 	void onRender() override;
 	void onShutdown() override;

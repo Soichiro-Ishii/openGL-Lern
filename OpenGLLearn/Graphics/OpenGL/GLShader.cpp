@@ -166,5 +166,6 @@ void GLShader::release() {
 	if (m_id != 0) {
 		glDeleteProgram(m_id);
 		m_id = 0;
+		m_locations.clear();
 	}
 }

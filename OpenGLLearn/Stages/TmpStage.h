@@ -5,7 +5,7 @@ class TmpStage final :
 {
 public:
 	TmpStage();
-	void onInit() override;
+	bool onInit() override;
 	void onUpdate(float delta) override;
 	void onRender() override;
 	void onShutdown() override;

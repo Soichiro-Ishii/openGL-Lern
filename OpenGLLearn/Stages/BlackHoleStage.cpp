@@ -5,7 +5,7 @@ BlackHoleStage::BlackHoleStage()
 {
 	setStageName();
 }
-void BlackHoleStage::onInit() {
+bool BlackHoleStage::onInit() {
 	GLMeshData meshData;
 	meshData = ProcMeshGenerator::createScreen();
 	m_screen.create(meshData);
@@ -13,21 +13,25 @@ void BlackHoleStage::onInit() {
 	m_RTRMshader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blackHoleRayMarch1FS.glsl");
 	if (!m_RTRMshader.valid()) {
 		spdlog::critical("faild to load RTRMshader");
+		return false;
 	}
 
 	m_blurShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blurFS.glsl");
 	if (!m_blurShader.valid()) {
 		spdlog::critical("faild to load blurShader");
+		return false;
 	}
 
 	m_lastShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\renderTexFS.glsl");
 	if (!m_lastShader.valid()) {
 		spdlog::critical("faild to load lastShader");
+		return false;
 	}
 
 	m_inverseShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\inverseFS.glsl");
 	if (!m_inverseShader.valid()) {
 		spdlog::critical("faild to load inverseShader");
+		return false;
 	}
 
 
@@ -36,6 +40,7 @@ void BlackHoleStage::onInit() {
 
 	if (!m_sky.load(texPath1, set)) {
 		spdlog::critical("faild to load sky texture");
+		return false;
 	}
 
 	m_BHConsts.resolution.x = widthf();
@@ -53,6 +58,7 @@ void BlackHoleStage::onInit() {
 		m_blurPPC.add(m_blurPP[i % 2]);
 	}
 	m_inversePP.create(m_inverseShader, width(), height(), cSet);
+	return true;
 }
 void BlackHoleStage::onUpdate(float delta) {
 	m_BHrt.resize(width(), height());

@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "TemplateApp.h"
 
-int TemplateApp::onInit() {
+bool TemplateApp::onInit() {
 	glClearDepth(1.0f);
-	return 0;
+	return true;
 }
 void TemplateApp::onUpdate(float delta) {
 

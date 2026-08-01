@@ -5,9 +5,9 @@ class Stage
 {
 public:
 	Stage() = default;
-	~Stage() = default;
+	virtual ~Stage() = default;
 	void setApp(const Application* app);
-	virtual void onInit() = 0;
+	virtual bool onInit() = 0;
 	virtual void onUpdate(float delta) = 0;
 	virtual void onRender() = 0;
 	virtual void onShutdown() = 0;

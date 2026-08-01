@@ -1,6 +1,5 @@
 #include "pch.h"
 #include"OpenGLLearnApp.h"
-//#include"TestRTRMApp.h"
 
 
 int main() {
@@ -8,7 +7,4 @@ int main() {
 	int result = app.run(1920, 1080, "openGLLearn", false);
 	return result;
 
-	//TestRTRMApp app;
-	//int result = app.run(1920, 1080, "openGLLearn", false);
-	//return result;
 }

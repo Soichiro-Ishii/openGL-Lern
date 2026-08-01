@@ -36,78 +36,208 @@
     <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
       <Filter>External\glad</Filter>
     </ClCompile>
-    <ClCompile Include="Apps\OpenGLLearnApp.cpp"><Filter>Apps</Filter></ClCompile>
-    <ClCompile Include="Apps\TemplateApp.cpp"><Filter>Apps</Filter></ClCompile>
-    <ClCompile Include="Apps\TestRTRMApp.cpp"><Filter>Apps</Filter></ClCompile>
-    <ClCompile Include="Core\Application.cpp"><Filter>Core</Filter></ClCompile>
-    <ClCompile Include="Core\Camera.cpp"><Filter>Core</Filter></ClCompile>
-    <ClCompile Include="Core\CHRONO.cpp"><Filter>Core</Filter></ClCompile>
-    <ClCompile Include="Core\FPSLimiter.cpp"><Filter>Core</Filter></ClCompile>
-    <ClCompile Include="Core\Input.cpp"><Filter>Core</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLCompute.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLContext.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLFrameBuffer.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLMesh.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLRenderTarget.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLShader.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLShaderStorageBuffer.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLTexture2D.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLUniformBuffer.cpp"><Filter>Graphics\OpenGL</Filter></ClCompile>
-    <ClCompile Include="Graphics\PostProcessChain.cpp"><Filter>Graphics</Filter></ClCompile>
-    <ClCompile Include="Graphics\PostProcessPass.cpp"><Filter>Graphics</Filter></ClCompile>
-    <ClCompile Include="Graphics\ProcMeshGenerator.cpp"><Filter>Graphics</Filter></ClCompile>
-    <ClCompile Include="Stages\BlackHoleStage.cpp"><Filter>Stages</Filter></ClCompile>
-    <ClCompile Include="Stages\EarthStage.cpp"><Filter>Stages</Filter></ClCompile>
-    <ClCompile Include="Stages\Stage.cpp"><Filter>Stages</Filter></ClCompile>
-    <ClCompile Include="Stages\StageManager.cpp"><Filter>Stages</Filter></ClCompile>
-    <ClCompile Include="Stages\TmpStage.cpp"><Filter>Stages</Filter></ClCompile>
-    <ClCompile Include="Utils\LoadBinaryFile.cpp"><Filter>Utils</Filter></ClCompile>
-    <ClCompile Include="Utils\LoadStringFile.cpp"><Filter>Utils</Filter></ClCompile>
-    <ClCompile Include="Utils\path.cpp"><Filter>Utils</Filter></ClCompile>
-    <ClCompile Include="pch.cpp"><Filter>Core</Filter></ClCompile>
+    <ClCompile Include="Apps\OpenGLLearnApp.cpp">
+      <Filter>Apps</Filter>
+    </ClCompile>
+    <ClCompile Include="Apps\TemplateApp.cpp">
+      <Filter>Apps</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CHRONO.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FPSLimiter.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLCompute.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLContext.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLFrameBuffer.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLMesh.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLRenderTarget.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLShader.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLShaderStorageBuffer.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLTexture2D.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLUniformBuffer.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PostProcessChain.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\PostProcessPass.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ProcMeshGenerator.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\BlackHoleStage.cpp">
+      <Filter>Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\EarthStage.cpp">
+      <Filter>Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\StageManager.cpp">
+      <Filter>Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\TmpStage.cpp">
+      <Filter>Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LoadBinaryFile.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LoadStringFile.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\path.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core\Stage.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Apps\OpenGLLearnApp.h"><Filter>Apps</Filter></ClInclude>
-    <ClInclude Include="Apps\TemplateApp.h"><Filter>Apps</Filter></ClInclude>
-    <ClInclude Include="Apps\TestRTRMApp.h"><Filter>Apps</Filter></ClInclude>
-    <ClInclude Include="Core\Application.h"><Filter>Core</Filter></ClInclude>
-    <ClInclude Include="Core\Camera.h"><Filter>Core</Filter></ClInclude>
-    <ClInclude Include="Core\CHRONO.h"><Filter>Core</Filter></ClInclude>
-    <ClInclude Include="Core\FPSLimiter.h"><Filter>Core</Filter></ClInclude>
-    <ClInclude Include="Core\Input.h"><Filter>Core</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLCompute.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLContext.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLFrameBuffer.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLMesh.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLMeshData.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLRenderTarget.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLShader.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLShaderStorageBuffer.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLTexture2D.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLUniformBuffer.h"><Filter>Graphics\OpenGL</Filter></ClInclude>
-    <ClInclude Include="Graphics\PostProcessChain.h"><Filter>Graphics</Filter></ClInclude>
-    <ClInclude Include="Graphics\PostProcessPass.h"><Filter>Graphics</Filter></ClInclude>
-    <ClInclude Include="Graphics\ProcMeshGenerator.h"><Filter>Graphics</Filter></ClInclude>
-    <ClInclude Include="Stages\BlackHoleStage.h"><Filter>Stages</Filter></ClInclude>
-    <ClInclude Include="Stages\EarthStage.h"><Filter>Stages</Filter></ClInclude>
-    <ClInclude Include="Stages\Stage.h"><Filter>Stages</Filter></ClInclude>
-    <ClInclude Include="Stages\StageManager.h"><Filter>Stages</Filter></ClInclude>
-    <ClInclude Include="Stages\TmpStage.h"><Filter>Stages</Filter></ClInclude>
-    <ClInclude Include="Utils\LoadBinaryFile.h"><Filter>Utils</Filter></ClInclude>
-    <ClInclude Include="Utils\LoadStringFile.h"><Filter>Utils</Filter></ClInclude>
-    <ClInclude Include="Utils\path.h"><Filter>Utils</Filter></ClInclude>
-    <ClInclude Include="pch.h"><Filter>Core</Filter></ClInclude>
+    <ClInclude Include="Apps\OpenGLLearnApp.h">
+      <Filter>Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="Apps\TemplateApp.h">
+      <Filter>Apps</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Application.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CHRONO.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FPSLimiter.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLCompute.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLContext.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLFrameBuffer.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLMesh.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLMeshData.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLRenderTarget.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLShader.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLShaderStorageBuffer.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLTexture2D.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLUniformBuffer.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PostProcessChain.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\PostProcessPass.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ProcMeshGenerator.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\BlackHoleStage.h">
+      <Filter>Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\EarthStage.h">
+      <Filter>Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\StageManager.h">
+      <Filter>Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Stages\TmpStage.h">
+      <Filter>Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LoadBinaryFile.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LoadStringFile.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\path.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Stage.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\blackHoleRayMarch1FS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\blurFS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\createWorldCS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\earthFS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\fs.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\inverseFS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\renderTexFS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\screenVS.glsl"><Filter>Assets\Shaders</Filter></None>
-    <None Include="assets\shaders\vs.glsl"><Filter>Assets\Shaders</Filter></None>
+    <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\blurFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\createWorldCS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\earthFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\fs.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\inverseFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\renderTexFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\screenVS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\vs.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

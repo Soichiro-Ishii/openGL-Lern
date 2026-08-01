@@ -159,6 +159,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Core\Stage.cpp" />
     <ClCompile Include="Stages\BlackHoleStage.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CHRONO.cpp">
@@ -198,14 +199,13 @@
     <ClCompile Include="Graphics\PostProcessChain.cpp" />
     <ClCompile Include="Graphics\PostProcessPass.cpp" />
     <ClCompile Include="Graphics\ProcMeshGenerator.cpp" />
-    <ClCompile Include="Stages\Stage.cpp" />
     <ClCompile Include="Stages\StageManager.cpp" />
     <ClCompile Include="Apps\TemplateApp.cpp" />
-    <ClCompile Include="Apps\TestRTRMApp.cpp" />
     <ClCompile Include="Stages\TmpStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Application.h" />
+    <ClInclude Include="Core\Stage.h" />
     <ClInclude Include="Stages\BlackHoleStage.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\CHRONO.h" />
@@ -230,10 +230,8 @@
     <ClInclude Include="Graphics\PostProcessChain.h" />
     <ClInclude Include="Graphics\PostProcessPass.h" />
     <ClInclude Include="Graphics\ProcMeshGenerator.h" />
-    <ClInclude Include="Stages\Stage.h" />
     <ClInclude Include="Stages\StageManager.h" />
     <ClInclude Include="Apps\TemplateApp.h" />
-    <ClInclude Include="Apps\TestRTRMApp.h" />
     <ClInclude Include="Stages\TmpStage.h" />
   </ItemGroup>
   <ItemGroup>
