@@ -4,7 +4,7 @@ TmpStage::TmpStage()
 {
 	setStageName();
 }
-bool TmpStage::onInit() {}
+bool TmpStage::onInit() { return true; }
 void TmpStage::onUpdate(float delta) {}
 void TmpStage::onRender() {}
 void TmpStage::onShutdown() {}

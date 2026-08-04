@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
-      <Filter>External\glad</Filter>
-    </ClCompile>
     <ClCompile Include="Apps\OpenGLLearnApp.cpp">
       <Filter>Apps</Filter>
     </ClCompile>
@@ -120,6 +117,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Core\Stage.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="External\glad\gl.c">
+      <Filter>External\glad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -154,12 +154,12 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\prog\glad\src\gl.c">
+    <ClCompile Include="Core\Application.cpp" />
+    <ClCompile Include="Core\Stage.cpp" />
+    <ClCompile Include="External\glad\gl.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Core\Application.cpp" />
-    <ClCompile Include="Core\Stage.cpp" />
     <ClCompile Include="Stages\BlackHoleStage.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CHRONO.cpp">
