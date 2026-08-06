@@ -10,9 +10,9 @@ bool OpenGLLearnApp::onInit() {
 }
 void OpenGLLearnApp::onUpdate(float delta) {
 	bool stageChangeResult = true;
-	if (input().isTrigger(GLFW_KEY_F1))
+	if (isTrigger(GLFW_KEY_F1))
 		stageChangeResult = m_stageManager.change(std::make_unique<EarthStage>());
-	if (input().isTrigger(GLFW_KEY_F2))
+	if (isTrigger(GLFW_KEY_F2))
 		stageChangeResult = m_stageManager.change(std::make_unique<BlackHoleStage>());
 	if (!stageChangeResult)
 		quit();
