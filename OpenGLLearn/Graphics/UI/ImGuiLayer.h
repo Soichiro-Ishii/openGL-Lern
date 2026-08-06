@@ -14,6 +14,7 @@ public:
 	~ImGuiLayer();
 	bool init(GLFWwindow* window);
 	void beginFrame();
+	void endFrame();
 	void render();
 	void release();
 };

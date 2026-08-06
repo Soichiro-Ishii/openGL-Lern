@@ -8,6 +8,10 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		spdlog::critical("faild creating context");
 		return -1;
 	}
+	if (!m_imguilayer.init(window())) {
+		spdlog::critical("Faild to init ImGui.");
+		return -1;
+	}
 	if (!onInit()) {
 		spdlog::critical("faild application initialization");
 		onShutdown();
@@ -31,10 +35,6 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	deltas.resize(maxNumDelta);
 	m_chrono.timeStart();
 	m_input.init(m_context.window());
-	if (!m_imguilayer.init(window())) {
-		spdlog::critical("Faild to init ImGui.");
-		return -1;
-	}
 	while (!glfwWindowShouldClose(m_context.window()) && !m_quit) {
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
@@ -56,6 +56,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		onUpdate(delta);
 		//最小化モードのときは描画しない
 		if (width() <= 0 || height() <= 0) {
+			m_imguilayer.endFrame();
 			glfwWaitEvents();
 			continue;
 		}
