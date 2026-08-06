@@ -55,6 +55,10 @@ private:
 	PostProcessChain m_blurPPC;
 	GLMesh m_screen;
 	InstanceCount m_instanceCount;
+	float m_speed = 0.0f;
+	float m_angSpeed = 0.0f;
+	bool m_enableBlur = true;
+	bool m_showHello = false;
 public:
 	EarthStage();
 	bool onInit() override;

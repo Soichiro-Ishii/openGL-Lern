@@ -17,6 +17,9 @@ public:
 protected:
 	virtual void setStageName() = 0;
 
+	[[nodiscard]] GLFWwindow* window() const {
+		return m_app->window();
+	}
 	[[nodiscard]] int width() const {
 		return m_app->width();
 	}
@@ -31,6 +34,12 @@ protected:
 	}
 	[[nodiscard]] const Input& input() const {
 		return m_app->input();
+	}
+	[[nodiscard]] const bool isPress(int key) const {
+		return m_app->isPress(key);
+	}
+	[[nodiscard]] const bool isTrigger(int key) const {
+		return m_app->isTrigger(key);
 	}
 protected:
 	std::string m_name = "default";

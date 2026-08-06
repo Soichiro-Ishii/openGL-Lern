@@ -2,6 +2,7 @@
 #include"GLContext.h"
 #include"FPSLimiter.h"
 #include"Input.h"
+#include"ImGuiLayer.h"
 class Application
 {
 private:
@@ -9,6 +10,7 @@ private:
 	CHRONO m_chrono;
 	FPSLimiter m_FPSLimiter;
 	Input m_input;
+	ImGuiLayer m_imguilayer;
 	bool m_quit = false;
 public:
 	Application() = default;
@@ -42,6 +44,18 @@ public:
 	}
 	[[nodiscard]] const Input& input() const {
 		return m_input;
+	}
+	[[nodiscard]] const bool isPress(int key) const {
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+			return m_input.isPress(key);
+		else
+			return false;
+	}
+	[[nodiscard]] const bool isTrigger(int key) const {
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+			return m_input.isTrigger(key);
+		else
+			return false;
 	}
 	void setTargetFPS(float newFPS) {
 		m_FPSLimiter.setTargetFPS(static_cast<double>(newFPS));

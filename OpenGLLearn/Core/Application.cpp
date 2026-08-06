@@ -31,6 +31,10 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 	deltas.resize(maxNumDelta);
 	m_chrono.timeStart();
 	m_input.init(m_context.window());
+	if (!m_imguilayer.init(window())) {
+		spdlog::critical("Faild to init ImGui.");
+		return -1;
+	}
 	while (!glfwWindowShouldClose(m_context.window()) && !m_quit) {
 		m_chrono.timeEnd();
 		float delta = static_cast<float>(m_chrono.getElapsed());
@@ -47,6 +51,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 
 		m_context.update();
 		m_input.update();
+		m_imguilayer.beginFrame();
 
 		onUpdate(delta);
 		//最小化モードのときは描画しない
@@ -55,6 +60,8 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 			continue;
 		}
 		onRender();
+
+		m_imguilayer.render();
 
 		//画面スワップ
 		glfwSwapBuffers(m_context.window());
@@ -70,6 +77,7 @@ int Application::run(int _width, int _height, std::string windowName, bool fullS
 		}
 	}
 	onShutdown();
+	m_imguilayer.release();
 	return 0;
 }
 

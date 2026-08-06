@@ -31,6 +31,12 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{89f939c0-ac1e-4914-8304-abecc104f92c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\UI">
+      <UniqueIdentifier>{6475f204-30e3-4ba1-bf4c-ebbf233cff01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\ImGui">
+      <UniqueIdentifier>{d121a6ff-601b-4df8-b32b-8849b7164cf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Apps\OpenGLLearnApp.cpp">
@@ -121,6 +127,30 @@
     <ClCompile Include="External\glad\gl.c">
       <Filter>External\glad</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\UI\ImGuiLayer.cpp">
+      <Filter>Graphics\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_demo.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_draw.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_tables.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_widgets.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_glfw.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_opengl3.cpp">
+      <Filter>External\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\OpenGLLearnApp.h">
@@ -209,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="Core\Stage.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\UI\ImGuiLayer.h">
+      <Filter>Graphics\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

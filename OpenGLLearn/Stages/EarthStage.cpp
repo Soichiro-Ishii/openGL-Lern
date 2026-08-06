@@ -95,52 +95,80 @@ bool EarthStage::onInit() {
 	}
 	m_normalRT.create(width(), height(), ColorTexSet::HDR);
 	for (auto& rt : m_blurPP)
-		rt.create(m_blurShader, width(), height(), ColorTexSet::NORMAL);
+		rt.create(m_blurShader, width(), height(), ColorTexSet::HDR);
 	int blurRep = 3;
 	m_blurPPC.allocate(blurRep);
 	for (int i = 0; i < blurRep; i++) {
 		m_blurPPC.add(m_blurPP[i % 2]);
 	}
+
+	m_speed = 5.0f;
+	m_angSpeed = 180.0f;
 	return true;
 }
 void EarthStage::onUpdate(float delta) {
 	m_normalRT.resize(width(), height());
 	m_blurPPC.resize(width(), height());
+	//ImGui
+	ImGuiIO& io = ImGui::GetIO();
+	if (ImGui::Begin("EarthStage")) {
+		ImGui::Text("FPS : %.1f", 1 / delta);
+		ImGui::SliderFloat(
+			"move speed",
+			&m_speed,
+			0.0f,
+			100.0f
+		);
+		ImGui::SliderFloat(
+			"rotate speed",
+			&m_angSpeed,
+			0.0f,
+			360.0f
+		);
+		ImGui::Checkbox(
+			"Enable blur",
+			&m_enableBlur
+		);
+		if (ImGui::Button("show hello")) {
+			m_showHello = !m_showHello;
+		}
+		if (m_showHello)
+			ImGui::Text("hello ImGui!");
+	}
+	ImGui::End();
 	//位置
-	float speed = 5.0f;
 	glm::vec3 velXZ = glm::vec3(0, 0, 0);
 	glm::vec3 vel = glm::vec3(0, 0, 0);
-	if (input().isPress(GLFW_KEY_W))
+	if (isPress(GLFW_KEY_W))
 		velXZ += glm::vec3(0, 0, 1);
-	if (input().isPress(GLFW_KEY_S))
+	if (isPress(GLFW_KEY_S))
 		velXZ -= glm::vec3(0, 0, 1);
-	if (input().isPress(GLFW_KEY_A))
+	if (isPress(GLFW_KEY_A))
 		velXZ += glm::vec3(1, 0, 0);
-	if (input().isPress(GLFW_KEY_D))
+	if (isPress(GLFW_KEY_D))
 		velXZ -= glm::vec3(1, 0, 0);
-	if (input().isPress(GLFW_KEY_R))
+	if (isPress(GLFW_KEY_R))
 		vel += glm::vec3(0, 1, 0);
-	if (input().isPress(GLFW_KEY_F))
+	if (isPress(GLFW_KEY_F))
 		vel -= glm::vec3(0, 1, 0);
 	velXZ = glm::yawPitchRoll(m_ang.y, 0.0f, 0.0f) * glm::vec4(velXZ, 0.0f);
 	vel += velXZ;
 	if (glm::dot(vel, vel) > 0.0f) {
-		vel = glm::normalize(vel) * speed;
+		vel = glm::normalize(vel) * m_speed;
 		m_pos += vel * delta;
 	}
 	m_camera.setPos(m_pos);
 	//角度
 	glm::vec3 angVel = glm::vec3(0, 0, 0);
-	float angSpeed = glm::radians(180.0f);
-	if (input().isPress(GLFW_KEY_LEFT))
+	if (isPress(GLFW_KEY_LEFT))
 		angVel += glm::vec3(0, 1, 0);
-	if (input().isPress(GLFW_KEY_RIGHT))
+	if (isPress(GLFW_KEY_RIGHT))
 		angVel -= glm::vec3(0, 1, 0);
-	if (input().isPress(GLFW_KEY_DOWN))
+	if (isPress(GLFW_KEY_DOWN))
 		angVel += glm::vec3(1, 0, 0);
-	if (input().isPress(GLFW_KEY_UP))
+	if (isPress(GLFW_KEY_UP))
 		angVel -= glm::vec3(1, 0, 0);
-	m_ang += angVel * angSpeed * delta;
+	m_ang += angVel * glm::radians(m_angSpeed) * delta;
 	m_camera.setAng(m_ang);
 	//一応毎回更新
 	float aspect = 1.0f;
@@ -168,6 +196,8 @@ void EarthStage::onUpdate(float delta) {
 	//m_ssbo.update(m_instanceData.data(), m_instanceData.size() * sizeof(InstanceData), 0);
 }
 void EarthStage::onRender() {
+	const GLTexture2D* outTex = nullptr;
+
 	m_normalRT.bind();
 	glViewport(0, 0, m_normalRT.width(), m_normalRT.height());
 	glEnable(GL_DEPTH_TEST);
@@ -186,23 +216,18 @@ void EarthStage::onRender() {
 	//メッシュ描画
 	m_mesh.draw();
 	m_normalRT.unbind();
+	outTex = &m_normalRT.color();
+
+	if (m_enableBlur)
+		outTex = &m_blurPPC.execute(*outTex, m_screen);
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-
 	glViewport(0, 0, width(), height());
 
 	m_lastShader.bind();
-	m_normalRT.color().bind(0);
+	outTex->bind(0);
 	m_screen.draw();
-	//テストとしてブラーは切る
-	//const GLTexture2D* res = &m_blurPPC.execute(m_normalRT.color(), m_screen);
-
-	//glViewport(0, 0, width(), height());
-
-	//m_lastShader.bind();
-	//res->bind(0);
-	//m_screen.draw();
 }
 void EarthStage::onShutdown() {}
 

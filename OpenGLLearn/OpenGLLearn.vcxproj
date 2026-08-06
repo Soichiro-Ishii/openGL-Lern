@@ -114,7 +114,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Graphics\UI;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;C:\prog\imgui-1.92.9;C:\prog\imgui-1.92.9\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -138,7 +138,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Apps;$(ProjectDir)Core;$(ProjectDir)Graphics;$(ProjectDir)Graphics\OpenGL;$(ProjectDir)Graphics\UI;$(ProjectDir)Stages;$(ProjectDir)Utils;C:\prog\stb;C:\prog\glfw-3.4.bin.WIN64\glfw-3.4.bin.WIN64\include;C:\prog\glad\include;C:\prog\glm-1.0.3\glm;C:\prog\spdlog-1.17.0\include;C:\prog\imgui-1.92.9;C:\prog\imgui-1.92.9\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -160,6 +160,35 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="External\ImGui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_glfw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="External\ImGui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphics\UI\ImGuiLayer.cpp" />
     <ClCompile Include="Stages\BlackHoleStage.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CHRONO.cpp">
@@ -206,6 +235,7 @@
   <ItemGroup>
     <ClInclude Include="Core\Application.h" />
     <ClInclude Include="Core\Stage.h" />
+    <ClInclude Include="Graphics\UI\ImGuiLayer.h" />
     <ClInclude Include="Stages\BlackHoleStage.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\CHRONO.h" />
