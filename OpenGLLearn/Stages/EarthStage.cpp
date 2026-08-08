@@ -80,8 +80,9 @@ bool EarthStage::onInit() {
 
 	m_pos = glm::vec3(0, 0, 0);
 	m_ang = glm::vec3(0, 0, 0);
-	m_camera.setPos(m_pos);
-	m_camera.setAng(m_ang);
+	m_camera.setPos3D(m_pos);
+	m_camera.setAng3D(m_ang);
+	//m_camera.setCamera3DMode(CAMERA3D_MODE::ThirdPerson);
 	m_ubo1.update(&m_constants, sizeof(SceneConstants), 0);
 	m_instanceCount.value = numInstances;
 	m_ubo2.update(&m_instanceCount, sizeof(InstanceCount), 0);
@@ -157,7 +158,7 @@ void EarthStage::onUpdate(float delta) {
 		vel = glm::normalize(vel) * m_speed;
 		m_pos += vel * delta;
 	}
-	m_camera.setPos(m_pos);
+	m_camera.setPos3D(m_pos);
 	//角度
 	glm::vec3 angVel = glm::vec3(0, 0, 0);
 	if (isPress(GLFW_KEY_LEFT))
@@ -169,7 +170,7 @@ void EarthStage::onUpdate(float delta) {
 	if (isPress(GLFW_KEY_UP))
 		angVel -= glm::vec3(1, 0, 0);
 	m_ang += angVel * glm::radians(m_angSpeed) * delta;
-	m_camera.setAng(m_ang);
+	m_camera.setAng3D(m_ang);
 	//一応毎回更新
 	float aspect = 1.0f;
 	if (width() <= 0 || height() <= 0) aspect = 1.0f;
@@ -182,7 +183,7 @@ void EarthStage::onUpdate(float delta) {
 	//m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 75.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	//m_constants.world *= glm::rotate(glm::mat4(1.0f), glm::radians(m_constants.time * 100.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	m_constants.lightPos = glm::vec4(cos(m_constants.time / 4), 0.0f, sin(m_constants.time / 4), 1.0f) * 10.0f;
-	m_constants.view = m_camera.getView();
+	m_constants.view = m_camera.getView3D();
 	m_constants.proj = glm::perspective(
 		glm::radians(90.0f),
 		aspect,

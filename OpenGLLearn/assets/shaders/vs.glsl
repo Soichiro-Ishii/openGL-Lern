@@ -40,7 +40,7 @@ void main()
     vNormal.w = 1.0;
     vTangent.w = 1.0;
     vUV = aUV;
-    vUV.y *= -1;
+    vUV.y = 1.0 - vUV.y;
     vRay = worldPos.xyz - eye.xyz;
     vLightDir = lightPos.xyz - worldPos.xyz;
 }

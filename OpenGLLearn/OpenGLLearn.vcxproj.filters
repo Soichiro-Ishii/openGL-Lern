@@ -93,6 +93,9 @@
     <ClCompile Include="Graphics\PostProcessPass.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Proc2DMeshGenerator.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="Graphics\ProcMeshGenerator.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -150,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="External\ImGui\imgui_impl_opengl3.cpp">
       <Filter>External\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Stages\Test2DStage.cpp">
+      <Filter>Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GL2DMesh.cpp">
+      <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +219,9 @@
     <ClInclude Include="Graphics\PostProcessPass.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\Proc2DMeshGenerator.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="Graphics\ProcMeshGenerator.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -243,6 +255,15 @@
     <ClInclude Include="Graphics\UI\ImGuiLayer.h">
       <Filter>Graphics\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Stages\Test2DStage.h">
+      <Filter>Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GL2DMesh.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GL2DMeshData.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">
@@ -270,6 +291,12 @@
       <Filter>Assets\Shaders</Filter>
     </None>
     <None Include="assets\shaders\vs.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\fs2D.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\vs2D.glsl">
       <Filter>Assets\Shaders</Filter>
     </None>
   </ItemGroup>

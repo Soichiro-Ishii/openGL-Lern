@@ -1,14 +1,14 @@
 #include"pch.h"
-#include "GLMesh.h"
+#include "GL2DMesh.h"
 
-GLMesh::GLMesh(GLMeshData& data) {
+GL2DMesh::GL2DMesh(GL2DMeshData& data) {
 	create(data);
 }
-GLMesh::~GLMesh() {
+GL2DMesh::~GL2DMesh() {
 	release();
 }
 
-GLMesh::GLMesh(GLMesh&& other) noexcept {
+GL2DMesh::GL2DMesh(GL2DMesh&& other) noexcept {
 	m_vao = std::exchange(other.m_vao, 0);
 	m_vbo = std::exchange(other.m_vbo, 0);
 	m_ebo = std::exchange(other.m_ebo, 0);
@@ -17,7 +17,7 @@ GLMesh::GLMesh(GLMesh&& other) noexcept {
 	m_primitiveMode = std::exchange(other.m_primitiveMode, GL_TRIANGLES);
 	m_instanceCount = std::exchange(other.m_instanceCount, 1);
 }
-GLMesh& GLMesh::operator=(GLMesh&& other) noexcept {
+GL2DMesh& GL2DMesh::operator=(GL2DMesh&& other) noexcept {
 	if (this != &other) {
 		release();
 		m_vao = std::exchange(other.m_vao, 0);
@@ -31,7 +31,7 @@ GLMesh& GLMesh::operator=(GLMesh&& other) noexcept {
 	return *this;
 }
 
-void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
+void GL2DMesh::create(GL2DMeshData& data, GLuint instanceCount) {
 	release();
 	m_instanceCount = instanceCount;
 	//vao作成
@@ -52,7 +52,7 @@ void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
 	//バッファにデータコピー
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		data.vertices.size() * sizeof(Vertex),
+		data.vertices.size() * sizeof(Vertex2D),
 		data.vertices.data(),
 		GL_STATIC_DRAW
 	);
@@ -70,12 +70,12 @@ void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
 	//頂点属性0登録
 	glVertexAttribPointer(
 		0,							//属性変数の位置
-		3,							//成分数(float3)
+		2,							//成分数(float2)
 		GL_FLOAT,					//型
 		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
+		sizeof(Vertex2D),				// 次の頂点までの間隔（stride）
 		reinterpret_cast<void*>(
-			offsetof(Vertex, position)
+			offsetof(Vertex2D, position)
 			)						//VBO内のバイトオフセット
 	);
 	//属性0を有効
@@ -83,12 +83,12 @@ void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
 	//頂点属性1登録
 	glVertexAttribPointer(
 		1,							//属性変数の位置
-		3,							//成分数(float3)
+		2,							//成分数(float2)
 		GL_FLOAT,					//型
 		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
+		sizeof(Vertex2D),				// 次の頂点までの間隔（stride）
 		reinterpret_cast<void*>(
-			offsetof(Vertex, normal)
+			offsetof(Vertex2D, normal)
 			)						//VBO内のバイトオフセット
 	);
 	//属性1を有効
@@ -96,35 +96,22 @@ void GLMesh::create(GLMeshData& data, GLuint instanceCount) {
 	//頂点属性2登録
 	glVertexAttribPointer(
 		2,							//属性変数の位置
-		3,							//成分数(float3)
+		2,							//成分数(float2)
 		GL_FLOAT,					//型
 		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
+		sizeof(Vertex2D),				// 次の頂点までの間隔（stride）
 		reinterpret_cast<void*>(
-			offsetof(Vertex, tangent)
+			offsetof(Vertex2D, uv)
 			)						//VBO内のバイトオフセット
 	);
 	//属性2を有効
 	glEnableVertexAttribArray(2);
-	//頂点属性3登録
-	glVertexAttribPointer(
-		3,							//属性変数の位置
-		2,							//成分数(float2)
-		GL_FLOAT,					//型
-		GL_FALSE,					//整数データの正規化
-		sizeof(Vertex),				// 次の頂点までの間隔（stride）
-		reinterpret_cast<void*>(
-			offsetof(Vertex, uv)
-			)						//VBO内のバイトオフセット
-	);
-	//属性3を有効
-	glEnableVertexAttribArray(3);
 	//バインド解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-	spdlog::info("created mesh vertex:{} index:{} instance:{}", m_vertexCount, m_indexCount, m_instanceCount);
+	spdlog::info("created 2D mesh vertex:{} index:{} instance:{}", m_vertexCount, m_indexCount, m_instanceCount);
 }
-void GLMesh::draw() const {
+void GL2DMesh::draw() const {
 	//頂点をセット
 	glBindVertexArray(m_vao);
 	//描画 インデックスに応じてインデックスでの描画か変える
@@ -148,7 +135,7 @@ void GLMesh::draw() const {
 	//バインド解除
 	glBindVertexArray(0);
 }
-void GLMesh::release() {
+void GL2DMesh::release() {
 	if ((m_vao | m_vbo | m_ebo) != 0) {
 		glDeleteBuffers(1, &m_ebo);
 		m_ebo = 0;

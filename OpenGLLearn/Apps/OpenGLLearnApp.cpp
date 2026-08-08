@@ -3,6 +3,7 @@
 #include"ProcMeshGenerator.h"
 #include"EarthStage.h"
 #include"BlackHoleStage.h"
+#include"Test2DStage.h"
 
 bool OpenGLLearnApp::onInit() {
 	m_stageManager.setStageManager(this);
@@ -14,6 +15,8 @@ void OpenGLLearnApp::onUpdate(float delta) {
 		stageChangeResult = m_stageManager.change(std::make_unique<EarthStage>());
 	if (isTrigger(GLFW_KEY_F2))
 		stageChangeResult = m_stageManager.change(std::make_unique<BlackHoleStage>());
+	if (isTrigger(GLFW_KEY_F3))
+		stageChangeResult = m_stageManager.change(std::make_unique<Test2DStage>());
 	if (!stageChangeResult)
 		quit();
 
