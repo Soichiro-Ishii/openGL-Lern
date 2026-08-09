@@ -45,11 +45,7 @@ public:
 		return m_depthTex.id();
 	}
 	[[nodiscard]] const GLTexture2D& color(int id = 0) const {
-		if (id >= m_numAttachments) {
-			spdlog::critical("The colorTexture for that ID does not exist.");
-			return GLTexture2D{};
-		}
-		return m_colorTextures[id];
+		return m_colorTextures.at(id);
 	}
 	[[nodiscard]] const GLTexture2D& depth() const {
 		return m_depthTex;

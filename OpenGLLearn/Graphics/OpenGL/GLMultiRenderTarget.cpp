@@ -15,7 +15,7 @@ GLMultiRenderTarget::GLMultiRenderTarget(GLMultiRenderTarget&& other) noexcept {
 	m_widths = std::move(other.m_widths);
 	m_heights = std::move(other.m_heights);
 	m_colorTexDescs = std::move(other.m_colorTexDescs);
-
+	m_numAttachments = std::exchange(other.m_numAttachments, 0);
 }
 GLMultiRenderTarget& GLMultiRenderTarget::operator=(GLMultiRenderTarget&& other) noexcept {
 	if (this != &other) {
@@ -25,6 +25,7 @@ GLMultiRenderTarget& GLMultiRenderTarget::operator=(GLMultiRenderTarget&& other)
 		m_widths = std::move(other.m_widths);
 		m_heights = std::move(other.m_heights);
 		m_colorTexDescs = std::move(other.m_colorTexDescs);
+		m_numAttachments = std::exchange(other.m_numAttachments, 0);
 	}
 	return *this;
 }

@@ -275,6 +275,7 @@
     <ClInclude Include="Stages\TmpStage.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl" />
     <None Include="assets\shaders\blurFS.glsl" />
     <None Include="assets\shaders\createWorldCS.glsl" />

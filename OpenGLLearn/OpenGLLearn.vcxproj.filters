@@ -311,5 +311,6 @@
     <None Include="assets\shaders\earthFSMRT.glsl">
       <Filter>Assets\Shaders</Filter>
     </None>
+    <None Include="..\README.md" />
   </ItemGroup>
 </Project>
