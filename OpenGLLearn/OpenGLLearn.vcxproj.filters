@@ -160,6 +160,9 @@
     <ClCompile Include="Graphics\OpenGL\GL2DMesh.cpp">
       <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLMultiRenderTarget.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\OpenGLLearnApp.h">
@@ -264,6 +267,12 @@
     <ClInclude Include="Graphics\OpenGL\GL2DMeshData.h">
       <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLMultiRenderTarget.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLRenderTargetTypes.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">
@@ -297,6 +306,9 @@
       <Filter>Assets\Shaders</Filter>
     </None>
     <None Include="assets\shaders\vs2D.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\earthFSMRT.glsl">
       <Filter>Assets\Shaders</Filter>
     </None>
   </ItemGroup>

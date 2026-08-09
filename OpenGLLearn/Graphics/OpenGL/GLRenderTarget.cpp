@@ -4,6 +4,11 @@
 GLRenderTarget::GLRenderTarget(int _width, int _height, ColorTexSet cSet) {
 	create(_width, _height, cSet);
 }
+
+GLRenderTarget::GLRenderTarget(TEXTURE2DDESC texDesc) {
+	create(texDesc);
+}
+
 GLRenderTarget::~GLRenderTarget() {
 	release();
 }
@@ -14,6 +19,7 @@ GLRenderTarget::GLRenderTarget(GLRenderTarget&& other) noexcept {
 	m_depthTex = std::move(other.m_depthTex);
 	m_width = std::exchange(other.m_width, 0);
 	m_height = std::exchange(other.m_height, 0);
+	m_colorTexDesc = std::exchange(other.m_colorTexDesc, TEXTURE2DDESC{});
 }
 GLRenderTarget& GLRenderTarget::operator=(GLRenderTarget&& other) noexcept {
 	if (this != &other) {
@@ -22,6 +28,7 @@ GLRenderTarget& GLRenderTarget::operator=(GLRenderTarget&& other) noexcept {
 		m_depthTex = std::move(other.m_depthTex);
 		m_width = std::exchange(other.m_width, 0);
 		m_height = std::exchange(other.m_height, 0);
+		m_colorTexDesc = std::exchange(other.m_colorTexDesc, TEXTURE2DDESC{});
 	}
 	return *this;
 }
@@ -47,6 +54,7 @@ bool GLRenderTarget::create(int _width, int _height, ColorTexSet cSet) {
 		desc.format = GL_RGBA;
 		desc.type = GL_FLOAT;
 	}
+	m_colorTexDesc = desc;
 	m_colorTex.create(desc);
 	if (!m_colorTex.valid()) {
 		spdlog::critical("faild to create colorTex");
@@ -82,6 +90,49 @@ bool GLRenderTarget::create(int _width, int _height, ColorTexSet cSet) {
 	m_fbo.unbind();
 	return true;
 }
+
+bool GLRenderTarget::create(TEXTURE2DDESC texDesc) {
+	//テクスチャ作成
+	m_colorTexDesc = texDesc;
+	m_width = m_colorTexDesc.width;
+	m_height = m_colorTexDesc.height;
+	m_colorTex.create(m_colorTexDesc);
+	if (!m_colorTex.valid()) {
+		spdlog::critical("faild to create colorTex");
+		return false;
+	}
+	//texDescは再利用
+	TEXTURE2DDESC depthDesc = texDesc;
+	depthDesc.set.filter = TEXTURE2DFILTER::NEAREST;
+	depthDesc.internalFormat = GL_DEPTH_COMPONENT24;
+	depthDesc.format = GL_DEPTH_COMPONENT;
+	depthDesc.type = GL_UNSIGNED_INT;
+	m_depthTex.create(depthDesc);
+
+	m_fbo.create();
+	m_fbo.attachTexture(GL_COLOR_ATTACHMENT0, m_colorTex.id(), 0);
+	m_fbo.attachTexture(GL_DEPTH_ATTACHMENT, m_depthTex.id(), 0);
+
+	constexpr GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
+
+	glDrawBuffers(1, drawBuffers);
+
+	const GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (status != GL_FRAMEBUFFER_COMPLETE) {
+		spdlog::error(
+			"Framebuffer incomplete: 0x{:X}",
+			static_cast<unsigned int>(status)
+		);
+
+		release();
+		return false;
+	}
+
+	m_fbo.unbind();
+	return true;
+}
+
 void GLRenderTarget::bind() {
 	m_fbo.bind();
 }

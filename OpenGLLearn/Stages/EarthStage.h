@@ -8,6 +8,7 @@
 #include"GLCompute.h"
 #include"Camera.h"
 #include"GLRenderTarget.h"
+#include"GLMultiRenderTarget.h"
 #include"PostProcessChain.h"
 
 struct alignas(16) SceneConstants {
@@ -27,6 +28,17 @@ struct alignas(16) InstanceCount
 {
 	uint32_t value;
 	uint32_t padding[3];
+};
+
+enum class EARTH_RENDER_TYPE {
+	FINALCOLORTEXTURE,
+	NORMALTEXTURE,
+	MAINTEXTURE,
+	NIGHTTEXTURE,
+	NORMALMAPTEXTURE,
+	SOECMAPTEXTURE,
+	DEPTHTEXTURE,
+	NUM_RENDER_TYPE
 };
 
 class EarthStage final :
@@ -50,7 +62,7 @@ private:
 	glm::vec3 m_pos;
 	glm::vec3 m_ang;
 	GLCompute m_compute;
-	GLRenderTarget m_normalRT;
+	GLMultiRenderTarget m_normalRT;
 	PostProcessPass m_blurPP[2];
 	PostProcessChain m_blurPPC;
 	GLMesh m_screen;
@@ -59,6 +71,7 @@ private:
 	float m_angSpeed = 0.0f;
 	bool m_enableBlur = true;
 	bool m_showHello = false;
+	EARTH_RENDER_TYPE m_renderType = EARTH_RENDER_TYPE::FINALCOLORTEXTURE;
 public:
 	EarthStage();
 	bool onInit() override;

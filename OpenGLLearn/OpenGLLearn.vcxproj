@@ -189,6 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Graphics\OpenGL\GL2DMesh.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLMultiRenderTarget.cpp" />
     <ClCompile Include="Graphics\UI\ImGuiLayer.cpp" />
     <ClCompile Include="Stages\BlackHoleStage.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
@@ -240,6 +241,8 @@
     <ClInclude Include="Core\Stage.h" />
     <ClInclude Include="Graphics\OpenGL\GL2DMesh.h" />
     <ClInclude Include="Graphics\OpenGL\GL2DMeshData.h" />
+    <ClInclude Include="Graphics\OpenGL\GLMultiRenderTarget.h" />
+    <ClInclude Include="Graphics\OpenGL\GLRenderTargetTypes.h" />
     <ClInclude Include="Graphics\UI\ImGuiLayer.h" />
     <ClInclude Include="Stages\BlackHoleStage.h" />
     <ClInclude Include="Core\Camera.h" />
@@ -276,6 +279,7 @@
     <None Include="assets\shaders\blurFS.glsl" />
     <None Include="assets\shaders\createWorldCS.glsl" />
     <None Include="assets\shaders\earthFS.glsl" />
+    <None Include="assets\shaders\earthFSMRT.glsl" />
     <None Include="assets\shaders\fs.glsl" />
     <None Include="assets\shaders\fs2D.glsl" />
     <None Include="assets\shaders\inverseFS.glsl" />

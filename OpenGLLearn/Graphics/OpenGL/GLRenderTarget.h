@@ -1,10 +1,8 @@
 #pragma once
 #include"GLFrameBuffer.h"
 #include"GLTexture2D.h"
-enum class ColorTexSet {
-	NORMAL,
-	HDR
-};
+#include"GLRenderTargetTypes.h"
+
 class GLRenderTarget
 {
 private:
@@ -13,9 +11,11 @@ private:
 	GLTexture2D m_depthTex;
 	int m_width = 0;
 	int m_height = 0;
+	TEXTURE2DDESC m_colorTexDesc;
 public:
 	GLRenderTarget() = default;
 	GLRenderTarget(int _width, int _height, ColorTexSet cSet);
+	GLRenderTarget(TEXTURE2DDESC texDesc);
 	~GLRenderTarget();
 
 	GLRenderTarget(GLRenderTarget&) = delete;
@@ -25,6 +25,7 @@ public:
 	GLRenderTarget& operator=(GLRenderTarget&& other) noexcept;
 
 	bool create(int _width, int _height, ColorTexSet cSet);
+	bool create(TEXTURE2DDESC texDesc);
 	void bind();
 	void unbind();
 	void resize(int width, int height);
@@ -34,12 +35,14 @@ public:
 	}
 	[[nodiscard]] GLuint colorId() const {
 		return m_colorTex.id();
-	} [[nodiscard]] GLuint depthId() const {
+	}
+	[[nodiscard]] GLuint depthId() const {
 		return m_depthTex.id();
 	}
 	[[nodiscard]] const GLTexture2D& color() const {
 		return m_colorTex;
-	} [[nodiscard]] const GLTexture2D& depth() const {
+	}
+	[[nodiscard]] const GLTexture2D& depth() const {
 		return m_depthTex;
 	}
 

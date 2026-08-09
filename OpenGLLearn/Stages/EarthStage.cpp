@@ -8,7 +8,7 @@ EarthStage::EarthStage()
 }
 bool EarthStage::onInit() {
 	//シェーダー
-	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFS.glsl");
+	m_shader.load("assets\\shaders\\vs.glsl", "assets\\shaders\\earthFSMRT.glsl");
 	if (!m_shader.valid()) {
 		spdlog::critical("faild to load shader");
 		return false;
@@ -94,7 +94,8 @@ bool EarthStage::onInit() {
 		spdlog::critical("faild to load compute shader");
 		return false;
 	}
-	m_normalRT.create(width(), height(), ColorTexSet::HDR);
+	std::vector<ColorTexSet> cSets(8, ColorTexSet::HDR);
+	m_normalRT.create(width(), height(), cSets);
 	for (auto& rt : m_blurPP)
 		rt.create(m_blurShader, width(), height(), ColorTexSet::HDR);
 	int blurRep = 3;
@@ -130,6 +131,27 @@ void EarthStage::onUpdate(float delta) {
 			"Enable blur",
 			&m_enableBlur
 		);
+
+		static constexpr const char* viewNames[] = {
+			"Final Color",
+			"World Normal",
+			"Main Texture",
+			"Night Texture",
+			"NORMAL MAP",
+			"Specular Map",
+			"Depth",
+			"UV"
+		};
+		int currentView = static_cast<int>(m_renderType);
+		if (ImGui::Combo(
+			"Render type",
+			&currentView,
+			viewNames,
+			IM_ARRAYSIZE(viewNames)
+		)) {
+			m_renderType = static_cast<EARTH_RENDER_TYPE>(currentView);
+		}
+
 		if (ImGui::Button("show hello")) {
 			m_showHello = !m_showHello;
 		}
@@ -217,7 +239,7 @@ void EarthStage::onRender() {
 	//メッシュ描画
 	m_mesh.draw();
 	m_normalRT.unbind();
-	outTex = &m_normalRT.color();
+	outTex = &m_normalRT.color(static_cast<int>(m_renderType));
 
 	if (m_enableBlur)
 		outTex = &m_blurPPC.execute(*outTex, m_screen);
