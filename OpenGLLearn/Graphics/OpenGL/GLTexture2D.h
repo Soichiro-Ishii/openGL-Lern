@@ -1,16 +1,8 @@
 #pragma once
 #include <glad/gl.h>
 #include <string>
+#include"TextureSmpSettings.h"
 
-enum class TEXTURE2DFILTER {
-	NEAREST,
-	LINEAR,
-};
-enum class TEXTURE2DWRAP {
-	REPEAT,
-	CLAMP_TO_EDGE,
-	MIRRORED_REPEAT
-};
 enum class COLOR_SPACE {
 	RGB,
 	SRGB

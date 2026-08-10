@@ -85,6 +85,7 @@ int GLContext::create(int width, int height, std::string windowName, bool fullSc
 		OpenGLDebugCallback,
 		nullptr
 	);
+	glfwGetFramebufferSize(m_window, &m_width, &m_height);
 	return 0;
 }
 void GLContext::update() {

@@ -190,6 +190,7 @@
     </ClCompile>
     <ClCompile Include="Graphics\OpenGL\GL2DMesh.cpp" />
     <ClCompile Include="Graphics\OpenGL\GLMultiRenderTarget.cpp" />
+    <ClCompile Include="Graphics\OpenGL\GLSampler.cpp" />
     <ClCompile Include="Graphics\UI\ImGuiLayer.cpp" />
     <ClCompile Include="Stages\BlackHoleStage.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
@@ -243,6 +244,8 @@
     <ClInclude Include="Graphics\OpenGL\GL2DMeshData.h" />
     <ClInclude Include="Graphics\OpenGL\GLMultiRenderTarget.h" />
     <ClInclude Include="Graphics\OpenGL\GLRenderTargetTypes.h" />
+    <ClInclude Include="Graphics\OpenGL\GLSampler.h" />
+    <ClInclude Include="Graphics\OpenGL\TextureSmpSettings.h" />
     <ClInclude Include="Graphics\UI\ImGuiLayer.h" />
     <ClInclude Include="Stages\BlackHoleStage.h" />
     <ClInclude Include="Core\Camera.h" />

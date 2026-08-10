@@ -163,6 +163,9 @@
     <ClCompile Include="Graphics\OpenGL\GLMultiRenderTarget.cpp">
       <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLSampler.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\OpenGLLearnApp.h">
@@ -271,6 +274,12 @@
       <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\OpenGL\GLRenderTargetTypes.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLSampler.h">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\TextureSmpSettings.h">
       <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
