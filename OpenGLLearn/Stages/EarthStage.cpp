@@ -115,6 +115,16 @@ void EarthStage::onUpdate(float delta) {
 	ImGuiIO& io = ImGui::GetIO();
 	if (ImGui::Begin("EarthStage")) {
 		ImGui::Text("FPS : %.1f", 1 / delta);
+		auto mPos = mousePos();
+		auto mDelta = mouseDelta();
+		auto wDelta = wheelDelta();
+		if (mPos == std::nullopt)
+			ImGui::Text("mousePos : NaN");
+		else
+			ImGui::Text("mousePos : x.%.1f y.%.1f", mPos->x, mPos->y);
+		ImGui::Text("mouseDelta : x.%.1f y.%.1f", mDelta.x, mDelta.y);
+		ImGui::Text("wheelDelta : x.%.1f y.%.1f", wDelta.x, wDelta.y);
+
 		ImGui::SliderFloat(
 			"move speed",
 			&m_speed,
