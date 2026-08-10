@@ -89,7 +89,7 @@ bool Input::isMousePress(int button) const {
 		spdlog::error("Invalid mouse button: {}", button);
 		return false;
 	}
-	return m_keys[m_now][button];
+	return m_mouseButton[m_now][button];
 }
 bool Input::isMouseTrigger(int button) const {
 	if (!m_window) {
@@ -101,7 +101,7 @@ bool Input::isMouseTrigger(int button) const {
 		return false;
 	}
 	char before = m_now ^ 1;
-	return m_keys[m_now][button] && !m_keys[before][button];
+	return m_mouseButton[m_now][button] && !m_mouseButton[before][button];
 }
 bool Input::isMouseRelease(int button) const {
 	if (!m_window) {
@@ -113,7 +113,7 @@ bool Input::isMouseRelease(int button) const {
 		return false;
 	}
 	char before = m_now ^ 1;
-	return !m_keys[m_now][button] && m_keys[before][button];
+	return !m_mouseButton[m_now][button] && m_mouseButton[before][button];
 }
 glm::vec2 Input::mousePos() const {
 	return m_mousePos[m_now];
