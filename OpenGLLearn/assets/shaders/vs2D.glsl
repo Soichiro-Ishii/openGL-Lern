@@ -37,7 +37,6 @@ void main()
     gl_Position = proj * view * worldPos;
     vNormal = (instances[gl_InstanceID].world * vec4(aNormal,0.0,0.0)).xy;
     vUV = aUV;
-    vUV.y = 1.0 - vUV.y;
     vRay = worldPos.xy - eye.xy;
     vLightDir = lightPos.xy - worldPos.xy;
     vColor = instances[gl_InstanceID].col;

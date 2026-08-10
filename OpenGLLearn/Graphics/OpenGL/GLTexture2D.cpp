@@ -31,7 +31,7 @@ GLTexture2D& GLTexture2D::operator=(GLTexture2D&& other) noexcept {
 
 bool GLTexture2D::loadHDR(std::string& texPath, TEXTURE2DDESC& desc) {
 	int originalChannels = 0;
-
+	stbi_set_flip_vertically_on_load(true);
 	float* data = stbi_loadf(
 		texPath.c_str(),
 		&desc.width,
@@ -69,7 +69,7 @@ bool GLTexture2D::loadHDR(std::string& texPath, TEXTURE2DDESC& desc) {
 }
 bool GLTexture2D::loadNORMAL(std::string& texPath, TEXTURE2DDESC& desc) {
 	int originalChannels = 0;
-
+	stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(
 		texPath.c_str(),
 		&desc.width,
