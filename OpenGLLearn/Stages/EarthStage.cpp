@@ -14,12 +14,6 @@ bool EarthStage::onInit() {
 		return false;
 	}
 
-	m_blurShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\blurFS.glsl");
-	if (!m_blurShader.valid()) {
-		spdlog::critical("faild to load blurShader");
-		return false;
-	}
-
 	m_lastShader.load("assets\\shaders\\screenVS.glsl", "assets\\shaders\\renderTexFS.glsl");
 	if (!m_lastShader.valid()) {
 		spdlog::critical("faild to load lastShader");
@@ -96,21 +90,15 @@ bool EarthStage::onInit() {
 	}
 	std::vector<ColorTexSet> cSets(8, ColorTexSet::HDR);
 	m_normalRT.create(width(), height(), cSets);
-	for (auto& rt : m_blurPP)
-		rt.create(m_blurShader, width(), height(), ColorTexSet::HDR);
-	int blurRep = 3;
-	m_blurPPC.allocate(blurRep);
-	for (int i = 0; i < blurRep; i++) {
-		m_blurPPC.add(m_blurPP[i % 2]);
-	}
-
 	m_speed = 5.0f;
 	m_angSpeed = 180.0f;
+
+	m_boom.create(width(), height());
 	return true;
 }
 void EarthStage::onUpdate(float delta) {
 	m_normalRT.resize(width(), height());
-	m_blurPPC.resize(width(), height());
+	m_boom.resize(width(), height());
 	//ImGui
 	ImGuiIO& io = ImGui::GetIO();
 	if (ImGui::Begin("EarthStage")) {
@@ -138,9 +126,25 @@ void EarthStage::onUpdate(float delta) {
 			360.0f
 		);
 		ImGui::Checkbox(
-			"Enable blur",
-			&m_enableBlur
+			"Enable boom",
+			&m_enableBoom
 		);
+		float currentBlurScale = m_boom.blurScale();
+		if (ImGui::SliderFloat("blur scale", &currentBlurScale, 0.1f, 10.0f)) {
+			m_boom.changeBlurScale(currentBlurScale);
+		}
+		int currentBlurStep = m_boom.blurStep();
+		if (ImGui::SliderInt("blur repetition", &currentBlurStep, 1, 16)) {
+			m_boom.changeBlurStep(currentBlurStep);
+		}
+		float currentBoomStrength = m_boom.bloomStrength();
+		if (ImGui::SliderFloat("bloom strength", &currentBoomStrength, 0.0f, 2.0f)) {
+			m_boom.changeBloomStrength(currentBoomStrength);
+		}
+		float currentThreshold = m_boom.threshold();
+		if (ImGui::SliderFloat("threshold", &currentThreshold, 0.1f, 3.0f)) {
+			m_boom.changeThreshold(currentThreshold);
+		}
 
 		static constexpr const char* viewNames[] = {
 			"Final Color",
@@ -251,11 +255,11 @@ void EarthStage::onRender() {
 	m_normalRT.unbind();
 	outTex = &m_normalRT.color(static_cast<int>(m_renderType));
 
-	if (m_enableBlur)
-		outTex = &m_blurPPC.execute(*outTex, m_screen);
-
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
+	if (m_enableBoom)
+		outTex = &m_boom.execute(*outTex, m_screen);
+
 	glViewport(0, 0, width(), height());
 
 	m_lastShader.bind();

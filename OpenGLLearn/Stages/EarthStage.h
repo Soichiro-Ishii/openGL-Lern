@@ -10,6 +10,7 @@
 #include"GLRenderTarget.h"
 #include"GLMultiRenderTarget.h"
 #include"PostProcessChain.h"
+#include<Bloom.h>
 
 struct alignas(16) SceneConstants {
 	glm::mat4 view;
@@ -46,7 +47,6 @@ class EarthStage final :
 {
 private:
 	GLShader m_shader;
-	GLShader m_blurShader;
 	GLShader m_lastShader;
 	GLMesh m_mesh;
 	GLUniformBuffer m_ubo1;
@@ -63,15 +63,14 @@ private:
 	glm::vec3 m_ang;
 	GLCompute m_compute;
 	GLMultiRenderTarget m_normalRT;
-	PostProcessPass m_blurPP[2];
-	PostProcessChain m_blurPPC;
 	GLMesh m_screen;
 	InstanceCount m_instanceCount;
 	float m_speed = 0.0f;
 	float m_angSpeed = 0.0f;
-	bool m_enableBlur = true;
+	bool m_enableBoom = true;
 	bool m_showHello = false;
 	EARTH_RENDER_TYPE m_renderType = EARTH_RENDER_TYPE::FINALCOLORTEXTURE;
+	Bloom m_boom;
 public:
 	EarthStage();
 	bool onInit() override;

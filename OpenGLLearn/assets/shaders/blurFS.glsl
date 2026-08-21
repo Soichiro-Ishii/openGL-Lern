@@ -5,7 +5,8 @@ layout(binding = 0) uniform sampler2D uTex;
 
 layout(location = 0) out vec4 outColor;
 
-uniform uint procCount;
+uniform uint uProcCount;
+uniform float uBlurScale;
 
 void main()
 {
@@ -22,10 +23,10 @@ void main()
 
     vec3 color = texture(uTex,vUV).rgb * weights[0];
     vec2 offset;
-    if(procCount % 2 == 0)
-        offset = vec2(texelSize.x,0.0);
+    if(uProcCount % 2 == 0)
+        offset = vec2(texelSize.x,0.0) * uBlurScale;
     else
-        offset = vec2(0.0,texelSize.y);
+        offset = vec2(0.0,texelSize.y) * uBlurScale;
 
     for(int i = 1;i<5;i++){
         color += texture(uTex,vUV + offset * i).rgb * weights[i];

@@ -166,6 +166,10 @@
     <ClCompile Include="Graphics\OpenGL\GLSampler.cpp">
       <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\GaussianBlur.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Bloom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\OpenGLLearnApp.h">
@@ -282,6 +286,10 @@
     <ClInclude Include="Graphics\OpenGL\TextureSmpSettings.h">
       <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\GaussianBlur.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Bloom.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">
@@ -321,5 +329,11 @@
       <Filter>Assets\Shaders</Filter>
     </None>
     <None Include="..\README.md" />
+    <None Include="assets\shaders\bloomCompositeFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\brightPassFS.glsl">
+      <Filter>Assets\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
