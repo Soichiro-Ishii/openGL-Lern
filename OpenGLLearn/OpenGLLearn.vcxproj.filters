@@ -169,7 +169,9 @@
     <ClCompile Include="Graphics\GaussianBlur.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Bloom.cpp" />
+    <ClCompile Include="Graphics\Bloom.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Apps\OpenGLLearnApp.h">
@@ -289,7 +291,9 @@
     <ClInclude Include="Graphics\GaussianBlur.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Bloom.h" />
+    <ClInclude Include="Graphics\Bloom.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\blackHoleRayMarch1FS.glsl">

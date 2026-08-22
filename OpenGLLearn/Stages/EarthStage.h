@@ -70,7 +70,7 @@ private:
 	bool m_enableBoom = true;
 	bool m_showHello = false;
 	EARTH_RENDER_TYPE m_renderType = EARTH_RENDER_TYPE::FINALCOLORTEXTURE;
-	Bloom m_boom;
+	Bloom m_bloom;
 public:
 	EarthStage();
 	bool onInit() override;

@@ -93,12 +93,12 @@ bool EarthStage::onInit() {
 	m_speed = 5.0f;
 	m_angSpeed = 180.0f;
 
-	m_boom.create(width(), height());
+	m_bloom.create(width(), height());
 	return true;
 }
 void EarthStage::onUpdate(float delta) {
 	m_normalRT.resize(width(), height());
-	m_boom.resize(width(), height());
+	m_bloom.resize(width(), height());
 	//ImGui
 	ImGuiIO& io = ImGui::GetIO();
 	if (ImGui::Begin("EarthStage")) {
@@ -129,21 +129,29 @@ void EarthStage::onUpdate(float delta) {
 			"Enable boom",
 			&m_enableBoom
 		);
-		float currentBlurScale = m_boom.blurScale();
+		float currentBlurScale = m_bloom.blurScale();
 		if (ImGui::SliderFloat("blur scale", &currentBlurScale, 0.1f, 10.0f)) {
-			m_boom.changeBlurScale(currentBlurScale);
+			m_bloom.changeBlurScale(currentBlurScale);
 		}
-		int currentBlurStep = m_boom.blurStep();
+		int currentBlurStep = m_bloom.blurStep();
 		if (ImGui::SliderInt("blur repetition", &currentBlurStep, 1, 16)) {
-			m_boom.changeBlurStep(currentBlurStep);
+			m_bloom.changeBlurStep(currentBlurStep);
 		}
-		float currentBoomStrength = m_boom.bloomStrength();
+		float currentBoomStrength = m_bloom.bloomStrength();
 		if (ImGui::SliderFloat("bloom strength", &currentBoomStrength, 0.0f, 2.0f)) {
-			m_boom.changeBloomStrength(currentBoomStrength);
+			m_bloom.changeBloomStrength(currentBoomStrength);
 		}
-		float currentThreshold = m_boom.threshold();
+		float currentThreshold = m_bloom.threshold();
 		if (ImGui::SliderFloat("threshold", &currentThreshold, 0.1f, 3.0f)) {
-			m_boom.changeThreshold(currentThreshold);
+			m_bloom.changeThreshold(currentThreshold);
+		}
+		int currentBlurRadius = m_bloom.blurRadius();
+		if (ImGui::SliderInt("blur radius", &currentBlurRadius, 1, 16)) {
+			m_bloom.changeBlurRadius(currentBlurRadius);
+		}
+		float currentSigmaExtent = m_bloom.sigmaExtent();
+		if (ImGui::SliderFloat("sigma extent", &currentSigmaExtent, 1.0f, 5.0f)) {
+			m_bloom.changeSigmaExtent(currentSigmaExtent);
 		}
 
 		static constexpr const char* viewNames[] = {
@@ -258,7 +266,7 @@ void EarthStage::onRender() {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
 	if (m_enableBoom)
-		outTex = &m_boom.execute(*outTex, m_screen);
+		outTex = &m_bloom.execute(*outTex, m_screen);
 
 	glViewport(0, 0, width(), height());
 
